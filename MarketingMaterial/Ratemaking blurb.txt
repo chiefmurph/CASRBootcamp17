@@ -1,0 +1,2 @@
+Ratemaking
+Bootcamp attendees who sign up for this track will be given datasets representing premium and claims for a product line.  The project will be to use R to analyze the data for trends and anomalies and identify and fit a model to the data that distinguishes between predictive characteristics.  Track attendees will prepare disruption analyses, profitability projections, and other management information to communicate the effect of the new model on the portfolio.

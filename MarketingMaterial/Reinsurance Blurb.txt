@@ -1,0 +1,5 @@
+Reinsurance
+
+Bootcamp attendees who sign up for this track will be given datasets representing premium and claims for an insurance company. The project will be to use R to choose among a set of covers offered by the market. Track attendees will prepare appropriate metrics for consideration and other management information to communicate the recommendation.
+
+Alternatively, attendees may bring their own data -- please contact instructor regarding workable content, format, and size.
