@@ -1,0 +1,3 @@
+Reserving
+
+Attendees who sign up for this track will be given a dataset contains loss triangles for several different lines of business in several different territories. Participants will conduct a reserve study using standard techniques like chain ladder as well as less common methods like the Clark growth curve model and hierarchical regression. Participants will document their analysis and selections using tools in RStudio.
