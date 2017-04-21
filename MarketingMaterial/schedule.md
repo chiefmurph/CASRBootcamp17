@@ -1,9 +1,14 @@
+## Day 0: Homework
+
+* Install R, RStudio
+* A few Basics and hand-held exercises
+
 ## Day 1: Getting comfortable with the environment, preliminary programming
 
 ### AM
 
-* Environment, RStudio setup
-* Basics
+* Advanced Environment, RStudio setup
+* Basics review and more
   * Saving and sourcing scripts
   * Installing and using packages
   * Data structures
@@ -20,9 +25,9 @@
 
 ### PM
 
+* AM review
 * Advanced visualization with ggplot2
 * Introduction to capstone projects
-* AM review
 
 ## Day 2: RMarkdown, dplyr, begin capstone work
 
@@ -39,23 +44,35 @@
 
 ### AM
 * GLMs
-* Decision trees? Other?
+* Decision trees
+* Other of interest
 
 ### PM
 * Assisted work on capstone
 
 ## Day 4: Further practice, capstone
 
+### AM
+
+* Complete capstone
 * Generate actuarial report document in Word or PDF (or HTML)
-* Present
 
-### Ratemaking specific topics
+### PM
+
+* (if time) Sample presentations from other R groups around the country
+* Complete actuarial report
+* Present to larger group
+
+## Specific topics
+
+### Ratemaking 
 *
 
-### Reinsurance specific topics
-*
+### Reinsurance
+* XOL and aggregate loss modelling
+* Performance metrics
 
-### Reserving specific topics
+### Reserving
 
 * ChainLadder package
 * The additive method (Stanard method 4)
