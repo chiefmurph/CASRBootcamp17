@@ -1,7 +1,8 @@
 ## Day 0: Homework
 
 * Install R, RStudio
-* A few Basics and hand-held exercises
+* Read the [raw book](http://pirategrunt.com/raw_book/)
+* A few basic exercises
 
 ## Day 1: Getting comfortable with the environment, preliminary programming
 
@@ -28,11 +29,13 @@
 * AM review
 * Advanced visualization with ggplot2
 * Introduction to capstone projects
+* Overview of online resources: StackOverflow, r-bloggers
 
 ## Day 2: RMarkdown, dplyr, begin capstone work
 
 ### AM
 
+* Day 1 review/questions
 * Augment R scripts with RMarkdown
 * dplyr to select, summarize and transform data
 
@@ -43,11 +46,13 @@
 ## Day 3: GLMs and other predictive models
 
 ### AM
+
+* Day 2 review/questions
 * GLMs
 * Decision trees
-* Other of interest
 
 ### PM
+
 * Assisted work on capstone
 
 ## Day 4: Further practice, capstone
@@ -59,13 +64,13 @@
 
 ### PM
 
-* (if time) Sample presentations from other R groups around the country
 * Complete actuarial report
 * Present to larger group
+* (if time) Sample presentations from other R groups around the country
 
 ## Specific topics
 
-### Ratemaking 
+### Ratemaking
 *
 
 ### Reinsurance
