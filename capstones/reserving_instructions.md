@@ -1,0 +1,27 @@
+# Loss Reserving Capstone
+
+## Assignment
+
+1. From the NAIC data set, pick any company with at least three lines of business.
+2. Forecast all lines using at least the following techniques
+    1. Calculate link ratios by writing your own algorithms
+    2. Determine ultimates using any of the techniques in the ChainLadder package
+    3. Determine ultimates using a GLM, such as (overdispersed) Poisson
+    4. Any other technique which you feel is appropriate
+3. Develop ranges around the ultimates by accident year and in total
+
+## Required elements
+
+Every product must use the following elements:
+
+* There must be a final report in Word or .PDF.
+* This report should include plots rendered in R which support the analysis.
+* The report should also include tabular display of data
+* As relevant, data should be available in .CSV.
+
+## Optional items:
+* Include a statement about capital consumption in your report
+* Build a triangle from individual claim data
+* Estimate ultimate losses by using individual claim data
+* Apply one or more techniques to every triangle in the NAIC data set. Comment on how well it predicts for this specific set of data.
+* Store data in .sqlite
