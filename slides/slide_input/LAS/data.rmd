@@ -1,0 +1,751 @@
+---
+title: "Data"
+author: "R LAS"
+date: "December 12, 2016"
+output: slidy_presentation
+---
+
+
+
+## Matrices: Defining a matrix
+
+Defining a matrix is straightforward. Use the option byrow=TRUE to fill across the rows.
+```{r}
+A<-matrix(1:6,nrow=2)
+A
+```
+```{r}
+A<-matrix(1:6,nrow=2,byrow=TRUE)
+A
+```
+
+## Matrices: Recycling
+
+Recycling will occur if needed and you'll get a warning.
+
+```{r}
+A<-matrix(1:6,nrow=2,ncol=5)
+A
+
+```
+
+## Matrices: Matrices are their own class
+
+```{r}
+class(A)
+attributes(A)
+attr(A,"dim")
+```
+
+## Matrices
+
+```{r}
+nrow(A)
+dim(A)[1]
+ncol(A)
+dim(A)[2]
+
+```
+
+## Matrices: Selecting individual elements, rows and columns.
+
+```{r}
+A[2,2]
+A[1,]
+A[,2]
+```
+
+
+## Matrices
+
+Note that the class of a single row or column reverts to a vector. To keep it as a matrix, use `drop=FALSE`.
+
+```{r}
+class(A[1,])
+class(A[1,,drop=FALSE])
+A[1,,drop=FALSE]
+```
+
+## Matrices: Submatrices
+
+```{r}
+set.seed(6345789)
+x<-sample(1:20,size=9,replace=TRUE)
+m1<-matrix(x,nrow=3)
+m1
+```
+
+## Matrices: Submatrices
+
+Select the 1st and 3rd rows and the 2nd and 3rd columns.
+```{r}
+m1[c(1,3),c(2,3)]
+```
+
+```{r}
+m1[-2,-1]
+```
+
+## Matrices: Using Row and Column Names
+
+```{r}
+rownames(m1)
+colnames(m1)
+rownames(m1)<-c("row1","row2","row3")
+colnames(m1)<-c("col1","col2","col3")
+m1[c("row1","row2"),c("col2","col3")]
+```
+
+
+
+## Matrices: Character matrices and mixed matrices
+
+```{r}
+
+B<-matrix(c("a","b","c","d"),nrow=2);B
+C<-list(1,2,3,"a")
+dim(C)<-c(2,2);C
+```
+
+
+## Matrices: Using rbind and cbind to add rows and columns
+
+```{r}
+A<-matrix(1:6,nrow=2)
+B<-rbind(A,7:9)
+B
+dim(B)
+```
+
+## Matrices: Using rbind and cbind to add rows and columns
+
+```{r}
+C<-cbind(A,10:11)
+C
+dim(C)
+```
+
+
+
+## Matrices: Matrix Operations
+
+```{r}
+A<-matrix(1:6,nrow=2)
+3*A
+A+A
+```
+
+## Matrices: Matrix Operations
+
+`A^2` squares each element. The transpose of A is given by `t(A)`.
+```{r}
+A<-matrix(1:6,nrow=2)
+A^2
+t(A)
+```
+
+## Matrices: Matrix Multiplication
+
+Remember that when multiplying two matrices AB the number of columns of A has to equal the number of rows in B.
+
+```{r}
+B<-matrix(c(-1,6,8,7,4,1),nrow=3)
+C<-A %*% B
+dim(C)
+C
+# B %*% A will give an error
+```
+
+## Matrices: Solving Equations
+
+Solve the following system of equations.
+$$ x + y =8$$
+$$ 3x + 2y=18$$
+```{r}
+(A<-matrix(c(1,1,3,2),nrow=2,byrow=TRUE))
+(B<-matrix(c(8,18),nrow=2))
+```
+
+## Matrices: Solving Equations
+
+First, check that the determinant is non-zero so that it has a solution.
+```{r}
+det(A)
+```
+Then use `solve`.
+```{r}
+solve(A,B)
+```
+
+## Matrices: Computing the inverse of a matrix
+
+`solve` also gives the inverse of a matrix.
+```{r}
+solve(A)
+solve(A)%*%B
+```
+
+## Matrices: Eigenvalues
+
+`eigen` computes eigenvalues and eigenvectors. 
+```{r}
+eigen(A)
+```
+
+## Matrices: Diagonal Matrices
+
+`diag` extract the diagonal of a matrix and also creates a diagonal matrix, depending on its argument.
+```{r}
+diag(A)
+diag(c(2,4,6,8))
+```
+
+## Matrices: Row/Column Operations
+
+`rowsums, colsums, rowmeans, colmeans` give the sums and means of rows and columns.
+
+```{r}
+(A<-matrix(1:6,nrow=2))
+rowSums(A)
+colSums(A)
+```
+
+## Matrices: Row/Column Operations
+
+```{r}
+rowMeans(A)
+colMeans(A)
+```
+
+
+
+## Exercise: Create a matrix that gives the following table. 
+
+Team      | Wins   | Losses  | Pct
+----------|--------|---------|----
+Toronto   |    93  |   69    |0.574
+New York  |    87  |   75    |0.537
+Baltimore |    81  |   81    |0.500
+Tampa Bay |    80  |   82    |0.494
+Boston    |    78  |   84    |0.481
+
+
+## Solution
+
+```{r}
+teams<-c("Toronto","New York","Baltimore","Tampa Bay","Boston")
+wins<-c(93,87,81,80,78)
+losses<-c(69,75,81,82,84)
+```
+
+```{r}
+alEast<-matrix(c(wins,losses),nrow=5,byrow=FALSE)
+alEast
+```
+
+## Add row and column names
+```{r}
+rownames(alEast)<-teams
+colnames(alEast)<-c("Wins","Losses")
+alEast
+```
+
+## Add winning percentage
+
+```{r}
+Pct<-round(alEast[,"Wins"]/(alEast[,"Wins"]+alEast[,"Losses"]),3)
+alEast<-cbind(alEast,Pct)
+alEast
+```
+
+
+
+## What if we want the team names to be a column in the matrix?
+```{r}
+alEast<-matrix(c(teams,wins,losses),nrow=5,byrow=FALSE)
+alEast
+```
+
+## Try to coerce column to numeric
+```{r}
+class(alEast[,2])
+as.numeric(alEast[,2])
+alEast[,2]<-as.numeric(alEast[,2])
+alEast
+```
+
+## Use `cbind` to put them together
+
+```{r}
+alEast<-cbind(teams,wins,losses)
+alEast
+class(alEast)
+```
+
+We need a matrix-like structure that allows columns to be of different classes.
+
+
+
+## Data Frames
+
+Data frames allow for columns with different classes.
+```{r}
+alEast<-data.frame(Team=teams,W=wins,L=losses)
+alEast
+class(alEast)
+
+```
+
+## Data Frames: Classes
+
+```{r}
+sapply(alEast,class)
+```
+
+Use `stringsAsFactors=FALSE` to use characters instead of factors.
+
+```{r}
+alEast<-data.frame(Team=teams,W=wins,L=losses,
+                   stringsAsFactors=FALSE)
+sapply(alEast,class)
+```
+
+## Data Frames: Selecting rows and columns
+
+We can access rows and columns the same way as matrices. 
+
+```{r}
+alEast[,"Team",drop=FALSE]
+class(alEast[,"Team",drop=FALSE])
+```
+
+## Data Frames: We can also access them like elements of a list.
+
+```{r}
+alEast$W
+
+alEast[[2]]
+
+dim(alEast)
+```
+
+## Data Frames: Attributes of a data frame
+```{r}
+attributes(alEast)
+```
+
+
+## Lahman Baseball Database
+
+R package created from [Sean Lahman's](http://seanlahman.com/) baseball database. We'll look at the Teams dataframe.
+```{r}
+library(Lahman)
+class(Teams)
+dim(Teams)
+```
+
+## Data Frames: Column and row names
+
+Instead of `colnames`, we just use `names`.
+
+```{r}
+names(Teams)
+```
+
+## Data Frames: Column and row names
+
+Instead of `rownames`, we use `row.names`. In this case they're just the row numbers. We also have commands to get the number of rows and columns.
+
+```{r}
+head(row.names(Teams))
+nrow(Teams)
+ncol(Teams)
+```
+
+## Data Frames: Exploring data frames
+
+You've already seen `head` and `tail`. They let you see the top and bottom of the data frame. An additional argument lets you give the number of rows to be shown.
+
+```{r}
+head(Teams,6)
+```
+
+## Data Frames: Exploring data frames
+
+```{r}
+tail(Teams,4)
+```
+
+## Data Frames: Summary
+
+```{r}
+summary(Teams)
+```
+
+## Data Frames: Structure
+```{r}
+str(Teams)
+```
+
+## Data Frames:  Operations
+
+* select - pick columns by name
+* filter - keep rows matching criteria
+* mutate - add new variables
+* arrange - reorder rows
+* summarize - reduce variables to values
+
+##  Data Frames: Select
+
+Let's get a data frame similar to theone we just created byselecting the Year, League, Team, Division, Wins, and Losses.
+
+```{r}
+myTeams<-Teams[,c("yearID","lgID","teamID","divID","W","L")]
+head(myTeams)
+```
+
+##  Data Frames: Select
+
+Use `str` to see what the league ID and division ID's are.
+```{r}
+str(myTeams)
+unique(myTeams$divID)
+```
+
+## Data Frames: Filter
+
+Find the 2014 AL East standings.
+```{r}
+alEast2014<-myTeams[myTeams$yearID==2014 & myTeams$lgID=="AL" 
+                    & myTeams$divID=="E",]
+alEast2014
+```
+
+## Data Frames: Filter
+
+Let's eliminate the columns that are the same.
+```{r}
+alEast2014<-alEast2014[,c("teamID","W","L")]
+names(alEast2014)<-c("Team","Wins","Losses")
+alEast2014
+```
+
+
+## Data Frames: Mutate
+
+Add the percentage of wins.
+
+```{r}
+alEast2014$Pct<-round(alEast2014$Wins/(alEast2014$Wins+alEast2014$Losses),3)
+alEast2014
+```
+
+## Data Frames: Arrange
+
+List the teams from highest to lowest winning percentage. (Note the - indicates decreasing.)
+
+```{r}
+alEast2014[order(-alEast2014$Pct),]
+```
+
+
+## Data Frames: Summarize
+
+Determine the total wins for each of 6 divisions in 2014.
+
+```{r}
+mlb2014<-subset(Teams,yearID==2014)
+mlb2014<-mlb2014[,c("lgID","divID","W")]
+aggregate(W~lgID+divID,data=mlb2014,sum)
+```
+
+
+
+
+## Getting Data in and out of R: Basics
+
+There's a manual, "R Data Import/Export", located at C:/Program Files/R/R-X.Y.Z/doc/manual/R-data.pdf
+
+### Getting Data In
+`read.csv` and `read.fwf` are straightforward to use. Pay attention to the option `stringsAsFactors`.
+`read.table` gives you more options. `readLines` will read in a text file and returns a character vector of length the number of lines read.
+
+### Getting Data Out
+
+`write.csv` and `write.table` export data in formats that are read by, e.g. Excel and Access.
+
+## Getting Data in and out of R: readr and data.table Packages
+
+### readr
+
+The `readr` package has functions for reading and writing csv files (`read_csv` and `write_csv`.) These functions are faster than those included in base R. 
+
+You can read about it at [http://blog.rstudio.org/2015/10/28/readr-0-2-0/](http://blog.rstudio.org/2015/10/28/readr-0-2-0/)
+
+### data.table
+
+`data.table` has a function `fread` that is a "Fast and friendly file finagler." By default it returns a data.table but will return a data frame when the argument `data.table=FALSE` is used.
+
+## Getting Data in and out of R: Manual data entry
+
+If you're a real masochist, use `edit`. You'll get a spreadsheet interface to enter numbers in.
+
+```{r,eval=FALSE}
+x<-data.frame()
+x<-edit(x)
+```
+
+## Getting Data in and out of R: Reading from Excel
+
+Use the package `readxl`. It has two functions: `excel_sheets` and `read_excel`.
+
+Choose an excel file using the dialog box and read it into R.
+
+```{r,echo=TRUE,eval=FALSE}
+library(readxl)
+f1<-file.choose() #opens dialog box
+d1<-excel_sheets(f1)
+class(d1)
+d2<-read_excel(f1) #default is first sheet
+```
+
+## Getting Data in and out of R: Reading from Excel
+
+This is the example from ?read_excel.
+```{r}
+suppressWarnings(library(readxl))
+datasets <- system.file("extdata/datasets.xlsx", package = "readxl")
+excel_sheets(datasets)
+head(read_excel(datasets,sheet="mtcars"))
+
+```
+
+## Getting Data in and out of R: Saving and loading R data sets.
+
+When you close R you get the question "Save Workspace Image?" If you answer "Yes" it'll create a copy of your environment and save it in the file .RData. (This uses the `save.image` function.)
+
+If you wish to save only certain objects the use `save` and provide a list of objects and a file name. Some people use .rda as the suffix for these files.
+
+## Getting Data in and out of R: Reading data off the internet
+
+```{r}
+library(XML)
+nflStandings<-"http://sports.yahoo.com/nfl/standings/"
+nflTables <- readHTMLTable(nflStandings)
+
+class(nflTables)
+```
+
+## Getting Data in and out of R: Reading data off the internet
+
+```{r}
+length(nflTables)
+sapply(nflTables,class)
+```
+
+## Getting Data in and out of R: Reading data off the internet
+
+```{r}
+head(lapply(nflTables,dim))
+```
+
+## Getting Data in and out of R: Reading data off the internet
+
+It looks like the first one is different, let's check.
+
+```{r}
+str(nflTables[[1]])
+str(nflTables[[2]])
+```
+
+## Getting Data in and out of R: Reading data off the internet
+
+Look at the first one with data.
+```{r}
+afcEast<-nflTables[[2]]
+afcEast
+```
+``
+
+
+
+## Dplyr: Overview
+
+[Dplyr](http://blog.rstudio.org/2015/09/04/dplyr-0-4-3/) is another RStudio package that is designed specifically to handle the tasks covered in the data frames presentation.
+
+* select - pick columns by name
+* filter - keep rows matching criteria
+* mutate - add new variables
+* arrange - reorder rows
+* summarize - reduce variables to values
+
+A major advantage of `dplyr` is the speed at which it handles large data sets.An alternative to `dplyr` is the `data.table` package.
+
+There's also a `dplyr` [cheat sheet](http://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf) 
+
+## Dplyr: Overview
+
+We'll only cover the basics as there are a number of additional resources available.
+
+### Hadley Wickham Presentations
+* [RStudio Webinar: The Grammar and Graphics of Data Science](https://pages.rstudio.net/Webinar-Series-Recording-Essential-Tools-for-R.html)
+* [Hadley Wickham's Dplyr Tutorial](https://www.dropbox.com/sh/i8qnluwmuieicxc/AAAgt9tIKoIm7WZKIyK25lh6a) 
+* [UseR! 2014 Presentation Part 1](https://www.youtube.com/watch?v=8SGif63VW6E)
+* [UseR! 2014 Presentation Part 2](https://www.youtube.com/watch?v=Ue08LVuk790)
+
+### Others
+
+* [Data School's Tutorial](https://www.youtube.com/watch?v=jWjqLW-u3hc&feature=youtu.be)
+
+
+
+## NYC Flight Data
+
+The above referenced tutorials and presntations use data from the `nycflights13` package. On-time data for all flights that departed NYC (JFK, LGA, or EWR) in 2013.
+
+```{r,message=FALSE}
+library(dplyr)
+library(nycflights13)
+data(flights)
+```
+
+## NYC Flight Data
+
+```{r}
+class(flights)
+dim(flights)
+```
+
+Note that flights is of class `tbl_df`. The main advantage of this class is it only prints what can fit on the screen and `[` doesn't need `drop=FALSE`.
+
+## NYC Flight Data
+
+```{r}
+flights
+```
+
+## Lahman Database 
+Since the flights data is used in the other resources, we'll continue using the Lahman baseball database that we used earlier.
+
+```{r}
+library(Lahman)
+class(Master)
+```
+
+
+## dplyr: Filter
+
+Find Babe Ruth in the Master player table. It'll be a subset of a data frame so it's a data frame. We need to convert `Master` to a `tbl_df` (this isn't necessary if you've used `read_csv` in the `readr` package.)
+```{r}
+names(Master)
+Master<-tbl_df(Master)
+ruthTable<-filter(Master,nameLast=="Ruth")
+```
+
+## dplyr: Filter
+```{r}
+class(ruthTable)
+ruthTable
+```
+
+## dplyr: Filter
+
+Observations:
+
+* The first argument in `filter` is the data name.
+* We used the column name within the function without referring to the data.
+* A `tbl_df` object was returned.
+
+## dplyr: Filter
+
+Suppose we did the same thing with Ted Williams. There are more than one player with a last name of Williams.
+
+```{r}
+williamsTable<-filter(Master,nameLast=="Williams")
+nrow(williamsTable)
+```
+
+```{r}
+tedWilliams<-filter(williamsTable,nameFirst=="Ted")
+tedWilliams
+```
+
+## dplyr: Filter
+
+Of course, we could have created the table with one command.
+```{r}
+tw<-filter(Master,nameFirst=="Ted" & nameLast=="Williams")
+tw
+```
+
+## dplyr: Select
+Now lets select the `playerID`, `nameLast`, `nameFirst`,`bats`, and `throws`.
+```{r}
+select(Master,playerID,nameLast,nameFirst,bats,throws)
+```
+
+## dplyr: Combine `select` and `filter`
+
+The pipe operator `%>%` allows for a syntax that mirrors your thought process.
+
+* Start with the data frame then (`%>%`)
+* Convert it to an object of class `tbl_df` then (`%>%`)
+* `select` the columns you want then (`%>%`)
+* `filter` by the desired criteria.
+
+## dplyr: Combine `select` and `filter`
+
+```{r} 
+Master %>% tbl_df() %>%
+      select(playerID,nameLast,nameFirst,bats,throws) %>%
+      filter(nameLast=="Williams" & nameFirst=="Ted")
+```
+
+## dplyr: Mutate
+
+Use the batting table to calculate a batting average (H/AB). Use only players with at least 600 AB from 2000-2014. (Note that you'll only know the player's ID and not his name.)
+
+```{r}
+tempBatting <- Batting %>% tbl_df %>% filter(yearID > 1999 & AB >599) %>%
+  select(playerID,yearID,AB,H) %>% mutate(AVG=round(H/AB,3))
+tempBatting
+```
+
+## dplyr: Arrange
+
+Add the Player Info and sort in descending order.
+
+```{r}
+
+inner_join(tempBatting,Master,by="playerID") %>%
+  select(nameLast,nameFirst,yearID,AB,H,AVG) %>%
+  arrange(desc(AVG))
+```
+
+## dplyr: Summarize
+
+* Pitchers with no games started in the 1960's
+* Left-handed.
+* Played at least 5 seasons
+* Compute strikeouts per 27 outs
+
+```{r}
+Master %>% tbl_df() -> Master
+Pitching %>% tbl_df() -> Pitching
+inner_join(Pitching,Master,by="playerID") %>%
+ filter(yearID >1959 & yearID <=1969) %>%
+  filter(throws=="L" & GS==0) %>%
+  select(playerID,nameLast,nameFirst,G,IPouts,SO) %>%
+  group_by(playerID,nameLast,nameFirst) %>% summarize(Seasons=n(),Games=sum(G),Outs=sum(IPouts),SO=sum(SO)) %>%
+  mutate(SO_27=round((SO/Outs)*27,1)) %>%
+  filter(Seasons>=5) %>% 
+  select(nameLast,nameFirst,Seasons,Games,Outs,SO,SO_27) -> temp
+```
+
+## dplyr: Summarize
+```{r}
+temp %>% knitr::kable()
+````
+
+
+

@@ -1,0 +1,241 @@
+---
+title: "Generalized Linear Models"
+author: "R LAS"
+date: "December 13, 2016"
+output: slidy_presentation
+---
+
+## GLM Overview
+
+A generalized linear model consists of three components
+
+- A random component
+- A linear predictor
+- A link function
+
+Symbolically, this is expressed as
+
+$$ g(E[Y]) = X\beta $$
+
+- $Y$ is a member of the exponential family of distributions
+- $g$ is the link function
+- $X\beta$ is the linear predictor.
+
+## Linear Models
+
+Note that the linear model is a special case of a generalized linear model as the normal distribution is a member of the exponential family. Using the identity link function $g(x)=x$ we get  
+
+$$ E[Y]=X\beta$$
+
+If we have $n$ observations $Y_1,Y_2,\dots Y_n$ and $p$ predictors then $Y$ is an $n\times 1$ matrix, $X$ is an $n\times (p+1)$ matrix and $\beta$ is a $(p+1)\times 1$ matrix of coefficients. (The extra one is because we have an intercept term.)
+
+## R glm Function
+
+` glm(formula, family=gaussian, data, weights, subset, `
+`na.action, start=NULL, etastart, mustart, offset, ... )`
+
+
+- Formulas were previously covered in the Linear Models session
+- Family is the distribution (the link function is buried in here)
+- Offset has a couple of uses which we will mention later.
+
+Note that there is a `speedglm` package that is faster on large datasets.
+
+## Formulas
+
+Sometimes you'll want to programatically create formulas. Suppose you have variables X1, X2, and X3 that you want to include in a formula with response Y.
+
+```{r}
+paste(c('X1','X2','X3'),collapse='+')
+paste0('Y~',paste(c('X1','X2','X3'),collapse='+'))
+as.formula(paste('Y~',paste(c('X1','X2','X3'),collapse='+')))
+```
+
+
+## Exponential Family of Distributions
+
+A distribution is in the exponential family of distributions if its density function is of the form
+
+$$ f(y;\theta,\phi) = exp\{[y\theta-b(\theta)]/a(\phi) + c(y,\phi)\}$$
+
+$\theta$ is called the *natural parameter* and $\phi$ is called the *dispersion parameter*.
+
+It can be shown that $E[Y]=b'(\theta)$ and $var(Y)=b''(\theta)a(\phi)$.
+
+### Normal Distribution
+
+The normal distribution has density 
+$$ f(y)=exp[\frac{y\mu-0.5\mu^2}{\sigma^2}-\frac{1}{2}log(2\pi\sigma^2)-\frac{y^2}{2\sigma^2}]$$
+
+## Exponential Family of Distributions
+
+### Poisson 
+
+$$ f(y)=\frac{e^{-\mu} \mu^y}{y!}=exp[y log \mu -\mu -log(y!)]  $$
+
+Letting $\theta=log \ \mu$ gives us
+
+$$ f(y) = exp[y\theta - e^{\theta} - log(y!)] $$
+
+### Binomial 
+
+$$ f(y) = {n \choose y} \pi^y (1-\pi)^{n-y}$$
+
+$y=1,2,\dots,n$
+
+***
+
+### Negative Binomial
+
+$$ f(y) = {y+r-1 \choose r-1} \theta^r (1-\theta)^y$$
+
+
+The negative binomial distribution needs the MASS package to be used in a glm. `*NegBinomial` are the R Distribution functions but in the glm you'd use `family='negbin'`.
+
+
+### Gamma
+
+$$ f(y)=\frac{y^{\phi-1} \theta^\phi e^{-y\theta}}{\Gamma (\phi)} $$
+
+## Tweedie Distribution
+
+In general, a Tweedie distribution is one where the variance is proportional to a power of the mean, i.e.
+
+$$ var(Y) = c \mu^p$$.
+
+Examples of Tweedie Distributions are
+
+- Normal ($p=0$)
+- Poisson ($p=1$)
+- Gamma ($p=2$)
+- Inverse Gaussian ($p=3$)
+
+
+For $1<p<2$, the compound Poisson - Gamma distribution is a Tweedie distribution. This distribution has a point mass at 0, making it suitable for modeling Loss Ratios and Pure Premiums.
+
+The `tweedie` package has a method (`tweedie.profile`) for estimating $p$ from the data.
+
+The `statmod` package has a method for modeling Tweedie glm's.
+
+For more information on the compound Poisson-Gamma distribution, see [Compound Poisson Distributions and GLM's - Tweedie's Distribution](https://lstat.kuleuven.be/research/seminars_events/files/3afmd/Kaas.PDF) by Rob Kaas.
+
+
+## Link Functions
+
+Members of the exponential family have a *canonical link*, which transforms the mean $\mu$ of the distribution into the natural parameter. We saw above that the identity function is the canonical link for the normal distribution.
+
+|Family| Canonical Link|R distribution name |
+|------------|---------------|--------------------|
+|`binomial`|`logit`|`*binom`|
+|`gaussian`|`identity`|`*norm`|
+|`Gamma`|`inverse`|`*gamma`|
+|`poisson`|`log`|`*pois`|
+
+Note the differences in capitalization for Gamma and the other distributions.
+
+## Link Functions
+
+From ?family,
+
+- The `gaussian` family accepts the links `identity`, `log`, and `inverse`.
+- The `binomial` family accepts the links `logit`, `probit`, `cauchit`, `log`, and `cloglog`.
+- The `Gamma` family accepts the links `inverse`, `identity`, and `log`.
+- The `poisson` family accepts the links `log`, `identity`, and `sqrt`.
+- The negative binomial has the `log` link as the canonical link and also accepts the links `sqrt` and `identity`.
+
+
+
+## Using Offset
+
+Offset terms are terms that you want to include in the model but want the coefficient to take on the value of one.
+
+Two uses:
+
+- You're modelling claim counts and there are different exposure periods.
+- You want to use, for example, current territory relativities but model other rating variables.
+
+A good reference is [Applications of the Offset in Property-Casualty Predictive Modeling](https://www.casact.org/pubs/forum/09wforum/yan_et_al.pdf) by Jun Yan, James Gusza, Matthew Flynn, and Cheng-Sheng Peter Wu, 2009 CAS Winter Forum.
+
+
+## MASS Insurance Data
+
+```{r}
+library(MASS)
+library(dplyr,quietly=TRUE,warn.conflicts=FALSE)
+data(Insurance)
+myIns<-Insurance
+head(myIns) %>% knitr::kable()
+```
+
+## MASS Insurance Data
+
+Let's look at the claim frequency by District.
+
+```{r}
+myIns %>% group_by(District) %>% 
+  summarize(Holders=sum(Holders),Claims=sum(Claims)) %>%
+  mutate(Frequency=Claims/Holders) %>% knitr::kable()
+```
+
+We'd like to model the number of claims using a Poisson glm. Since the Poisson distribution takes on discrete values the number of claims will be the response. Since the log link is the canonical link we'll use that and use the fact that if 
+$$ log(Claims/Holders) = X\beta$$ then
+$$ log(Claims) = X\beta + log(Holders)$$
+
+In other words, $log(Holders)$ is the offset term mentioned above.
+
+## Factors
+
+Our next problem is that District is a quantitative variable but we don't want to model it as such (The claim frequency in District 4 isn't twice the claim frequency in District 2.) We need to create a qualitative variable (factor) in order to model.
+
+```{r}
+myIns$DistFactor<-as.factor(paste0("Dist",myIns$District))
+head(myIns) %>% knitr::kable()
+```
+
+## Poisson GLM
+
+```{r}
+poissonModel1<-glm(Claims~DistFactor,family=poisson(link='log'),
+data=myIns,offset=log(Holders))
+summary(poissonModel1)
+```
+
+## Refine the Model
+
+```{r}
+d1<-c('Dist1-3','Dist1-3','Dist1-3','Dist4')
+myIns$DistFactor2<-as.factor(d1[myIns$District])
+poissonModel2<-glm(Claims~DistFactor2,family=poisson(link='log'),
+data=myIns,offset=log(Holders))
+summary(poissonModel2)
+```
+
+
+## Structure of glm objects
+
+```{r}
+str(poissonModel2)
+```
+
+
+## Extracting the Coefficients
+
+```{r}
+poissonModel2$coefficients
+```
+
+## Table of coefficients with p values.
+
+```{r}
+class(summary(poissonModel2))
+summary(poissonModel2)$coefficients
+```
+
+## Compare AIC
+
+```{r}
+poissonModel1$aic
+
+poissonModel2$aic
+```
+

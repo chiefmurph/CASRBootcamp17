@@ -1,0 +1,125 @@
+---
+title: Loss Reserve Analysis
+output: word_document
+---
+
+```{r include=FALSE}
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(knitr))
+knitr::opts_chunk$set(
+  message = FALSE
+  , warning = TRUE
+  , error = TRUE
+  , echo = FALSE
+)
+```
+
+## Data Selection
+
+1. From the NAIC data set, pick any company with at least three lines of business.
+
+```{r}
+library(raw)
+data("comauto")
+data("othliab")
+data("wkcomp")
+comauto$Line <- "Commercial Auto"
+othliab$Line <- "Other Liability"
+wkcomp$Line <- "Workers Compensation"
+dfAll <- rbind(comauto, othliab, wkcomp)
+
+dfCompanies <- dfAll %>% 
+  group_by(Company) %>% 
+  summarise(NumLines = dplyr::n_distinct(Line)) %>% 
+  filter(NumLines == 3) %>% 
+  select(-NumLines)
+
+dfSome <- dfAll %>% 
+  dplyr::inner_join(dfCompanies)
+
+small_pay_cos <- dfSome %>% 
+  filter(CumulativePaid <= 0) %>% 
+  select(Company) %>% 
+  dplyr::distinct() %>% 
+  unlist()
+
+dfSome <- dfSome %>% 
+  filter(!Company %in% small_pay_cos)
+```
+
+```{r}
+dfLosses <- dfSome %>% 
+  filter(Company == "NC Farm Bureau Ins Grp") 
+```
+
+```{r}
+
+```
+
+## Forecast
+
+2. Forecast all lines using at least the following techniques
+
+    1. Calculate link ratios by writing your own algorithms
+
+```{r}
+dfLosses <- dfLosses %>% 
+  arrange(Company, Line, AccidentYear, DevelopmentYear) %>% 
+  group_by(Line, AccidentYear) %>% 
+  mutate(PriorIncurred = dplyr::lag(CumulativeIncurred)
+         , PriorPaid = dplyr::lag(CumulativePaid)
+         , IncurredLDF = CumulativeIncurred / PriorIncurred
+         , PaidLDF = CumulativePaid / PriorPaid)
+
+dfUpper <- dfLosses %>% 
+  filter(AccidentYear + Lag - 1 <= 1997)
+```
+
+```{r}
+GetVectors <- function(df, which_lag, measure){
+  
+  df <- df %>% 
+    filter(Lag == which_lag)
+  
+  prior <- df[[paste0("Prior", measure)]]
+  current <- df[[paste0("Cumulative", measure)]]
+  
+}
+
+LinkRatio <- function(current, prior, alpha = 0){
+  
+  ballast <- prior ^ (2 - alpha)
+  ballast <- sum(ballast)
+
+  weight <- (prior ^ (2 - alpha)) / ballast
+  link <- current / prior
+  factor <- sum(weight * link)
+
+  factor
+}
+```
+
+```{r}
+
+LinkRatio(1:5, 6:10)
+LinkRatio(1:5, 6:10, 1)
+LinkRatio(1:5, 6:10, 2)
+
+mojo <- dfLosses %>% 
+  filter(Line == "Commercial Auto") %>% 
+  LinkRatio(2, "Paid", 0)
+```
+
+    2. Determine ultimates using any of the techniques in the ChainLadder package
+    3. Determine ultimates using a GLM, such as (overdispersed) Poisson
+    4. Any other technique which you feel is appropriate
+
+## Ranges
+
+3. Develop ranges around the ultimates by accident year and in total
+
+```{r}
+
+```
+

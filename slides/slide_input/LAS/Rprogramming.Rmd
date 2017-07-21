@@ -1,0 +1,291 @@
+---
+title: "R Programming"
+author: "R LAS"
+date: "December 12, 2015"
+output: slidy_presentation
+---
+
+
+
+## Functions: Writing functions
+
+The general form of an R function is `fname<-function(arg1,arg2,etc) function.body`.
+
+### Simple Example
+
+```{r}
+mySqrt<-function(x) sqrt(x)
+
+mySqrt(2)
+
+mySqrt
+```
+
+## Functions: Writing functions
+
+Functions belong to their own class.
+
+```{r}
+class(mySqrt)
+```
+
+What's wrong with this?
+
+```{r}
+mySqrt<-function(x) {
+  y<-sqrt(x)
+}
+
+mySqrt(2)
+
+```
+
+## Functions: Writing functions
+
+Use `return` if you want to return a variable.
+```{r}
+mySqrt<-function(x) {
+  y<-sqrt(x)
+  return(y)
+}
+
+mySqrt(2)
+
+```
+
+## Functions: Named Arguments
+
+If you want a default input, include it as an argument.
+
+```{r}
+mySqrt<-function(x=2) sqrt(x)
+
+mySqrt()
+```
+
+## Functions: Passing optional arguments
+
+```{r}
+myPlot<-function(x,y) plot(x=x,y=y)
+
+myPlot(c(2,4,6),c(4,16,9))
+```
+
+## Functions: Passing optional arguments
+
+This will error.
+
+```{r,eval=FALSE}
+myPlot(c(2,4,6),c(4,16,9),pch=19,col="red")
+```
+
+Add `...` to indicate optional arguments being passed.
+```{r}
+myPlot<-function(x,y,...) plot(x=x,y=y,...)
+```
+
+
+```{r}
+myPlot(c(2,4,6),c(4,16,9),pch=19,col="red")
+```
+
+
+## Functions: Variables defined within a function are local.
+
+```{r,eval=FALSE}
+mySum<-function(x,y){
+  z<-x+y
+  return(z)
+}
+```
+
+This will error.
+```{r,eval=FALSE}
+z
+```
+
+
+
+## Control Statements: For
+```{r}
+for (i in 1:5) cat(i^2,"\n")
+```
+
+Note: `cat` is a cruder form of output than `print`.
+`\n` is a carriage return.
+
+## Control Statements: While
+```{r}
+x<-2
+
+while (x <10) {
+  cat(x,"\n")
+  x<-x+2
+  }
+```
+
+## Control Statements: If-then-else
+```{r}
+f1<-function(x){
+  if (x<0) cat("x is negative") else cat("x is nonnegative")
+}
+
+f1(-2)
+```
+
+There's also an `ifelse` function.
+```{r}
+myAbs<-function(x) ifelse(x<0,-x,x)
+myAbs(-3)
+```
+
+## Quadratic Formula
+
+```{r}
+myQuadratic<-function(a,b,c){
+  if (a==0) {cat("Not a Quadratic Equation")}
+    else
+      {D<- b^2-4*a*c
+      if (D<0) {cat("No Real Solutions")} else{
+      assign("x1",(-b+sqrt(D))/(2*a))
+      assign("x2",(-b-sqrt(D))/(2*a))
+      cat(c(x1,x2),"are the real roots")
+    } 
+  }
+}
+```
+
+## Quadratic Formula
+
+```{r}
+myQuadratic(1,1,1)
+myQuadratic(0,0,0)
+myQuadratic(1,-5,6)
+myQuadratic(1,-4,4)
+```
+
+## Newton's Method
+
+The iterative formula for finding a root of $f(x)$ where the starting point $x_0$ is selected is given by.
+$$x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$$
+
+So to determine the square root of $a$, we'll use the formula
+$$ x_{n+1} = x_n -\frac{x_n^2 - a}{2x_n}$$
+
+## Graphical Interpretaion of Newton's Method
+
+```{r}
+curve(x^2-2,xlim=c(0,3),bty="n",ylim=c(-2,4))
+points(x=sqrt(2),y=0,pch=19,col="blue")
+abline(h=0)
+abline(a=-6,b=4,col="red",lty="dashed")
+```
+
+## Newton's Method
+
+```{r}
+Newton<-function(x,a) {x - (x^2-a)/(2*x)}
+
+x<-2
+for (i in 1:8){
+  print(x,digits=22)
+  x<-Newton(x,2)
+}
+```
+
+## Newton's Method
+
+We'll write a function that stops after a set number of iterations or successive iterations are within a certain tolerance of each other.
+
+```{r}
+mySqrt<-function(a,start=2,maxIter=10,maxDiff=.0001){
+  
+  n<-1
+  x<-start
+  diff=10000
+  while(n<maxIter & diff>maxDiff){
+    y<-x
+    x<-Newton(x,a)
+    diff=abs(x-y)
+    n<-n+1
+  }
+  return(list(sqrt=x,iterations=n-1,difference=diff))
+}
+```
+
+
+```{r}
+mySqrt(2)
+
+```
+
+
+## Vectorized Programming: sapply
+
+`sapply` returns a vector
+```{r}
+sapply(1:3,sqrt)
+```
+
+## Vectorized Programming: lapply
+
+`lapply` returns a list
+
+```{r}
+lapply(1:3,sqrt)
+```
+
+
+## Compound Poisson-Gamma Distribution
+
+$Y = X_1 + X_2 + \cdots + X_N$ where $N$ is Poisson with mean $\lambda$ and $X$ is gamma with parameters $\alpha$ and $\beta$.
+
+* Generate 10000 random Poisson variables
+* For each Poisson generate random Gamma
+* Add up the Gamma values
+
+
+```{r,cache=TRUE}
+set.seed(6345789)
+n1<-10000
+poisMean<-3
+p1<-rpois(n1,lambda=poisMean)
+gammaShape<-3
+gammaScale<-4
+t1<-lapply(1:n1,function(i) 
+  sum(rgamma(p1[i],shape=gammaShape,scale=gammaScale)))
+t1<-unlist(t1)
+mean(t1)
+```
+
+## Parallel Processing
+
+R is single threaded so if you want to make full use of other processors you have to do some parallel processing.
+```{r}
+library(parallel)
+detectCores()
+```
+
+The following command won't work on Windows machines. It'll use all the cores (if they're available) on a Linux machine.
+
+```{r,eval=FALSE}
+t1<-mclapply(1:n1,function(i) 
+  sum(rgamma(p1[i],shape=gammaShape,scale=gammaScale)),
+mc.cores=detectCores())
+```
+
+
+Per [this discussion](http://r.789695.n4.nabble.com/Programmaticly-finding-number-of-processors-by-R-code-td2953437.html) determining the number of cores isn't as straightforward as you'd like it to be.
+
+## Running your own server. 
+
+There are a number of ways to set up your own server and run RStudio server. Note that this isn't free. 
+
+[Installing R & RStudio on a Rackspace Server](https://r-dir.com/blog/2014/04/installing-r-rstudio-on-rackspace.html)
+
+[Setting up an AWS instance for R, RStudio, OpenCPU, or Shiny Server](http://ipub.com/aws/)
+
+[Data Science Series: Standing up RStudio Server on Azure](https://channel9.msdn.com/Blogs/Windows-Azure/Data-Science-Series-Standing-up-
+RStudio-Server-on-Azure)
+
+[How To Set Up RStudio On An Ubuntu Cloud Server](https://www.digitalocean.com/community/tutorials/how-to-set-up-rstudio-on-an-ubuntu-cloud-server)

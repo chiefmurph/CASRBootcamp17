@@ -1,0 +1,26 @@
+---
+title: "GLMs"
+author: "Brian A. Fannin"
+date: "August 23, 2017"
+output: ioslides_presentation
+---
+
+# Fit a sample
+
+* Transform data
+* Pick a distribution
+* Pict a fit method
+* Assess quality of fit
+
+# Add predictors
+
+* What do you do with new data?
+* Visualize
+
+Poisson $\lambda$
+
+# GLMs
+
+## Form a linear combination
+
+## Transform 
