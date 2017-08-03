@@ -5,6 +5,7 @@ RMD_DIR = slide_input
 HTML_DIR = slide_output
 HANDOUT_DIR = handouts
 SCRIPT_DIR = scripts
+DATA_DIR = data
 
 RMD_SOURCE = $(wildcard $(RMD_DIR)/*.Rmd)
 HANDOUT_SOURCE = $(wildcard $(HANDOUT_DIR)/*.Rmd)
@@ -33,6 +34,13 @@ $(HANDOUT_DIR)/%.docx:$(HANDOUT_DIR)/%.Rmd
 
 $(SCRIPT_DIR)/%.R:$(RMD_DIR)/%.Rmd
 	Rscript -e "knitr::purl('$<', output = '$@')"
+
+#===========================
+# Additional dependencies here
+$(RMD_DIR)/GLMs.Rmd:$(DATA_DIR)/glm.rda
+
+$(DATA_DIR)/glm.rda:$(DATA_DIR)/glm.R
+	Rscript -e "source('./data/glm.R')"
 
 clean:
 	rm -f -v $(HTML_OUT)
