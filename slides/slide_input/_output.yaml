@@ -1,0 +1,14 @@
+revealjs::revealjs_presentation:
+    self_contained: false
+    css: ./css/revealOpts.css
+    theme: solarized
+    transition: slide
+    center: false
+    reveal_plugins: ["notes", "zoom"]
+slidy_presentation:
+  widescreen: false
+  css: ./css/custom.css
+  duration: 45
+  footer: Copyright (c) 2017 Adam Rich, Daniel Murphy, Brian A. Fannin
+beamer_presentation:
+    colortheme: dolphin
