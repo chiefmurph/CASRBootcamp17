@@ -1,0 +1,224 @@
+---
+title: "GLMs"
+author: "Brian A. Fannin"
+date: "August 23, 2017"
+output: 
+  revealjs::revealjs_presentation:
+    self_contained: false
+    css: ./css/revealOpts.css
+    theme: solarized
+    transition: slide
+    center: false
+    reveal_plugins: ["notes", "zoom"]
+---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(
+    warning=FALSE
+  , error=FALSE
+  , echo=FALSE
+  , message=FALSE
+)
+knitr::opts_knit$set(root.dir = normalizePath('../../'))
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(dplyr))
+```
+
+# Fit a sample
+
+```{r}
+load('./slides/data/glm.rda')
+```
+
+## Data 
+
+Claim counts for `r format(num_policies, big.mark = ",")` policies.
+
+```{r fig.height=4}
+plt <- ggplot(dfGLM, aes(NumClaims)) + geom_histogram(binwidth = 1)
+plt
+```
+
+## How would you fit this data?
+
+## Things we can do when fitting a sample
+
+* Pick a distribution
+  * Normal, lognormal, gamma, etc
+* Transform data
+  * Often taking the log. 
+* Pick a fit method
+  * Maximum likelihood
+  * Least squares
+  * Minimum bias
+* Assess quality of fit
+  * r-squared, penalized r-squared
+  * F-stat
+  * Likelihood, penalized likelihood
+
+# Add predictors
+
+## Number of claims ~ Payroll
+
+```{r}
+plt <- ggplot(dfGLM, aes(Payroll, NumClaims)) + geom_hex()
+plt <- plt + scale_x_continuous(labels = scales::dollar) + ylab("# of Claims")
+plt
+```
+
+## What's wrong with a linear fit?
+
+* Heteroskedastic
+* Does it really capture the mean?
+
+## Number of claims ~ Payroll
+
+```{r}
+plt <- ggplot(dfGLM, aes(Payroll, NumClaims)) + geom_hex()
+plt <- plt + scale_x_continuous(labels = scales::dollar) + ylab("# of Claims")
+plt + geom_smooth(method = "lm", formula = y ~ 1 + x)
+```
+
+## Another distribution makes more sense
+
+But how do we do that? If only we had a linear model that was a bit more general ... 
+
+# GLMs
+
+## Recall OLS Assumptions
+
+__Warning__: I play fast and loose with the difference between the response variable and the error term. 
+
+## OLS Assumptions
+
+* Linear relationship between response and predictors
+* Errors are normally distributed
+* Errors are uncorrelated
+* Errors are homoskedastic
+
+## More general assumptions
+
+* Relationship is between response and _transformed_ linear combination of predictors
+* Errors need not be normally distributed 
+
+## Mathematically
+
+$E[y]=g^{-1}(\beta_0+\sum_{j=1}^p\beta_{ij})$
+
+$g(x)$ is the "link" function.
+
+The linear combination is often referred to by $\eta$. I don't know why it doesn't get a name.
+
+I also don't know why the expectation is equal to the inverse of the link function. If talking about the transformed expectation doesn't make your head hurt, then you may like this formula better.
+
+$g(E[y])=\beta_0+\sum_{j=1}^p\beta_{ij}$
+
+## Specify two things
+
+1. The distribution
+2. The "link" function
+
+## Distribution restrictions
+
+Must be one of the exponential family of functions.
+
+$f(y; \theta,\phi) = exp[\frac{y\theta - b(\theta)  }{a(\phi)} + c(y,\phi)]$
+
+Note this _doesn't_ include the lognormal. That's OK; we can always perform a log transform of our data and fit a normal.
+
+Lots of folks get very excited about this formula. I don't. I can never remember it and I never feel as though I need to. If you like this formula, you'll see it often, but you won't see it any more today.
+
+## Canonical links
+
+| Distribution | Link     |       |
+|--------------|----------|-------|
+| binomical    | logit    | $g(x)=\frac{exp(x)}{1+exp(x)}$  |
+| gaussian     | identity | $g(x)=x$    |
+| poisson      | log      | $g(x)=ln(x)$    |
+| Gamma        | inverse  | $g(x)=1/x$    |
+
+## Very easy to program
+
+A linear model:
+
+```{r echo=TRUE}
+fit_lm <- lm(NumClaims ~ Payroll, data = dfGLM)
+```
+
+A GLM:
+
+```{r echo=TRUE}
+fit_glm <- glm(NumClaims ~ Payroll, data = dfGLM, family = "poisson")
+```
+
+## Programmatic differences:
+
+* Must indicate the family
+* Must provide the link, though only if we're using something non-canonical
+
+## Offset
+
+The offset is a kind of scaling factor that should not be included as a predictor. Comparable to the notion of exposure in insurance pricing.
+
+## Compare these two models
+
+```{r echo=TRUE, collapse=TRUE}
+fit_1 <- glm(NumClaims ~ 1 + Payroll, data = dfGLM, family="poisson")
+
+fit_2 <- glm(NumClaims ~ 1, data = dfGLM, family="poisson", offset=log(Payroll))
+
+fit_1$aic
+fit_2$aic
+coef(fit_1)
+coef(fit_2)
+```
+
+Fit for the second model is much better, because payroll isn't really a _predictor_ of loss. It is a scaling element for exposure. Think the number of deaths by heart disease in Manhattan vs. number of deaths by heart disease in a rural town.
+
+## Binomial
+
+```{r}
+plt <- ggplot(dfBinomial, aes(ClaimSeverity, Open)) + geom_hex()
+plt <- plt + scale_x_continuous(labels=scales::dollar)
+plt
+```
+
+## Binomial w/fit
+
+```{r}
+plt <- ggplot(dfBinomial, aes(ClaimSeverity, Open)) + geom_hex()
+plt <- plt + scale_x_continuous(labels=scales::dollar)
+plt + geom_smooth(method = "glm", formula = y ~ 0 + x, method.args = list(family = "binomial"))
+```
+
+```{r}
+plt <- ggplot(dfBinomial, aes(OpenProb, Open)) + geom_hex()
+plt + geom_smooth(method = "glm", formula = y ~ 1 + x, method.args = list(family = "binomial"))
+```
+
+##
+
+```{r}
+fit_open_1 <- glm(Open ~ 0 + ClaimSeverity, data=dfBinomial, family="binomial")
+fit_open_2 <- glm(Open ~ 1 + ClaimSeverity, data=dfBinomial, family="binomial")
+summary(fit_open_1)
+summary(fit_open_2)
+# dfBinomial$Predicted <- predict(fit_closure, type = "response")
+```
+
+## Measuring fit quality
+
+Comparing models typically involves comparison of the likelihood. Note that - comparable to r^2 - more parameters will _always_ give better fit metrics, unless we're penalizing for extra parameters.
+
+$AIC = 2[-l(\boldsymbol{y};\boldsymbol{\theta}^M)+r]$
+$BIC = 2[-l(\boldsymbol{y};\boldsymbol{\theta}^M)+rln(n)]$
+
+## Deviance
+
+* Null deviance is comparable to sum of squares in OLS
+* Reduction in residual deviance suggests a better model. However, trivial improvements may favor a more parsimonious model.
+
+# Resources
+
+## Good books
+

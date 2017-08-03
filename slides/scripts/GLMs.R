@@ -43,5 +43,23 @@ coef(fit_1)
 coef(fit_2)
 
 ## ------------------------------------------------------------------------
+plt <- ggplot(dfBinomial, aes(ClaimSeverity, Open)) + geom_hex()
+plt <- plt + scale_x_continuous(labels=scales::dollar)
+plt
 
+## ------------------------------------------------------------------------
+plt <- ggplot(dfBinomial, aes(ClaimSeverity, Open)) + geom_hex()
+plt <- plt + scale_x_continuous(labels=scales::dollar)
+plt + geom_smooth(method = "glm", formula = y ~ 0 + x, method.args = list(family = "binomial"))
+
+## ------------------------------------------------------------------------
+plt <- ggplot(dfBinomial, aes(OpenProb, Open)) + geom_hex()
+plt + geom_smooth(method = "glm", formula = y ~ 1 + x, method.args = list(family = "binomial"))
+
+## ------------------------------------------------------------------------
+fit_open_1 <- glm(Open ~ 0 + ClaimSeverity, data=dfBinomial, family="binomial")
+fit_open_2 <- glm(Open ~ 1 + ClaimSeverity, data=dfBinomial, family="binomial")
+summary(fit_open_1)
+summary(fit_open_2)
+# dfBinomial$Predicted <- predict(fit_closure, type = "response")
 
