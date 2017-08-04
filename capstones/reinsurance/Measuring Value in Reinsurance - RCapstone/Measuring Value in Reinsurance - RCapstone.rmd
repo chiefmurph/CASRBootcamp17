@@ -1,0 +1,238 @@
+---
+title: "Measuring Value in Reinsurance -- edited for RBootcamp 2017"
+author: Gary G. Venter, Guy Carpenter Instrat (2017 partially adapted to .rmd by Dan
+  Murphy)
+---
+
+For Venter's original paper, 
+see
+<https://www.casact.org/pubs/forum/01sforum/01sf179.pdf>.
+
+## Abstract
+
+Reinsurance produces value by producing stability. This can translate into higher earnings through reduced financing costs, improved access to markets, stronger product pricing and better employee job security. It can lead to a higher earnings multiple through reduction in the market price of possible bankruptcy and fewer misreadings of downwards earnings hits. Measuring these earnings and valuations effects is a developing science and for now we will only go as far as reviewing methods for measuring the stability that produces these benefits, and using these measures to compare alternative reinsurance programs.
+
+Some of the conclusions are: standard deviation and variance can be misleading measures; using any measure with combined ratio can produce distortions in the analysis; the frequency of one reinsurance program producing a better result than another is not a very useful measure.
+
+Measuring stability requires modeling. Making realistic models of insurers is a highly technical exercise with a number of possible pitfalls. Some of the technical details needed for modeling insurance financial risk are discussed.
+
+## Introduction
+
+When asked to do a cost/benefit analysis of their reinsurance purchases, 
+insurers' analysts sometimes do the following calculation. 
+First they add up all the ceded premiums for the past several years. 
+They call that the cost. 
+Then they add up all the recoveries and ceding commissions received. 
+That they identify as the benefit
+(the **"Net Benefit of Reinsurance"** or **NBOR**). 
+Subtracting cost from benefit gives the net benefit. 
+After this calculation usually follows a lament that the net benefit has been negative. 
+Sometimes one or two treaties have had a positive net benefit, but these are usually canceled or re-priced soon after. 
+Occasionally some treaties return more than they cost over a long period of time, but pay losses several years after the premium has been received, so that premium plus loss investment income exceeds recoveries.
+The analyst decides that reinsurance has been a losing proposition for the company for some time. 
+
+A moment's reflection, though, will reveal that this result was almost a foregone conclusion. Reinsurers are in business to make money, and some have succeeded at it. There are expenses involved. Thus over time total payouts by reinsurers have to be less than the premium they receive plus its related investment income. A given client can beat these odds in the short run, but probability eventually wins out -- at least for the vast majority. And the exceptions usually are cedants with such poor results that they envy the rest. 
+
+So what's wrong with the analysis? 
+Is reinsurance just a bad deal that should be shut down as soon as possible, 
+or are there some other benefits that this calculation misses? 
+In the broadest terms, we would assert that the benefit of reinsurance is in gaining stability of results. 
+This includes protection of surplus against erosion from adverse fluctuations, improvement in the predictability of earnings growth, and the provision of customers with assurance of recovery of their insured losses. 
+There is a cost to gaining this benefit, but the cost is not simply ceded premiums. 
+Premiums less recoveries (including expense recoveries) would be a better measure of the cost to the cedant for gaining stability. 
+In fact this cost measure is what the naïve analyst got as the net benefit
+(**NBOR**).
+
+So to sum up so far, the value of reinsurance is in the stability gained. 
+The cost is the net of premiums and recoveries (**NBOR**). 
+For prospective analysis, the expected value of premiums less recoveries 
+-- *E(NBOR)* --
+would be the comparable cost measure. 
+The next step is quantifying this cost/benefit trade-off.
+
+## Quantifying Stability and Its Value
+
+There are a few measures of stability that can be used --
+standard deviation and related quantities, percentiles or value at risk, and excess aggregates. 
+Measures can be applied to surplus, earnings, or related accounts. 
+Some companies prefer to look at more than one measure. 
+
+An additional step would be to translate the measure of stability into a measure of earnings gained through the increased stability. This could come in two directions:
+
+1.  reduction in capital costs for surplus not needed due to the reinsurance protection and from reduced costs of raising other capital because of improved debt ratings, etc.
+2.  other increases in earnings and firm value such as stock market valuation, risk elements in employee and management compensation, and improvements in access to customers and in the ability to get adequate premiums, perhaps related to improved claims paying ratings. 
+
+The former is perhaps more readily quantified, but the latter elements are also tangible financial benefits of a sound reinsurance program. 
+The cost of the reinsurance program could well be offset by these effects on earnings and valuation. 
+This is difficult to measure, however, and as it arises from the stability gained from the reinsurance program, we will be content here with just measures of that.
+
+Perhaps the best way to illustrate these concepts is through an example. Consider ABCD, a small company that writes
+`r echo = FALSE; {
+sep <- 33000000; paste0('$', round(sep/1000000, 0), 'M')
+}` 
+of a casualty coverage
+with an expected loss ratio of 
+`r echo = FALSE; {
+elr <- 22.9/33; paste0(round(elr * 100, 0), '%')
+}` 
+and there is an expense ratio of 
+`r echo = FALSE; {
+expenseratio <- .23; paste0(round(expenseratio * 100, 0), '%')
+}` 
+for a total expected combined ratio of 
+`r echo = FALSE; {
+combinedratio <- elr + expenseratio; paste0(round(combinedratio * 100, 0), '%')
+}`.
+
+![Fig 1: Venter's Example Has Two LOBs plus cat -- replace based on your data](VenterFigure1.png "Figure 1")
+
+ABCD is considering two reinsurance programs:
+
+* an excess-of-loss (XOL) programs providing ??x?? of cover for $xxx
+* an aggregate stop-loss (ASL) program of ??x?? for a premium of $yyyy. 
+
+Which is the a better option? 
+Cost/benefit analysis addresses such issues.
+
+Doing a cost/benefit analysis requires first establishing cost and benefit measures. 
+A reasonable cost measure, as discussed above, is the net excess of ceded premiums over expected recoveries
+(**NBOR**).
+This can be estimated using a simulation study of financial results before and after reinsurance. 
+Some of the technical issues of doing such a study are discussed later. 
+**R** is being used to build a model of ABCD to simulate the financial results.
+
+The results of the analysis, 
+based on a simulation of 25,000 possible realizations of the underwriting results, 
+is that average net recoveries are 
+`r '$5.08M'` 
+for the XOL program and 
+`r '$0.98M'` 
+for the ASL. 
+The ratio of these recoveries to ceded premium is 
+`r '61%'` for the XOL program and 
+`r '49%'` for the ASL, 
+which makes the **XOL program** sound more favorable. 
+The proposed cost measure, however, 
+is not ceded loss ratio but premium less expected recoveries
+(**NBOR**). 
+This is 
+`r '$3.2M'` 
+for the XOL program and 
+`r '$1.0M'` 
+for the ASL. 
+This difference **is significant** for ABCD, 
+as its expected pre-tax underwriting income prior to ceded reinsurance is just 
+`r '$2.5M'`.
+
+The stop-loss program thus has a 
+`r 'lower'` 
+ceded loss ratio but costs 
+`r 'less'` 
+than the XOL program. 
+Can it possibly provide enough protection? 
+For this an analysis of the probability of adverse deviations from expected results is needed.
+
+The table at the right 
+![Table 1: replace with a graph showing premium trend](VenterTable1.png "Table 1")
+from the simulation run shows some summary statistics for 
+**NBOR =** net premiums minus losses (gross less ceded) 
+prior to any expenses or investment income. 
+The difference in the means is the relative net cost differential between two programs. 
+
+The safety level shown in this case is the best result at the 1-in-100 level. 
+It shows that the stop loss program is over 
+`r '$5M better'` 
+in this very good year. 
+However, the stop-loss has a 
+`r 'higher'` 
+standard deviation, 
+and its worst result in 25,000 years is 
+`r '$9M more adverse'` 
+than the XOL program. 
+Thus under some measures the XOL program provides more protection than the stop-loss.
+
+Most companies do not manage to a 25,000-year event, 
+so a comparison is needed at more realistic probability levels. 
+The graph below shows the simulated probability densities for the 
+NBOR = net premium less net losses. 
+It shows that the XOL program does produce a compression of results, 
+but much of this compression comes by cutting off the profitability of the good years. 
+
+![Fig 2: replace based on your data](VenterFigure2.png "Figure 2")
+
+This is also a problem with using standard deviation as a measure of volatility: 
+Standard deviation measures upward and downward deviations, 
+and can be reduced by eliminating the favorable deviations. 
+Measures that capture only unfavorable deviations are more useful, 
+and will be discussed below.
+
+![Fig 3: replace based on your data](VenterFigure3.png "Figure 3")
+
+Also apparent in the graph is the concentration of events at the retention of the stop-loss program, 
+and the similarity of the stop-loss and the gross or bare positions in good years.
+
+The cumulative probability distributions 
+(here truncated at the 1-in-500 levels good and bad) 
+give another perspective on the relative performance of the ASL programs. 
+The upper right part shows that the stop loss is indeed more profitable in the good years. 
+But in the 1-in-10 to 1-in-4 range, the XOL program provides more protection. 
+For the years beyond 1-in-10, the stop loss gives a considerably more favorable result.
+
+These distributions are shown in table form below. The XOL program better protects the worst case event, but by the 0.25% level (worst case in 400 trials) the stop loss is better. From the 12% to 26% levels, the XOL program is better, by as much as $1,100,000. But in the worse years the stop-loss could be over
+
+```{r}
+read.csv("VenterTable2.csv")
+```
+Table 2
+
+$6,000,000 better than XOL, and the median result is almost $2,000,000 better. As the stop-loss is less costly and usually provides a better result, sometimes dramatically so, it would have to be considered a more useful program for ABCD.
+
+A more careful use of vocabulary is actually appropriate here. 
+Even though we would use the above table to say that the stop-loss is $6,350,000 better at the 1-in-100 level, 
+the 99th percentile loss event is unlikely to be the same event for the two programs. 
+Thus the difference between the programs in the 1-in-100 year gross loss event could be more or less than $6,350,000, as could the 99th percentile of the distribution of the difference between the programs. 
+What the table actually allows us to calculate is the difference in the 99th percentiles of the net result under the two programs 
+(or in this example the 1st percentile, since we are looking at earnings.) 
+
+This would, however, seem to be the most meaningful comparison. 
+In the end the company is going to select a single program, 
+and it will end up with the probability distribution produced by that program. 
+So the decision to be made is which probability distribution it wants. 
+This is measured by comparing the ending probability distributions of the various programs, 
+not by looking at the distribution of differences between programs. 
+There might be psychological benefits to thinking you got a program that was better more often, 
+but if that program does not produce a better final distribution of net results, 
+that psychological benefit will not translate into a better financial position for the company.
+
+The above shows the general features of a cost/benefit comparison of alternative reinsurance programs. 
+The cost is the expected income foregone by buying the program, 
+and the benefit is the protection against adverse deviation. 
+One way to specifically quantify the value of the protection is to look at the capital that would be absorbed by a loss at a selected adverse level --
+say the 1-in-100 level. 
+In this example the gross loss at this level is $13.85M compared to $0.06M for the stop loss, 
+which is a difference of $13.8M in capital needed. 
+If capital costs 15%, $2.1M would be needed to raise this much, 
+compared to the $1M net cost of the reinsurance. 
+The comparison is similar if pre-tax income is used as the basis rather than premium less losses. 
+An even more dramatic savings would be shown if the capital requirement were set 
+so that only 25% or some other limited part of surplus would be eroded 
+by the worst year in 100.
+
+## Other Comparisons
+
+See [Gary's paper](https://www.casact.org/pubs/forum/01sforum/01sf179.pdf).
+
+
+## Conclusion
+
+Cost/benefit analysis provides a useful methodology for insurers to quantify the value in their reinsurance transactions, and to compare among alternative structures. 
+A good cost measure is the net decrease in under-writing earnings expected from the program 
+(**"Net Benefit of Reinsurance"**).
+
+... Replace Venter's conclusion
+
+## Acknowledgments
+
+Thank you Brian for sending me the link to Gary's *eForum* paper
+and thank you Gary for providing a pre-edition doc version ...
+and saved me all this typing!
