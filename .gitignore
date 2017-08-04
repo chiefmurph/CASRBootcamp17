@@ -38,3 +38,5 @@ capstones/reserving/*.docx
 capstones/reserving/*.pdf
 
 *.html
+
+*lock*
