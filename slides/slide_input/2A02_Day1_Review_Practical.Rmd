@@ -1,0 +1,11 @@
+---
+title: "Online resources"
+output:
+  slidy_presentation:
+    duration: 45
+    fig_height: 6
+    fig_width: 10
+  beamer_presentation:
+    fonttheme: professionalfonts
+---
+
