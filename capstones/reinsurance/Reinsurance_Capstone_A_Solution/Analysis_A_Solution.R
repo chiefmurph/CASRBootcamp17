@@ -2,7 +2,7 @@
 library(tidyverse)
 library(forecast)
 library(e1071)
-source("loadValidateData.R")
+source("loadTestData.R")
 source("mean.py.wp.R")
 source("burningCost.R")
 source("reinsurancePricingFormula.R")
