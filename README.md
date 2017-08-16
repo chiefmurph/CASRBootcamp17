@@ -8,4 +8,4 @@ Our list of 19 topics in the Schedule folder is [here](https://github.com/chiefm
 
 CAS Community page is [here](http://community.casact.org/p/co/ly/gid=291)
 
-Yippee Ki-yay
+Yippee Ki-yay (really, is no one going to comment on this?)
