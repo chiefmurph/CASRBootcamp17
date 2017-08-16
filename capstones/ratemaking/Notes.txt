@@ -60,3 +60,6 @@ Use ChainLadder for development factors
 Use RMarkdown for documentation
 
 
+Other Ideas
+======================
+Talk about gbm?
