@@ -9,6 +9,8 @@ output:
     fonttheme: professionalfonts
 ---
 
+
+
 ## Introducing vectors
 
 In R, every variable is a vector. Think of a set of contiguous cells in a spreadsheet. 
@@ -23,6 +25,8 @@ Here, `e` is a vector with `N` values. `X1` is the sequence of integers from 1 t
 
 Vectors can grow and shrink automatically. No need to move cells around on a sheet. No need to copy formulas or change named ranges.
 
+
+
 ## Vector properties
 
 * Every element in a vector must be the same type. 
@@ -32,6 +36,8 @@ Vectors can grow and shrink automatically. No need to move cells around on a she
     * Higher dimensions are possible via matrices and arrays
 * Possible to add metadata (like names) via attributes
 
+
+
 ## Vector construction
 
 Vectors are constructed in one of several ways:
@@ -40,6 +46,8 @@ Vectors are constructed in one of several ways:
     * `seq`, `rep`, `sample`, `rnorm`,  etc.
 * Concatenation
 * Growth by assignment
+
+
 
 ## `seq`
 
@@ -51,12 +59,15 @@ i <- 1:5
 year = 2000:2004
 ```
 
+
 ```{r echo=FALSE}
 library(rblocks)
 i <- 1:5
 block = make_block(i, type = 'vector')
 block
 ```
+
+
 
 ## `rep`
 
@@ -70,12 +81,16 @@ head(i)
 
 The `c()` function will concatenate values.
 
+
+
 ```{r results='hide'}
 i <- c(1, 2, 3, 4, 5)
 j <- c(6, 7, 8, 9, 10)
 k <- c(i, j)
 l <- c(1:5, 6:10)
 ```
+
+
 
 ```{r echo=FALSE}
 i = c(1, 2, 3, 4, 5)
@@ -96,6 +111,8 @@ block_j
 block_k
 ```
 
+
+
 ## Growth by assignment
 
 Assigning a value beyond a vectors limits will automatically grow the vector. Interim values are assigned `NA`.
@@ -105,6 +122,8 @@ i <- 1:10
 i[30] = pi
 i
 ```
+
+
 
 ## Vector access - by index
 
@@ -117,6 +136,8 @@ e[1]
 e[1:4]
 e[c(1,3)]
 ```
+
+
 
 ## Vector access - logical access
 
@@ -131,6 +152,8 @@ b
 i[b]
 ```
 
+
+
 ## `which`
 
 The `which` function returns indices that match a logical expression.
@@ -140,6 +163,8 @@ i <- 11:20
 which(i > 12)
 i[which(i > 12)]
 ```
+
+
 
 ## `sample`
 
@@ -162,6 +187,8 @@ lotsOfMonths <- sample(months, size = 100, replace = TRUE)
 head(lotsOfMonths)
 ```
 
+
+
 ## `sample` II
 
 Sample may also be used within the indexing of the vector itself:
@@ -177,6 +204,8 @@ evenMoreMonths <- months[sample.int(length(months), size=100, replace=TRUE)]
 head(evenMoreMonths)
 ```
 
+
+
 ## `order`
 
 The function `order` will return the indices of the vector in order.
@@ -188,6 +217,7 @@ x
 order(x)
 x[order(x)]
 ```
+
 
 
 ## Vector arithmetic
@@ -215,6 +245,8 @@ X1 and e are vectors of length 100.
 How are they combined?
 
 
+
+
 ## Recycling
 
 R will "recycle" vectors until there are enough elements to perform an operation. Everything gets as "long" as the longest vector in the operation. For scalar operations on a vector this doesn't involve any drama. Try the following code:
@@ -229,6 +261,8 @@ print(vector2 + scalar)
 print(vector1 + vector2)
 ```
 
+
+
 ## Set theory - Part I
 
 The `%in%` operator will return a logical vector indicating whether or not an element of the first set is contained in the second set.
@@ -238,6 +272,8 @@ x <- 1:10
 y <- 5:15
 x %in% y
 ```
+
+
 
 ## Set theory - Part II
 
@@ -260,6 +296,8 @@ setequal(x, y)
 is.element(1941, y)
 ```
 
+
+
 ## Summarization
 
 Loads of functions take vector input and return scalar output. Translation of a large sest of numbers into a few, informative values is one of the cornerstones of statistics.
@@ -273,11 +311,15 @@ length(x)
 var(x)
 ```
 
+
+
 ## Vectors 
 
 Vectors are like atoms. If you understand vectors- how to create them, how to manipulate them, how to access the elements, you're well on your way to grasping how to handle other objects in R. 
 
 Vectors may combine to form molecules, but fundamentally, _everything_ in R is a vector.
+
+
 
 ## Exercise - Vectors
 
@@ -302,6 +344,8 @@ ElectionYear <- seq(1972, 2012, 4)
 * How many Georges were elected before 1996?
 * Generate a random sample of 100 presidents.
 
+
+
 ## Answer
 ```{r }
 LastName[order(LastName)]
@@ -313,6 +357,8 @@ sum(myLogical)
 
 sample(LastName, 100, replace = TRUE)
 ```
+
+
 
 ## Lists
 
@@ -327,11 +373,15 @@ summary(x)
 str(x)
 ```
 
+
+
 ## Lists
 
 ```{r echo=FALSE}
 make_block(x)
 ```
+
+
 
 ## [ vs. [[
 
@@ -342,6 +392,8 @@ make_block(x)
 This is why we use `[[` to set an item in a list. 
 
 Don't worry if this doesn't make sense yet. It's difficult for most R programmers.
+
+
 
 ## Recursive storage
 
@@ -359,6 +411,8 @@ x[[3]] <- y
 make_block(x)
 ```
 
+
+
 ## List metadata
 
 Again, typically names. However, these become very important for lists. Names are handled with the special `$` operator. `$` permits access to a single element. (A single element of a list can be a vector!)
@@ -373,6 +427,8 @@ y$Artist
 y$Age
 ```
 
+
+
 ## `lapply`
 
 `lapply` is one of many functions which may be applied to lists. Can be difficult at first, but very powerful. Applies the same function to each element of a list.
@@ -386,6 +442,8 @@ lapply(myList, median)
 lapply(myList, sum)
 ```
 
+
+
 ## Why `lapply`? 
 
 Two reasons:
@@ -393,14 +451,20 @@ Two reasons:
 1. It's expressive. A loop is a lot of code which does little to clarify intent. `lapply` indicates that we want to apply the same function to each element of a list. Think of a formula that exists as a column in a spreadsheet.
 2. It's easier to type at an interactive console. In its very early days, `S` was fully interactive. Typing a `for` loop at the console is a tedius and unnecessary task.
 
+
+
 ## Summary functions
 
 Because lists are arbitrary, we can't expect functions like `sum` or `mean` to work. Use `lapply` to summarize particular list elements.
+
+
 
 ## List Questions
 
 * Create a list with two elements. Have the first element be a vector with 100 numbers. Have the second element be a vector with 100 dates. Give your list the names: "Claim" and "AccidentDate".
 * What is the average value of a claim?
+
+
 
 ## Answers
 
@@ -410,6 +474,8 @@ myList$Claims <- rlnorm(100, log(10000))
 myList$AccidentDate <- sample(seq.Date(as.Date('2000-01-01'), as.Date('2009-12-31'), length.out = 1000), 100)
 mean(myList$Claims)
 ```
+
+
 
 
 # Matrices
@@ -926,3 +992,5 @@ head(read_excel(datasets,sheet="mtcars"))
 When you close R you get the question "Save Workspace Image?" If you answer "Yes" it'll create a copy of your environment and save it in the file .RData. (This uses the `save.image` function.)
 
 If you wish to save only certain objects the use `save` and provide a list of objects and a file name. Some people use .rda as the suffix for these files.
+
+
