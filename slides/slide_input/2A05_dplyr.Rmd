@@ -6,6 +6,7 @@ bibliography: bibliography.bib
 output: 
   revealjs::revealjs_presentation:
     self_contained: false
+    css: ./css/revealOpts.css
     theme: solarized
     transition: slide
     center: false
