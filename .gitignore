@@ -1,4 +1,7 @@
 
+# Rproj files
+*.Rproj
+
 # ALR TODO file
 TODO
 
