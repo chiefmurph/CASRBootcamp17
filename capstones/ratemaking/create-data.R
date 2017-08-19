@@ -14,6 +14,21 @@ require(alrtools)
 require(MASS)
 
 
+add_mo <- function(d, m) {
+  d <- as.integer(d)
+  m <- as.integer(m)
+  dy <- floor(d / 100)
+  dm <- d - (dy * 100)
+  am <- dm + m
+  ay <- ifelse(am == 0, 0, floor((am - 1) / 12))
+  ry <- dy + ay
+  rm <- am - ay * 12
+  rd <- ry * 100 + rm
+  return(rd)
+}
+
+
+
 #############################################
 # CLAIM SEVERITY
 #   Average severity in 2016 will be $95k
@@ -140,7 +155,12 @@ policies$state_group <- states$Frequency.Group[a]
 
 a <- factor(policies$state_group, levels = c('Low', 'Mid', 'High'))
 
-policies$state_relativity <- c(1.0, 1.5, 2.0)[as.integer(a)]
+policies$state_relativity <- c(1.0, 1.25, 1.5)[as.integer(a)]
+
+# If revenue is over $4m state does not matter
+policies$state_relativity[policies$revenue >= 4e6] <- 2.0
+
+
 
 
 # Disciplines
@@ -158,27 +178,35 @@ policies$discipline_relativity <- disciplines$Relativity[a]
 policies$discipline_group <- paste0('d', policies$discipline_relativity)
 
 
+
+
 # Revenue frequency
 #   Expected is 0.05 per million in claims
+#   Remember to adjust rev as it is annual!
 
-policies$revenue_frequency <- policies$revenue / 1e6 * 0.05
+policies$revenue_frequency <- policies$revenue / 1e6 * 
+  0.05 * policies$duration_months / 12
+
 policies$expected_frequency <- 
   policies$revenue_frequency * policies$discipline_relativity *
   policies$state_relativity
 
+
+# Get expected claim counts
 odf <- 2.5
 
 policies$claim_count <- rnegbin(
   n = n, 
   mu = policies$expected_frequency, 
-  theta = policies$expected_frequency / 1.5
+  theta = policies$expected_frequency / (odf - 1)
 )
+
 
 
 
 #############################################
 # GLM TEST for FREQ
-#
+# TODO Need to flesh this out
 #############################################
 
 glm_freq <- glm(
@@ -193,3 +221,27 @@ summary(glm_freq)
 
 
 
+
+#############################################
+# CLAIMS
+#############################################
+
+# Number of claims total
+m <- sum(policies$claim_count)
+claims <- data.frame(claimindex = 1:m)
+
+# Merge with policies table
+lpolicies <- policies[policies$claim_count > 0, ]
+a <- cumsum(lpolicies$claim_count)
+b <- c(1, a[-length(a)] + 1)
+lpolicies$claimindex_start <- b
+claims <- cbind(claims, lookup(claims, lpolicies))
+
+
+
+
+
+
+
+  
+  
