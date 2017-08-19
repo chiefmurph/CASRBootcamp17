@@ -45,6 +45,6 @@ capstones/reserving/*.html
 capstones/reserving/*.docx
 capstones/reserving/*.pdf
 
-*.html
+# *.html
 
 *lock*
