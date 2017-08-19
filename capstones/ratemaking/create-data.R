@@ -12,6 +12,7 @@ require(rmarkdown)
 require(knitr)
 require(alrtools)
 require(MASS)
+require(reshape2)
 source('resources.R')
 
 
@@ -95,8 +96,8 @@ policies$revenue_bucket <- sample(
 
 a <- runif(n)
 b <- policies$revenue_bucket
-policies$revenue <- (revenue_high[b] - revenue_low[b]) * a + 
-  revenue_low[b]
+policies$revenue <- round((revenue_high[b] - revenue_low[b]) * a + 
+  revenue_low[b], 0)
 
 # State/Region
 #   Use CSV table for groupings
@@ -308,14 +309,163 @@ for(i in 1:10) {
   
 }
 
-claims$claim_at_val[claims$policy_year == 2007] <- claims$d120[claims$policy_year == 2007]
-claims$claim_at_val[claims$policy_year == 2008] <- claims$d108[claims$policy_year == 2008]
-claims$claim_at_val[claims$policy_year == 2009] <- claims$d096[claims$policy_year == 2009]
-claims$claim_at_val[claims$policy_year == 2010] <- claims$d084[claims$policy_year == 2010]
-claims$claim_at_val[claims$policy_year == 2011] <- claims$d072[claims$policy_year == 2011]
-claims$claim_at_val[claims$policy_year == 2012] <- claims$d060[claims$policy_year == 2012]
-claims$claim_at_val[claims$policy_year == 2013] <- claims$d048[claims$policy_year == 2013]
-claims$claim_at_val[claims$policy_year == 2014] <- claims$d036[claims$policy_year == 2014]
-claims$claim_at_val[claims$policy_year == 2015] <- claims$d024[claims$policy_year == 2015]
-claims$claim_at_val[claims$policy_year == 2016] <- claims$d012[claims$policy_year == 2016]
+claims$claim_at_val[claims$policy_year == 2007] <- 
+  claims$d120[claims$policy_year == 2007]
+claims$claim_at_val[claims$policy_year == 2008] <- 
+  claims$d108[claims$policy_year == 2008]
+claims$claim_at_val[claims$policy_year == 2009] <- 
+  claims$d096[claims$policy_year == 2009]
+claims$claim_at_val[claims$policy_year == 2010] <- 
+  claims$d084[claims$policy_year == 2010]
+claims$claim_at_val[claims$policy_year == 2011] <- 
+  claims$d072[claims$policy_year == 2011]
+claims$claim_at_val[claims$policy_year == 2012] <- 
+  claims$d060[claims$policy_year == 2012]
+claims$claim_at_val[claims$policy_year == 2013] <- 
+  claims$d048[claims$policy_year == 2013]
+claims$claim_at_val[claims$policy_year == 2014] <- 
+  claims$d036[claims$policy_year == 2014]
+claims$claim_at_val[claims$policy_year == 2015] <- 
+  claims$d024[claims$policy_year == 2015]
+claims$claim_at_val[claims$policy_year == 2016] <- 
+  claims$d012[claims$policy_year == 2016]
+
+
+#############################################
+# Add some unimportant data to policies
+#############################################
+
+policies$year_started <- 
+  policies$policy_year - sample(0:20, size = n, replace = TRUE)
+
+a <- rnorm(n, 100000, 50000)
+a[a < 50000] <- 50000
+policies$employee_count <- floor(policies$revenue / a) + 1
+
+policies$use_written_contracts <- 
+  sample(c('Y', 'N'), n, prob = c(0.8, 0.2), replace = TRUE)
+
+
+policies$five_year_claims <- 
+  rnegbin(n = n, mu = policies$expected_frequency, 
+          theta = policies$expected_frequency / (odf - 1)) + 
+  rnegbin(n = n, mu = policies$expected_frequency, 
+          theta = policies$expected_frequency / (odf - 1)) + 
+  rnegbin(n = n, mu = policies$expected_frequency, 
+          theta = policies$expected_frequency / (odf - 1)) + 
+  rnegbin(n = n, mu = policies$expected_frequency, 
+          theta = policies$expected_frequency / (odf - 1)) + 
+  rnegbin(n = n, mu = policies$expected_frequency, 
+          theta = policies$expected_frequency / (odf - 1))
+
+policies$five_year_claims <- 
+  floor(pmin(5, 2016 - policies$year_started) * 
+  policies$five_year_claims / 5)
+
+
+#############################################
+# Save Data sets
+#############################################
+
+# Policies
+pol_train <- sample(policies$policy_number, 50000)
+pol_test <- policies$policy_number[
+  !policies$policy_number %in% pol_train]
+
+
+pol1 <- policies[, c("policy_number", 
+                     "inception", 
+                     "expiration")]
+
+pol2 <- policies[, c("policy_number",
+                     "revenue", 
+                     "state", 
+                     "discipline", 
+                     "year_started", 
+                     "employee_count", 
+                     "use_written_contracts", 
+                     "five_year_claims")]
+
+pol1_train <- pol1[pol1$policy_number %in% pol_train, ]
+pol1_test  <- pol1[pol1$policy_number %in% pol_test, ]
+
+
+
+# Policy attributes, melted
+pol3 <- melt(pol2, id.vars = 'policy_number')
+pol3[!duplicated(pol3$variable), ]
+
+pol3_train <- pol3[pol3$policy_number %in% pol_train, ]
+pol3_test  <- pol3[pol3$policy_number %in% pol_test, ]
+
+
+# Claims
+clms <- claims[ , 
+  c("index", 
+    "status",
+    "policy_number", 
+    "claim_made", 
+    "claim_closed", 
+    "status", 
+    "claim_at_val")]
+
+clms$claim_closed[clms$status == 'O'] <- NA
+
+clms_train <- clms[clms$policy_number %in% pol_train &
+                     clms$claim_made <= 201612, ]
+
+
+
+
+
+
+
+# Triangle
+claims_train <- claims[claims$policy_number %in% pol_train, ]
+square_train <- aggregate(
+  x = claims_train[, c("d012","d024","d036","d048","d060",
+        "d072","d084","d096","d108","d120")], 
+  by = claims_train[, 'policy_year', drop = FALSE], 
+  FUN = sum
+)
+
+claims_test <- claims[claims$policy_number %in% pol_test, ]
+square_test <- aggregate(
+  x = claims_test[, c("d012","d024","d036","d048","d060",
+                       "d072","d084","d096","d108","d120")], 
+  by = claims_test[, 'policy_year', drop = FALSE], 
+  FUN = sum
+)
+
+d1 <- rep(0:9, each = 10)
+d2 <- rep(0:9, times = 10)
+a <- as.matrix(square_train[2:11])
+a[d1 + d2 > 9] <- NA
+a <- cbind(years, a)
+tri_train <- as.data.frame(a)
+names(tri_train) <- names(square_train)
+
+d1 <- rep(0:9, each = 10)
+d2 <- rep(0:9, times = 10)
+a <- as.matrix(square_test[2:11])
+a[d1 + d2 > 9] <- NA
+a <- cbind(years, a)
+tri_test <- as.data.frame(a)
+names(tri_test) <- names(square_test)
+
+
+
+# Save objects
+save(pol1_train,  file = './share/pol1_train.RData')
+save(pol1_test,   file = './share/pol1_test.RData')
+save(pol3_train,  file = './share/pol3_train.RData')
+save(pol3_test,   file = './share/pol3_test.RData')
+save(clms_train,  file = './share/clms_train.RData')
+save(tri_train,   file = './share/tri_train.RData')
+save(claims,      file = 'claims.RData')
+save(policies,    file = 'policies.RData')
+
+
+
+
 
