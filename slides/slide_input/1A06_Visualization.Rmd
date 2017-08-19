@@ -9,6 +9,10 @@ output:
     fonttheme: professionalfonts
 ---
 
+```{r, echo=FALSE}
+op <- par(no.readonly = TRUE)
+```
+
 
 ## Base Graphics
 There are a lot of packages in R that do graphics.  But, a lot of people don't realize that R was famous for graphics *before* ggplot or other packages were created.  Base graphics are quick and easy, once you get the hang of them.  Plus, they crop up all over the place so it's good to know how to use them.
@@ -17,21 +21,34 @@ There are a lot of packages in R that do graphics.  But, a lot of people don't r
 
 ## `plot`
 Your basic function is `plot`.  It's really smart.  Just pass it something and it probably knows what to do with it.
-```{r, eval=FALSE}
-op <- par(no.readonly = TRUE)
-
+```{r}
 plot(cars)
-plot(iris)
+```
 
+
+## `plot`
+```{r}
+plot(iris)
+```
+
+
+## `plot`
+```{r, echo=FALSE}
 par(mfrow = c(2, 2))
+```
+```{r}
 plot(lm(Sepal.Width ~ Petal.Width + Species, data = iris))
 ```
+```{r, echo=FALSE}
+par(op)
+```
+
+
 
 
 
 ## `plot(x, y)`
 ```{r}
-par(op)
 x <- -5:5
 y <- x^2
 plot(x, y)
@@ -40,24 +57,53 @@ plot(x, y)
 
 
 ## Plot functions
+```{r, echo=FALSE}
+par(mfrow = c(2, 2))
+```
 ```{r}
-par(mfrow = c(1,2))
 plot(function(x){x^2}, from = -5, to = 5)
+```
+```{r, echo=FALSE}
+par(op)
+```
+
+
+
+
+
+## Plot functions
+```{r, echo=FALSE}
+par(mfrow = c(2, 2))
+```
+```{r}
 plot(sin, from = -2*pi, to = 2*pi)
+```
+```{r, echo=FALSE}
+par(op)
+```
+
+
+
+## Adding points and lines
+```{r, echo=FALSE}
+par(mfrow = c(1, 2))
+```
+```{r}
+plot(cars)
+points(5, 120, pch = 15, col = 'steelblue')
+```
+```{r, echo=FALSE}
+par(op)
 ```
 
 
 
 ## Adding points and lines
 ```{r}
-par(mfrow = c(1, 2))
-
-plot(cars)
-points(5, 120, pch = 15, col = 'steelblue')
-
 plot(cars)
 abline(lm(cars$dist ~ cars$speed), lwd = 5, col = 'tomato')
 ```
+
 
 
 
@@ -74,7 +120,6 @@ colors()
 
 ## Adding Titles!
 ```{r}
-par(op)
 plot(cars)
 points(5, 120, pch = 15, col = 'steelblue')
 title('Slow Stopping Cars')
@@ -84,7 +129,6 @@ title('Slow Stopping Cars')
 
 ## Adding Titles! (cont'd)
 ```{r}
-par(op)
 plot(
   cars, 
   main = 'Slow Stopping Cars', 
@@ -99,62 +143,79 @@ text(5, 120, 'A VW with no brakes', pos = 4, cex = 0.75)
 
 
 ## `hist(x)`
-```{r}
+```{r, echo=FALSE}
 par(mfrow = c(1, 2))
+```
+```{r}
 x <- rnorm(10000)
-
 hist(x)
 hist(rnorm(1000, mean = 10000, sd = 20000))
 ```
-
+```{r, echo=FALSE}
+par(op)
+```
 
 
 ## `hist(x, breaks = ?)`
-```{r}
+```{r, echo=FALSE}
 par(mfrow = c(1, 2))
+```
+```{r}
 x <- rnorm(10000)
-
 hist(x, breaks = 4)
 hist(x, breaks = 100)
+```
+```{r, echo=FALSE}
+par(op)
 ```
 
 
 
 ## `hist(x, freq = ?)`
-```{r}
+```{r, echo=FALSE}
 par(mfrow = c(1, 2))
+```
+```{r}
 x <- rnorm(10000)
-
 hist(x, freq = TRUE)
 hist(x, freq = FALSE)
 ```
-
+```{r, echo=FALSE}
+par(op)
+```
 
 
 ## `hist(x, density = ?)`
-```{r}
+```{r, echo=FALSE}
 par(mfrow = c(1, 2))
+```
+```{r}
 x <- rnorm(10000)
-
 hist(x)
 hist(x, density = 20)
+```
+```{r, echo=FALSE}
+par(op)
 ```
 
 
 
 ## `barplot(x)`
-```{r}
+```{r, echo=FALSE}
 par(mfrow = c(1, 2))
+```
+```{r}
 barplot(1:10)
 barplot(1:10, horiz = TRUE)
 ```
-
+```{r, echo=FALSE}
+par(op)
+```
 
 
 ## `pie()`!
 ```{r}
 require(nycflights13)
-par(op)
 pie(table(flights$carrier))
 ```
 
@@ -172,7 +233,6 @@ From `?pie`
 ## No `pie()` for you...
 ```{r}
 require(nycflights13)
-par(op)
 barplot(table(flights$carrier))
 ```
 
@@ -186,28 +246,36 @@ boxplot(Sepal.Length ~ Species, data = iris)
 
 
 ## `plot(x, y)`
-```{r}
+```{r, echo=FALSE}
 par(mfrow = c(1, 2))
+```
+```{r}
 plot(iris[, 3:4])
 sunflowerplot(iris[, 3:4])
 ```
-
+```{r, echo=FALSE}
+par(op)
+```
 
 
 
 ## `pairs()`
 ```{r}
-par(op)
 pairs(iris[, 1:4])
 ```
 
 
 
 ## `qqnorm(x)`
-```{r}
+```{r, echo=FALSE}
 par(mfrow = c(1, 2))
+```
+```{r}
 qqnorm(rnorm(50))
 qqnorm(rnorm(1000))
+```
+```{r, echo=FALSE}
+par(op)
 ```
 
 
