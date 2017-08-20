@@ -63,3 +63,9 @@ summary(fit_open_1)
 summary(fit_open_2)
 # dfBinomial$Predicted <- predict(fit_closure, type = "response")
 
+## ------------------------------------------------------------------------
+fit_open_1 <- glm(Open ~ 0 + ClaimSeverity, data=dfBinomial, family=binomial(link="identity"))
+fit_open_2 <- glm(Open ~ 1 + ClaimSeverity, data=dfBinomial, family=binomial(link="identity"))
+summary(fit_open_1)
+summary(fit_open_2)
+
