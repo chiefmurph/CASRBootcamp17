@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Brian A. Fannin" />
+  <meta name="dcterms.date" content="2017-08-23" />
+  <title>GLMs</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="GLMs_files/reveal.js-3.3.0.1/css/reveal.css"/>
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="GLMs_files/reveal.js-3.3.0.1/css/theme/solarized.css" id="theme">
+
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+    <link rel="stylesheet" href="css/revealOpts.css"/>
+
+<!-- Printing and PDF exports -->
+<script id="paper-css" type="application/dynamic-css">
+
+/* Default Print Stylesheet Template
+   by Rob Glazebrook of CSSnewbie.com
+   Last Updated: June 4, 2008
+
+   Feel free (nay, compelled) to edit, append, and
+   manipulate this file as you see fit. */
+
+
+@media print {
+
+	/* SECTION 1: Set default width, margin, float, and
+	   background. This prevents elements from extending
+	   beyond the edge of the printed page, and prevents
+	   unnecessary background images from printing */
+	html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0 5%;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+	/* SECTION 2: Remove any elements not needed in print.
+	   This would include navigation, ads, sidebars, etc. */
+	.nestedarrow,
+	.controls,
+	.fork-reveal,
+	.share-reveal,
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
+		display: none !important;
+	}
+
+	/* SECTION 3: Set body font face, size, and color.
+	   Consider using a serif font for readability. */
+	body, p, td, li, div {
+		font-size: 20pt!important;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		color: #000;
+	}
+
+	/* SECTION 4: Set heading font face, sizes, and color.
+	   Differentiate your headings from your body text.
+	   Perhaps use a large sans-serif for distinction. */
+	h1,h2,h3,h4,h5,h6 {
+		color: #000!important;
+		height: auto;
+		line-height: normal;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		text-shadow: 0 0 0 #000 !important;
+		text-align: left;
+		letter-spacing: normal;
+	}
+	/* Need to reduce the size of the fonts for printing */
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
+
+	/* SECTION 5: Make hyperlinks more usable.
+	   Ensure links are underlined, and consider appending
+	   the URL to the end of the link for usability. */
+	a:link,
+	a:visited {
+		color: #000 !important;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	/*
+	.reveal a:link:after,
+	.reveal a:visited:after {
+		content: " (" attr(href) ") ";
+		color: #222 !important;
+		font-size: 90%;
+	}
+	*/
+
+
+	/* SECTION 6: more reveal.js specific additions by @skypanther */
+	ul, ol, div, p {
+		visibility: visible;
+		position: static;
+		width: auto;
+		height: auto;
+		display: block;
+		overflow: visible;
+		margin: 0;
+		text-align: left !important;
+	}
+	.reveal pre,
+	.reveal table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reveal pre code {
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
+	.reveal .slides {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
+
+		overflow: visible !important;
+		display: block !important;
+
+		text-align: left !important;
+		-webkit-perspective: none;
+		   -moz-perspective: none;
+		    -ms-perspective: none;
+		        perspective: none;
+
+		-webkit-perspective-origin: 50% 50%;
+		   -moz-perspective-origin: 50% 50%;
+		    -ms-perspective-origin: 50% 50%;
+		        perspective-origin: 50% 50%;
+	}
+	.reveal .slides section {
+		visibility: visible !important;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		display: block !important;
+		overflow: visible !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
+
+		opacity: 1 !important;
+
+		page-break-after: always !important;
+
+		-webkit-transform-style: flat !important;
+		   -moz-transform-style: flat !important;
+		    -ms-transform-style: flat !important;
+		        transform-style: flat !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
+	}
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
+	}
+	.reveal section .fragment {
+		opacity: 1 !important;
+		visibility: visible !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+	}
+	.reveal section img {
+		display: block;
+		margin: 15px 0px;
+		background: rgba(255,255,255,1);
+		border: 1px solid #666;
+		box-shadow: none;
+	}
+
+	.reveal section small {
+		font-size: 0.8em;
+	}
+
+}  
+</script>
+
+
+<script id="pdf-css" type="application/dynamic-css">
+    
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+
+body {
+	margin: 0 auto !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+	overflow: visible;
+}
+
+html {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+/* Remove any elements not needed in print. */
+.nestedarrow,
+.reveal .controls,
+.reveal .progress,
+.reveal .playback,
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
+	display: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 0 0 #000 !important;
+}
+
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: Courier, 'Courier New', monospace !important;
+}
+
+ul, ol, div, p {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: visible;
+	margin: auto;
+}
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
+.reveal .slides {
+	position: static;
+	width: 100%;
+	height: auto;
+
+	left: auto;
+	top: auto;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	overflow: visible;
+	display: block;
+
+	-webkit-perspective: none;
+	   -moz-perspective: none;
+	    -ms-perspective: none;
+	        perspective: none;
+
+	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+
+.reveal .slides section {
+	page-break-after: always !important;
+
+	visibility: visible !important;
+	position: relative !important;
+	display: block !important;
+	position: relative !important;
+
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	min-height: 1px;
+
+	opacity: 1 !important;
+
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+
+.reveal section.stack {
+	margin: 0 !important;
+	padding: 0 !important;
+	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+.reveal img {
+	box-shadow: none;
+}
+
+.reveal .roll {
+	overflow: visible;
+	line-height: 1em;
+}
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+}
+
+</script>
+
+
+<script>
+var style = document.createElement( 'style' );
+style.type = 'text/css';
+var style_script_id = window.location.search.match( /print-pdf/gi ) ? 'pdf-css' : 'paper-css';
+var style_script = document.getElementById(style_script_id).text;
+style.innerHTML = style_script;
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+    <h1 class="title">GLMs</h1>
+    <h2 class="author">Brian A. Fannin</h2>
+    <h3 class="date">August 23, 2017</h3>
+</section>
+
+<section><section id="fit-a-sample" class="titleslide slide level1"><h1>Fit a sample</h1></section><section id="data" class="slide level2">
+<h1>Data</h1>
+<p>Claim counts for 5,000 policies.</p>
+<p><img src="GLMs_files/figure-revealjs/unnamed-chunk-3-1.png" width="768" /></p>
+</section><section id="how-would-you-fit-this-data" class="slide level2">
+<h1>How would you fit this data?</h1>
+</section><section id="things-we-can-do-when-fitting-a-sample" class="slide level2">
+<h1>Things we can do when fitting a sample</h1>
+<ul>
+<li>Pick a distribution</li>
+<li>Normal, lognormal, gamma, etc</li>
+<li>Transform data</li>
+<li>Often taking the log.</li>
+<li>Pick a fit method</li>
+<li>Maximum likelihood</li>
+<li>Least squares</li>
+<li>Minimum bias</li>
+<li>Assess quality of fit</li>
+<li>r-squared, penalized r-squared</li>
+<li>F-stat</li>
+<li>Likelihood, penalized likelihood</li>
+</ul>
+</section></section>
+<section><section id="add-predictors" class="titleslide slide level1"><h1>Add predictors</h1></section><section id="number-of-claims-payroll" class="slide level2">
+<h1>Number of claims ~ Payroll</h1>
+<p><img src="GLMs_files/figure-revealjs/unnamed-chunk-4-1.png" width="768" /></p>
+</section><section id="whats-wrong-with-a-linear-fit" class="slide level2">
+<h1>What’s wrong with a linear fit?</h1>
+<ul>
+<li>Heteroskedastic</li>
+<li>Does it really capture the mean?</li>
+</ul>
+</section><section id="number-of-claims-payroll-1" class="slide level2">
+<h1>Number of claims ~ Payroll</h1>
+<p><img src="GLMs_files/figure-revealjs/unnamed-chunk-5-1.png" width="768" /></p>
+</section><section id="another-distribution-makes-more-sense" class="slide level2">
+<h1>Another distribution makes more sense</h1>
+<p>But how do we do that? If only we had a linear model that was a bit more general …</p>
+</section></section>
+<section><section id="glms" class="titleslide slide level1"><h1>GLMs</h1></section><section id="recall-ols-assumptions" class="slide level2">
+<h1>Recall OLS Assumptions</h1>
+<p><strong>Warning</strong>: I play fast and loose with the difference between the response variable and the error term.</p>
+</section><section id="ols-assumptions" class="slide level2">
+<h1>OLS Assumptions</h1>
+<ul>
+<li>Linear relationship between response and predictors</li>
+<li>Errors are normally distributed</li>
+<li>Errors are uncorrelated</li>
+<li>Errors are homoskedastic</li>
+</ul>
+</section><section id="more-general-assumptions" class="slide level2">
+<h1>More general assumptions</h1>
+<ul>
+<li>Relationship is between response and <em>transformed</em> linear combination of predictors</li>
+<li>Errors need not be normally distributed</li>
+</ul>
+</section><section id="mathematically" class="slide level2">
+<h1>Mathematically</h1>
+<p><span class="math inline">\(E[y]=g^{-1}(\beta_0+\sum_{j=1}^p\beta_{ij})\)</span></p>
+<p><span class="math inline">\(g(x)\)</span> is the “link” function.</p>
+<p>The linear combination is often referred to by <span class="math inline">\(\eta\)</span>. I don’t know why it doesn’t get a name.</p>
+<p>I also don’t know why the expectation is equal to the inverse of the link function. If talking about the transformed expectation doesn’t make your head hurt, then you may like this formula better.</p>
+<p><span class="math inline">\(g(E[y])=\beta_0+\sum_{j=1}^p\beta_{ij}\)</span></p>
+</section><section id="specify-two-things" class="slide level2">
+<h1>Specify two things</h1>
+<ol type="1">
+<li>The distribution</li>
+<li>The “link” function</li>
+</ol>
+</section><section id="distribution-restrictions" class="slide level2">
+<h1>Distribution restrictions</h1>
+<p>Must be one of the exponential family of functions.</p>
+<p><span class="math inline">\(f(y; \theta,\phi) = exp[\frac{y\theta - b(\theta) }{a(\phi)} + c(y,\phi)]\)</span></p>
+<p>Note this <em>doesn’t</em> include the lognormal. That’s OK; we can always perform a log transform of our data and fit a normal.</p>
+<p>Lots of folks get very excited about this formula. I don’t. I can never remember it and I never feel as though I need to. If you like this formula, you’ll see it often, but you won’t see it any more today.</p>
+</section><section id="canonical-links" class="slide level2">
+<h1>Canonical links</h1>
+<table>
+<thead>
+<tr class="header">
+<th>Distribution</th>
+<th>Link</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>binomical</td>
+<td>logit</td>
+<td><span class="math inline">\(g(x)=\frac{exp(x)}{1+exp(x)}\)</span></td>
+</tr>
+<tr class="even">
+<td>gaussian</td>
+<td>identity</td>
+<td><span class="math inline">\(g(x)=x\)</span></td>
+</tr>
+<tr class="odd">
+<td>poisson</td>
+<td>log</td>
+<td><span class="math inline">\(g(x)=ln(x)\)</span></td>
+</tr>
+<tr class="even">
+<td>Gamma</td>
+<td>inverse</td>
+<td><span class="math inline">\(g(x)=1/x\)</span></td>
+</tr>
+</tbody>
+</table>
+</section><section id="very-easy-to-program" class="slide level2">
+<h1>Very easy to program</h1>
+<p>A linear model:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_lm &lt;-<span class="st"> </span><span class="kw">lm</span>(NumClaims ~<span class="st"> </span>Payroll, <span class="dt">data =</span> dfGLM)</code></pre></div>
+<p>A GLM:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_glm &lt;-<span class="st"> </span><span class="kw">glm</span>(NumClaims ~<span class="st"> </span>Payroll, <span class="dt">data =</span> dfGLM, <span class="dt">family =</span> <span class="st">&quot;poisson&quot;</span>)</code></pre></div>
+</section><section id="programmatic-differences" class="slide level2">
+<h1>Programmatic differences:</h1>
+<ul>
+<li>Must indicate the family</li>
+<li>Must provide the link, though only if we’re using something non-canonical</li>
+</ul>
+</section><section id="offset" class="slide level2">
+<h1>Offset</h1>
+<p>The offset is a kind of scaling factor that should not be included as a predictor. Comparable to the notion of exposure in insurance pricing.</p>
+</section><section id="compare-these-two-models" class="slide level2">
+<h1>Compare these two models</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_1 &lt;-<span class="st"> </span><span class="kw">glm</span>(NumClaims ~<span class="st"> </span><span class="dv">1</span> +<span class="st"> </span>Payroll, <span class="dt">data =</span> dfGLM, <span class="dt">family=</span><span class="st">&quot;poisson&quot;</span>)
+
+fit_2 &lt;-<span class="st"> </span><span class="kw">glm</span>(NumClaims ~<span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> dfGLM, <span class="dt">family=</span><span class="st">&quot;poisson&quot;</span>, <span class="dt">offset=</span><span class="kw">log</span>(Payroll))
+
+fit_1$aic
+## [1] 24074.27
+fit_2$aic
+## [1] 23139.99
+<span class="kw">coef</span>(fit_1)
+##  (Intercept)      Payroll 
+## 8.662942e-01 1.998568e-07
+<span class="kw">coef</span>(fit_2)
+## (Intercept) 
+##    -13.4123</code></pre></div>
+<p>Fit for the second model is much better, because payroll isn’t really a <em>predictor</em> of loss. It is a scaling element for exposure. Think the number of deaths by heart disease in Manhattan vs. number of deaths by heart disease in a rural town.</p>
+</section></section>
+<section><section id="measuring-fit-quality" class="titleslide slide level1"><h1>Measuring fit quality</h1></section></section>
+<section><section id="measuring-fit-quality-1" class="titleslide slide level1"><h1>Measuring fit quality</h1></section><section id="deviance" class="slide level2">
+<h1>Deviance</h1>
+<ul>
+<li>Null deviance is comparable to sum of squares in OLS</li>
+<li>Reduction in residual deviance suggests a better model. However, trivial improvements may favor a more parsimonious model.</li>
+</ul>
+</section></section>
+<section><section id="if-time-permits" class="titleslide slide level1"><h1>If time permits</h1></section><section id="binomial" class="slide level2">
+<h1>Binomial</h1>
+<p><img src="GLMs_files/figure-revealjs/unnamed-chunk-9-1.png" width="768" /></p>
+</section><section id="binomial-wfit" class="slide level2">
+<h1>Binomial w/fit</h1>
+<p><img src="GLMs_files/figure-revealjs/unnamed-chunk-10-1.png" width="768" /></p>
+<p><img src="GLMs_files/figure-revealjs/unnamed-chunk-11-1.png" width="768" /></p>
+</section><section id="section" class="slide level2">
+<h1></h1>
+<pre><code>## 
+## Call:
+## glm(formula = Open ~ 0 + ClaimSeverity, family = &quot;binomial&quot;, 
+##     data = dfBinomial)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.0906  -0.8029  -0.7089  -0.5601   2.6528  
+## 
+## Coefficients:
+##                 Estimate Std. Error z value Pr(&gt;|z|)    
+## ClaimSeverity -1.205e-05  1.220e-07  -98.81   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 54603  on 39388  degrees of freedom
+## Residual deviance: 42270  on 39387  degrees of freedom
+## AIC: 42272
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = Open ~ 1 + ClaimSeverity, family = &quot;binomial&quot;, 
+##     data = dfBinomial)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.4136  -0.6872  -0.5984  -0.5059   2.2119  
+## 
+## Coefficients:
+##                 Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)   -2.683e+00  4.400e-02  -60.98   &lt;2e-16 ***
+## ClaimSeverity  1.237e-05  3.937e-07   31.41   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 39125  on 39387  degrees of freedom
+## Residual deviance: 38133  on 39386  degrees of freedom
+## AIC: 38137
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = Open ~ 0 + ClaimSeverity, family = binomial(link = &quot;identity&quot;), 
+##     data = dfBinomial)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.2036  -0.7003  -0.6075  -0.4842   2.4287  
+## 
+## Coefficients:
+##                Estimate Std. Error z value Pr(&gt;|z|)    
+## ClaimSeverity 1.978e-06  1.976e-08   100.1   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance:   Inf  on 39388  degrees of freedom
+## Residual deviance: 38121  on 39387  degrees of freedom
+## AIC: 38123
+## 
+## Number of Fisher Scoring iterations: 3</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = Open ~ 1 + ClaimSeverity, family = binomial(link = &quot;identity&quot;), 
+##     data = dfBinomial)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.2133  -0.7008  -0.6063  -0.4803   2.4504  
+## 
+## Coefficients:
+##                 Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)   -3.641e-03  6.035e-03  -0.603    0.546    
+## ClaimSeverity  2.013e-06  6.220e-08  32.366   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 39125  on 39387  degrees of freedom
+## Residual deviance: 38121  on 39386  degrees of freedom
+## AIC: 38125
+## 
+## Number of Fisher Scoring iterations: 3</code></pre>
+</section></section>
+<section><section id="resources" class="titleslide slide level1"><h1>Resources</h1></section><section id="good-books" class="slide level2">
+<h1>Good books</h1>
+<ul>
+<li>Frees, Derrig, et al</li>
+</ul>
+<div id="refs" class="references">
+<div id="ref-GelmanAndHill">
+<p>Gelman, Andrew, and Jennifer Hill. 2006. <em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em>. <a href="http://www.stat.columbia.edu/~gelman/arm/" class="uri">http://www.stat.columbia.edu/~gelman/arm/</a>.</p>
+</div>
+</div>
+</section></section>
+    </div>
+  </div>
+
+  <script src="GLMs_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="GLMs_files/reveal.js-3.3.0.1/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Push each slide change to the browser history
+        history: true,
+        // Vertical centering of slides
+        center: false,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+
+
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'GLMs_files/reveal.js-3.3.0.1/plugin/notes/notes.js', async: true },
+          { src: 'GLMs_files/reveal.js-3.3.0.1/plugin/zoom-js/zoom.js', async: true },
+        ]
+      });
+    </script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+<script>
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+
+  </body>
+</html>
