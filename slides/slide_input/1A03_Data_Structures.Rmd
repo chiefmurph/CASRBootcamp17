@@ -1,0 +1,350 @@
+---
+title: "Data Structures"
+output:
+  slidy_presentation:
+    duration: 45
+    fig_height: 3
+    fig_width: 6
+  beamer_presentation:
+    fonttheme: professionalfonts
+---
+
+
+
+## Data Structures in R
+
+Most of the data you will be working with in R will be one of the following
+
+  + data.frame
+  + vector
+  + list
+  
+You will also see some matrices and factors, but let's skip those for now.
+
+
+
+## Pre-reading
+
+You guys all did the pre-reading, right?
+
+
+
+## Data Frames: The Short Story
+
+1. A data.frame is a list, too
+2. Unlike other lists, all elements have to be vectors
+3. All vectors in a data.frame have to be the same length
+4. A data.frame is like a SQL table or a table in Excel, so you will work with them a lot
+
+
+
+## Okay, so what is a list, then?
+
+1. A list is a bag of stuff
+2. Everything in the list has an index (1, 2, 3, etc.)
+3. The stuff can be anything
+
+  * vectors
+  * other lists
+  * special objects
+  * etc.
+
+  
+
+## Vectors: a Novella
+
+1. Vectors are indexed, like lists
+2. They can only store one type of data (logical, integer, numeric, character)
+3. At each index, you can only have a single value
+
+
+
+## Review
+
+1. lists are bags of stuff
+2. vectors are sequences of single values (all of the same type)
+3. data.frames are lists made up of vectors (all of the same length)
+
+
+
+## Get Your Fingers Moving
+```{r eval=TRUE}
+w <- 6
+x <- 3L
+y <- TRUE
+z <- 'finagle a bagel'
+df1 <- iris
+l1 <- list(w, x, y, z, df1)
+```
+
+
+
+## A Moment for Introspection
+Use the following functions to learn stuff about your data
+
+* typeof
+* class
+* mode
+* str
+* is.integer
+* is.numeric
+* is.logical
+* is.character
+* is.double
+
+
+## Observations?
+
+
+
+
+## Observations
+1. mode is mostly meaningless
+2. For vectors, class and typeof kind of tell the same thing
+3. is.* functions are good for vectors
+4. str tells something good for everything
+
+
+
+## `seq`
+
+`seq` is used often to generate a sequence of values. The colon operator `:` is a shortcut for a sequence of integers.
+
+```{r }
+pies = seq(from = 0, by = pi, length.out = 5)
+i <- 1:5
+year = 2000:2004
+```
+
+
+## `rep`
+
+The `rep` function will replicate its input 
+```{r }
+i = rep(pi, 100)
+head(i)
+```
+
+
+## Concatenation
+
+The `c()` function will concatenate values for lists and vectors.
+
+`cbind` concatenates columns.
+
+`rbind` concatenates rows.
+
+
+
+```{r results='hide'}
+i <- c(1, 2, 3, 4, 5)
+j <- c(6, 7, 8, 9, 10)
+k <- c(i, j)
+l <- c(1:5, 6:10)
+```
+
+
+
+
+## Vector access - by index
+
+Vectors may be accessed by their numeric indices. Remember, ':' is shorthand to generate a sequence.
+
+```{r }
+e <- rnorm(100)
+e[1]
+e[1:4]
+e[c(1,3)]
+```
+
+
+
+
+## Vector access - logical access
+
+Vectors may be accessed logically. This may be done by passing in a logical vector, or a logical expression.
+
+```{r }
+i = 5:9
+i[c(TRUE, FALSE, FALSE, FALSE, TRUE)]
+i[i > 7]
+b = i > 7
+b
+i[b]
+```
+
+
+
+
+## `order` and `sort`
+
+The function `order` will return the indices of the vector in order.
+
+```{r }
+x <- sample(letters)
+x
+order(x)
+sort(x)
+```
+
+
+
+## Vector arithmetic
+
+Vectors may be used in arithmetic operations. 
+
+```{r eval=FALSE}
+B0 <- 5
+B1 <- 1.5
+
+e <- rnorm(N, mean = 0, sd = 1)
+X1 <- rep(seq(1,10),10)
+
+Y <- B0 + B1 * X1 + e
+```
+
+
+
+## Recycling
+
+R will "recycle" vectors until there are enough elements to perform an operation. Everything gets as "long" as the longest vector in the operation. For scalar operations on a vector this doesn't involve any drama. Try the following code:
+
+```{r size='tiny'}
+vector1 = 1:10
+vector2 = 1:5
+scalar = 3
+
+print(vector1 + scalar)
+print(vector2 + scalar)
+print(vector1 + vector2)
+```
+
+
+
+## Set theory - Part I
+
+The `%in%` operator will return a logical vector indicating whether or not an element of the first set is contained in the second set.
+
+```{r }
+x <- 1:10
+y <- 5:15
+x %in% y
+```
+
+
+
+## Set theory - Part II
+
+* `union`
+* `intersect`
+* `setdiff`
+* `setequal`
+* `is.element`
+
+```{r eval = FALSE}
+?union
+```
+
+```{r }
+x <- 1900:1910
+y <- 1905:1915
+intersect(x, y)
+setdiff(x, y)
+setequal(x, y)
+is.element(1941, y)
+```
+
+
+
+## Summarization
+
+Loads of functions take vector input and return scalar output. Translation of a large sest of numbers into a few, informative values is one of the cornerstones of statistics.
+
+```{r eval=FALSE}
+x = 1:50
+sum(x)
+mean(x)
+max(x)
+length(x)
+var(x)
+```
+
+
+
+
+## Lists
+
+
+```{r }
+x <- list()
+typeof(x)
+x[[1]] <- c("Hello", "there", "this", "is", "a", "list")
+x[[2]] <- c(pi, exp(1))
+summary(x)
+str(x)
+```
+
+
+
+## List names
+
+Names are handled with the special `$` operator. `$` permits access to a single element. (A single element of a list can be a vector!)
+
+```{r}
+y <- list()
+y[[1]] <- c("Lou Reed", "Patti Smith")
+y[[2]] <- c(45, 63)
+
+names(y) <- c("Artist", "Age")
+
+y$Artist
+y$Age
+```
+
+
+
+## Data Frames
+
+```{r}
+teams  <- c("Toronto", "New York", "Baltimore", "Tampa Bay", "Boston")
+wins   <- c(93, 87, 81, 80, 78)
+losses <- c(69, 75, 81, 82, 84)
+
+alEast <- data.frame(Team = teams, W = wins, L = losses)
+```
+
+
+
+## Selecting rows and columns
+
+```{r, eval=FALSE}
+alEast[1, ]
+alEast[, 2]
+alEast[, c('W', 'L')]
+alEast[3] 
+alEast[c(T, T, F, F, F), ]
+alEast[alEast$Team == 'New York', ]
+```
+
+What happens on the last one if you leave off the comma?
+
+
+
+## Exploring data frames
+
+```{r}
+head(alEast)
+tail(alEast)
+names(alEast)
+str(alEast)
+```
+
+
+## Summary
+
+```{r}
+summary(alEast)
+```
+
+
+
