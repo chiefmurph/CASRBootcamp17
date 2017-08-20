@@ -1,0 +1,38 @@
+---
+title: "Online resources"
+output:
+  slidy_presentation:
+    duration: 45
+    fig_height: 6
+    fig_width: 10
+  beamer_presentation:
+    fonttheme: professionalfonts
+---
+
+[Customer Churn – Logistic Regression with R](http://newsletter.datasciencecentral.com/click.html?x=a62e&amp;lc=NiH&amp;mc=j&amp;s=g64&amp;u=F&amp;y=U&amp;)
+[Introduction to Logistic Regression with R](http://newsletter.datasciencecentral.com/click.html?x=a62e&amp;lc=Ni0&amp;mc=j&amp;s=g64&amp;u=F&amp;y=v&amp;)
+[Handling Imbalanced data when building regression models](http://newsletter.datasciencecentral.com/click.html?x=a62e&amp;lc=Ni1&amp;mc=j&amp;s=g64&amp;u=F&amp;y=t&amp;)
+[Logistic Regression Vs Decision Trees Vs SVM: Part I](http://newsletter.datasciencecentral.com/click.html?x=a62e&amp;lc=Ni2&amp;mc=j&amp;s=g64&amp;u=F&amp;y=P&amp;)
+[Model Accuracy - In logistic Regression](http://newsletter.datasciencecentral.com/click.html?x=a62e&amp;lc=Ni3&amp;mc=j&amp;s=g64&amp;u=F&amp;y=e&amp;)
+[Oversampling/Undersampling in Logistic Regression](http://newsletter.datasciencecentral.com/click.html?x=a62e&amp;lc=Ni4&amp;mc=j&amp;s=g64&amp;u=F&amp;y=F&amp;)
+[Regression, Logistic Regression and Maximum Entropy &#43;](http://newsletter.datasciencecentral.com/click.html?x=a62e&amp;lc=Ni7&amp;mc=j&amp;s=g64&amp;u=F&amp;y=w&amp;)
+[Making data science accessible – Logistic Regression](http://newsletter.datasciencecentral.com/click.html?x=a62e&amp;lc=Nia&amp;mc=j&amp;s=g64&amp;u=F&amp;y=f&amp;)
+[Logistic Regression - Hosmer Lemeshow test](http://newsletter.datasciencecentral.com/click.html?x=a62e&amp;lc=Nic&amp;mc=j&amp;s=g64&amp;u=F&amp;y=d&amp;)
+[Decision tree vs Logistic Regression](http://newsletter.datasciencecentral.com/click.html?x=a62e&amp;lc=NiD&amp;mc=j&amp;s=g64&amp;u=F&amp;y=A&amp;)
+[Predicting Flights Delay Using Supervised Learning, Logistic Regression](http://newsletter.datasciencecentral.com/click.html?x=a62e&amp;lc=NiE&amp;mc=j&amp;s=g64&amp;u=F&amp;y=J&amp;)
+[Logistic Regression - General concepts](http://newsletter.datasciencecentral.com/click.html?x=a62e&amp;lc=NiG&amp;mc=j&amp;s=g64&amp;u=F&amp;y=Q&amp;)
+[Logistic Regression using python](http://newsletter.datasciencecentral.com/click.html?x=a62e&amp;lc=Nig&amp;mc=j&amp;s=g64&amp;u=F&amp;y=s&amp;)
+[Logistic Regression vs Decision Trees vs SVM: Part II](http://newsletter.datasciencecentral.com/click.html?x=a62e&amp;lc=Nih&amp;mc=j&amp;s=g64&amp;u=F&amp;y=9&amp;)
+[Cut off point in logistic regression](http://newsletter.datasciencecentral.com/click.html?x=a62e&amp;lc=NiI&amp;mc=j&amp;s=g64&amp;u=F&amp;y=u&amp;)
+[Logistic regression intercept term not significant](http://newsletter.datasciencecentral.com/click.html?x=a62e&amp;lc=Nii&amp;mc=j&amp;s=g64&amp;u=F&amp;y=X&amp;)
+[Techniques to address very low event rate for Logistic Regression Model](http://newsletter.datasciencecentral.com/click.html?x=a62e&amp;lc=Nik&amp;mc=j&amp;s=g64&amp;u=F&amp;y=5&amp;)
+[Hidden Decision Trees vs. Decision Trees or Logistic Regression](http://newsletter.datasciencecentral.com/click.html?x=a62e&amp;lc=NiK&amp;mc=j&amp;s=g64&amp;u=F&amp;y=8&amp;)
+[The best kept secret about linear and logistic regression](http://newsletter.datasciencecentral.com/click.html?x=a62e&amp;lc=Nim&amp;mc=j&amp;s=g64&amp;u=F&amp;y=W&amp;)
+[Outliers in Logistic Regression](http://newsletter.datasciencecentral.com/click.html?x=a62e&amp;lc=Nin&amp;mc=j&amp;s=g64&amp;u=F&amp;y=S&amp;)
+[Multinomial Logistic Regression Predicting Cluster Membership](http://newsletter.datasciencecentral.com/click.html?x=a62e&amp;lc=NiO&amp;mc=j&amp;s=g64&amp;u=F&amp;y=y&amp;)
+[Logistic Regression and Maximum Entropy explained with examples](http://newsletter.datasciencecentral.com/click.html?x=a62e&amp;lc=Nio&amp;mc=j&amp;s=g64&amp;u=F&amp;y=z&amp;)
+[Excluding variables from a logistic regression model based on correlation](http://newsletter.datasciencecentral.com/click.html?x=a62e&amp;lc=Niq&amp;mc=j&amp;s=g64&amp;u=F&amp;y=M&amp;)
+[Fraud Detection using logistic regression](http://newsletter.datasciencecentral.com/click.html?x=a62e&amp;lc=NiR&amp;mc=j&amp;s=g64&amp;u=F&amp;y=j&amp;)
+[Multiple logistic Regression Power Analysis](http://newsletter.datasciencecentral.com/click.html?x=a62e&amp;lc=NiV&amp;mc=j&amp;s=g64&amp;u=F&amp;y=T&amp;)
+[Explaining variability in logistic regression](http://newsletter.datasciencecentral.com/click.html?x=a62e&amp;lc=NiY&amp;mc=j&amp;s=g64&amp;u=F&amp;y=N&amp;)
+[Logistic regression on large imbalance datasets](http://newsletter.datasciencecentral.com/click.html?x=a62e&amp;lc=NiZ&amp;mc=j&amp;s=g64&amp;u=F&amp;y=l&amp;)

@@ -1,3 +1,11 @@
+
+# Rproj files
+*.Rproj
+
+# ALR TODO file
+TODO
+
+
 # History files
 .Rhistory
 .Rapp.history
@@ -37,6 +45,6 @@ capstones/reserving/*.html
 capstones/reserving/*.docx
 capstones/reserving/*.pdf
 
-*.html
+# *.html
 
 *lock*
