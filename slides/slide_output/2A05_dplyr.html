@@ -9,7 +9,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="d:\home\git\Other\CASRBootcamp17\slides\slide_output\2A05_dplyr_files/reveal.js-3.3.0.1/css/reveal.css"/>
+  <link rel="stylesheet" href="2A05_dplyr_files/reveal.js-3.3.0.1/css/reveal.css"/>
 
 
 <style type="text/css">
@@ -50,7 +50,7 @@ code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* Com
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
-<link rel="stylesheet" href="d:\home\git\Other\CASRBootcamp17\slides\slide_output\2A05_dplyr_files/reveal.js-3.3.0.1/css/theme/solarized.css" id="theme">
+<link rel="stylesheet" href="2A05_dplyr_files/reveal.js-3.3.0.1/css/theme/solarized.css" id="theme">
 
 
   <!-- some tweaks to reveal css -->
@@ -98,7 +98,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
     <style type="text/css">code{white-space: pre;}</style>
 
-    <link rel="stylesheet" href="css\revealOpts.css"/>
+    <link rel="stylesheet" href="css/revealOpts.css"/>
 
 <!-- Printing and PDF exports -->
 <script id="paper-css" type="application/dynamic-css">
@@ -494,20 +494,20 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </section>
 
 <section><section id="overview" class="titleslide slide level1"><h1>Overview</h1></section><section id="section" class="slide level2">
-<h2></h2>
+<h1></h1>
 <p>Another element of the “tidyverse” developed by Hadley Wickham and many others.</p>
 </section><section id="lets-look-at-some-data" class="slide level2">
-<h2>Let’s look at some data</h2>
+<h1>Let’s look at some data</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(raw)
 <span class="kw">data</span>(<span class="st">&quot;MultiTri&quot;</span>)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">View</span>(MultiTri)</code></pre></div>
 </section><section id="real-quick" class="slide level2">
-<h2>Real quick:</h2>
+<h1>Real quick:</h1>
 <ul>
 <li>What’s the average IBNR for lag 2 by accident year?</li>
 </ul>
 </section><section id="dplyr-to-the-rescue" class="slide level2">
-<h2>dplyr to the rescue!</h2>
+<h1>dplyr to the rescue!</h1>
 <p><strong>Basic verbs</strong></p>
 <table>
 <thead>
@@ -538,7 +538,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </table>
 </section></section>
 <section><section id="selectrename" class="titleslide slide level1"><h1>select/rename</h1></section><section id="identifying-which-columns-to-select" class="slide level2">
-<h2>Identifying which columns to select</h2>
+<h1>Identifying which columns to select</h1>
 <p>Loads of helper functions to find columns</p>
 <table>
 <thead>
@@ -566,99 +566,99 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </table>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">years &lt;-<span class="st"> </span><span class="kw">select</span>(MultiTri, <span class="kw">contains</span>(<span class="st">&quot;year&quot;</span>))</code></pre></div>
 </section><section id="rename" class="slide level2">
-<h2>rename</h2>
+<h1>rename</h1>
 <p>Closely related to <code>select</code>. New name on the left, old name on the right. (Think the way that variables are usually assigned.)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">new_tri &lt;-<span class="st"> </span><span class="kw">rename</span>(MultiTri, <span class="dt">DevelopmentLag =</span> Lag)</code></pre></div>
 </section></section>
 <section><section id="mutate" class="titleslide slide level1"><h1>mutate</h1></section><section id="mutate-1" class="slide level2">
-<h2>mutate</h2>
+<h1>mutate</h1>
 <p>Create a new column or alter an existing one.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">new_tri &lt;-<span class="st"> </span><span class="kw">mutate</span>(
   new_tri
-  , <span class="dt">PaidToIncurred =</span> CumulativePaid <span class="op">/</span><span class="st"> </span>CumulativeIncurred
-  , <span class="dt">Upper =</span> DevelopmentYear <span class="op">==</span><span class="st"> </span><span class="dv">1997</span>)</code></pre></div>
+  , <span class="dt">PaidToIncurred =</span> CumulativePaid /<span class="st"> </span>CumulativeIncurred
+  , <span class="dt">Upper =</span> DevelopmentYear ==<span class="st"> </span><span class="dv">1997</span>)</code></pre></div>
 </section><section id="combining-operations" class="slide level2">
-<h2>Combining operations</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">new_tri &lt;-<span class="st"> </span><span class="kw">mutate</span>(MultiTri, <span class="dt">Upper =</span> DevelopmentYear <span class="op">==</span><span class="st"> </span><span class="dv">1997</span>)
-new_tri &lt;-<span class="st"> </span><span class="kw">select</span>(new_tri, <span class="op">-</span>DevelopmentYear)</code></pre></div>
+<h1>Combining operations</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">new_tri &lt;-<span class="st"> </span><span class="kw">mutate</span>(MultiTri, <span class="dt">Upper =</span> DevelopmentYear ==<span class="st"> </span><span class="dv">1997</span>)
+new_tri &lt;-<span class="st"> </span><span class="kw">select</span>(new_tri, -DevelopmentYear)</code></pre></div>
 <p>This syntax will get tedious real fast. We need some way to make this more efficient. Fortunately, we have one …</p>
 </section></section>
 <section><section id="the-pipe-operator" class="titleslide slide level1"><h1>The pipe operator</h1></section><section id="section-1" class="slide level2">
-<h2>%&gt;%</h2>
+<h1>%&gt;%</h1>
 <p>Key to getting the most out of dplyr is using the <code>%&gt;%</code> or “pipe” operator. It takes whatever is to its left and inserts it as the first (unnamed) argument in the function to its left.</p>
 <p>Comes from its own package, “magrittr” and may be used without dplyr.</p>
 <p>In RStudio, may be inserted with CTRL-SHIFT-M</p>
 </section><section id="pipe-example" class="slide level2">
-<h2>Pipe example</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">exp</span>()
+<h1>Pipe example</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span> %&gt;%<span class="st"> </span><span class="kw">exp</span>()
 ## [1] 2.718282</code></pre></div>
 </section><section id="chain" class="slide level2">
-<h2>Chain</h2>
+<h1>Chain</h1>
 <p>May be chained as often as you like. Operations happen left to right. The output keeps getting passed as the input of the next function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">exp</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">log</span>()
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span> %&gt;%<span class="st"> </span><span class="kw">exp</span>() %&gt;%<span class="st"> </span><span class="kw">log</span>()
 ## [1] 1</code></pre></div>
 </section></section>
 <section><section id="arrange" class="titleslide slide level1"><h1>arrange</h1></section><section id="arrange-1" class="slide level2">
-<h2>arrange</h2>
+<h1>arrange</h1>
 <p>Use the desc function to arrange in descending order.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">MultiTri <span class="op">%&gt;%</span><span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">MultiTri %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="kw">arrange</span>(AccidentYear)
 
-MultiTri <span class="op">%&gt;%</span><span class="st"> </span>
+MultiTri %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(IBNR))</code></pre></div>
 </section></section>
 <section><section id="filterslice" class="titleslide slide level1"><h1>filter/slice</h1></section><section id="straightforward" class="slide level2">
-<h2>Straightforward</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">upper_tri &lt;-<span class="st"> </span>MultiTri <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">filter</span>(DevelopmentYear <span class="op">&lt;=</span><span class="st"> </span><span class="dv">1997</span>)</code></pre></div>
+<h1>Straightforward</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">upper_tri &lt;-<span class="st"> </span>MultiTri %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(DevelopmentYear &lt;=<span class="st"> </span><span class="dv">1997</span>)</code></pre></div>
 <p>Multiple conditions are OK</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">upper_tri &lt;-<span class="st"> </span>MultiTri <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">filter</span>(DevelopmentYear <span class="op">&lt;=</span><span class="st"> </span><span class="dv">1997</span>
-         , IBNR <span class="op">&gt;</span><span class="st"> </span><span class="dv">500</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">upper_tri &lt;-<span class="st"> </span>MultiTri %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(DevelopmentYear &lt;=<span class="st"> </span><span class="dv">1997</span>
+         , IBNR &gt;<span class="st"> </span><span class="dv">500</span>)</code></pre></div>
 </section><section id="slice" class="slide level2">
-<h2>slice</h2>
+<h1>slice</h1>
 <p><code>slice</code> will take specific rows of data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">every_fifth &lt;-<span class="st"> </span>MultiTri <span class="op">%&gt;%</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">every_fifth &lt;-<span class="st"> </span>MultiTri %&gt;%
 <span class="st">  </span><span class="kw">slice</span>(<span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">5</span>, <span class="dt">by =</span> <span class="dv">5</span>, <span class="dt">to =</span> <span class="kw">nrow</span>(MultiTri)))</code></pre></div>
 </section></section>
 <section><section id="group_by" class="titleslide slide level1"><h1>group_by</h1></section><section id="group_by-1" class="slide level2">
-<h2>group_by</h2>
+<h1>group_by</h1>
 <p>This will group the data. The effect isn’t material until another operation is applied.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df_grouped &lt;-<span class="st"> </span>MultiTri <span class="op">%&gt;%</span><span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df_grouped &lt;-<span class="st"> </span>MultiTri %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="kw">group_by</span>(Company, AccidentYear)</code></pre></div>
 </section></section>
 <section><section id="summarise" class="titleslide slide level1"><h1>summarise</h1></section><section id="apply-a-function-across-each-group" class="slide level2">
-<h2>Apply a function across each group</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dfBigYear &lt;-<span class="st"> </span>MultiTri <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">group_by</span>(AccidentYear) <span class="op">%&gt;%</span><span class="st"> </span>
+<h1>Apply a function across each group</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dfBigYear &lt;-<span class="st"> </span>MultiTri %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(AccidentYear) %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="kw">summarise</span>(<span class="dt">BiggestIBNR =</span> <span class="kw">max</span>(IBNR))</code></pre></div>
 </section><section id="gotcha" class="slide level2">
-<h2>Gotcha</h2>
+<h1>Gotcha</h1>
 <p>Arrange does not respect grouping! Didn’t used to be this way. A rare misstep (IMHO) for Mr. Wickham.</p>
 </section></section>
 <section><section id="all-together-now" class="titleslide slide level1"><h1>All together now!</h1></section><section id="answer-a-complex-question-quickly" class="slide level2">
-<h2>Answer a complex question quickly</h2>
+<h1>Answer a complex question quickly</h1>
 <ul>
 <li>For each company which has had paid to incurred ratio less than 40%, which accident year had the highest P2I?</li>
 </ul>
 </section><section id="section-2" class="slide level2">
-<h2></h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dfBigCase &lt;-<span class="st"> </span>MultiTri <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">PaidToIncurred =</span> CumulativePaid <span class="op">/</span><span class="st"> </span>CumulativeIncurred) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">filter</span>(PaidToIncurred <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.4</span>) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">group_by</span>(Company) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(PaidToIncurred)) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">slice</span>(<span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<h1></h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dfBigCase &lt;-<span class="st"> </span>MultiTri %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">PaidToIncurred =</span> CumulativePaid /<span class="st"> </span>CumulativeIncurred) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(PaidToIncurred &lt;<span class="st"> </span><span class="fl">0.4</span>) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(Company) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(PaidToIncurred)) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">slice</span>(<span class="dv">1</span>) %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="kw">select</span>(Company, AccidentYear)</code></pre></div>
 </section></section>
 <section><section id="summary" class="titleslide slide level1"><h1>Summary</h1></section><section id="references" class="slide level2">
-<h2>References</h2>
+<h1>References</h1>
 </section></section>
     </div>
   </div>
 
-  <script src="d:\home\git\Other\CASRBootcamp17\slides\slide_output\2A05_dplyr_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
-  <script src="d:\home\git\Other\CASRBootcamp17\slides\slide_output\2A05_dplyr_files/reveal.js-3.3.0.1/js/reveal.js"></script>
+  <script src="2A05_dplyr_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="2A05_dplyr_files/reveal.js-3.3.0.1/js/reveal.js"></script>
 
   <script>
 
@@ -678,8 +678,8 @@ MultiTri <span class="op">%&gt;%</span><span class="st"> </span>
 
         // Optional reveal.js plugins
         dependencies: [
-          { src: 'd:\home\git\Other\CASRBootcamp17\slides\slide_output\2A05_dplyr_files/reveal.js-3.3.0.1/plugin/notes/notes.js', async: true },
-          { src: 'd:\home\git\Other\CASRBootcamp17\slides\slide_output\2A05_dplyr_files/reveal.js-3.3.0.1/plugin/zoom-js/zoom.js', async: true },
+          { src: '2A05_dplyr_files/reveal.js-3.3.0.1/plugin/notes/notes.js', async: true },
+          { src: '2A05_dplyr_files/reveal.js-3.3.0.1/plugin/zoom-js/zoom.js', async: true },
         ]
       });
     </script>

@@ -1,0 +1,276 @@
+---
+title: "RBootcamp 2017 -- Getting Started"
+output: 
+  slidy_presentation:
+    duration: 45
+    incremental: true
+---
+
+```{r setup, include=FALSE}
+#knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Getting Started: Agenda
+
+- RStudio setup
+
+- Basics review and more
+
+- Saving and sourcing scripts
+
+- Installing and using packages
+
+## RStudio setup
+
+- Start RStudio
+
+- Go ahead, start it up
+
+    - We're done
+
+    - Just kidding
+
+- Check out the four panes 
+
+    - Do you only see three panes?
+    
+        - Prob b/c no files to view yet in the top-left pane
+
+    - Each pane has its special set of tabs
+    
+- As we go through the material this week we will demonstrate useful
+aspects of each pane
+
+## Exercise 1
+    
+1.1 In the Console pane give x the value one  `x <- 1`
+    
+    - What changed in the upper left pane?
+    
+1.2 Use the History tab to re-execute the same command
+    
+## RStudio advanced environment
+
+- The Menu bar
+
+    - I use RStudio icons more than the menu items
+
+    - the Tools menu (~ Settings)
+
+        - Try changing the font
+    
+        - Try rearranging the panes or the underlying tabs
+        
+        - Check out which version of R is being used
+
+    - the Files menu
+    
+        - I use "Save As"
+        
+    - the Help menu
+    
+        - where the cheatsheets are!
+
+    - the Session menu
+    
+        - Restart R
+        
+- As we go through the material this week we will demonstrate the usefulness of RStudio's advanced settings
+
+## Basics review and more
+
+>- Do some basic math in the console window
+
+```{r, echo=TRUE}
+2 + 5
+-2^0.5 # which operator takes precedence
+sqrt(2)
+abs(-15.4)
+3 > 4 # logical
+```
+
+## Syntax
+
+The table below can be obtained by asking for help on "Syntax"  
+`?Syntax` or `help("Syntax")`
+
+Symbol | Meaning
+-------|--------
+--------------- | ---------------------------------------
+* /	|multiply, divide
++ -	|(binary) add, subtract
+^	|exponentiation (right to left)
+- +	|unary minus and plus
+--------------- | ---------------------------------------
+< > <= >= == !=	|ordering and comparison
+!	|negation
+& &&	|and
+| ||	|or
+--------------- | ---------------------------------------
+<- <<-	|assignment (right to left)
+=	|assignment (right to left)
+-> ->>	|rightwards assignment (rarely used)
+--------------- | ---------------------------------------
+:|sequence operator
+%any%	|special operators (including %% and %/%)
+~	|as in formulae
+--------------- | ---------------------------------------
+:: :::	|access variables in a namespace
+$ @	|component / slot extraction
+[ [[	|indexing
+--------------- | ---------------------------------------
+?	|help (unary and binary)
+
+## What data types can R work with?
+
+Type | Example  | Other languages
+-----|--------|------------------
+Logical | TRUE, FALSE | Logical
+Integer | 1L, -2L (rarely important to use 'L') | Integer
+Numeric | 1.214, 1, -2 | double, real
+Character | 'a', "B", "Now is the time ..." | strings
+function  | sqrt  | function, subroutine
+
+- More similar to FORTRAN than c
+
+- More complex structures (vectors, lists, ...) will be discussed later this morning
+
+##  Exercise 2
+
+2.1 In the Console, store the value 6 in the variable `r` in one line
+then in the next line calculate the area of a circle with radius `r`
+(hint: the symbol in R for pi is `pi`)
+
+2.2 What is the symbol in R for the largest numeric possible? Smallest?
+
+2.3 What do you get when you divide `1` by `0`? `0` by `0`?
+
+## Not available
+
+- R goes out of its way to record a missing value for a variable by using
+the special value `NA`
+
+    - This is a major strength of R
+
+    - (R uses the value `NaN` for "not a number", but that's different from `NA`)
+
+- Testing for and detecting missing data is **an extremely important step** in data cleansing and analysis
+
+    - `?is.na`
+
+- Some functions ignore NA's, others do not
+
+- The existence of NA's in your data will be a frequent source of trip-ups
+in your data analysis
+
+- Examples are better explored after vectors are introduced
+
+## The working directory
+
+>- **Where are my files?**
+is a frequently asked question in R / RStudio
+
+```{r eval=TRUE, echo=TRUE, size='tiny'}
+getwd()
+```
+
+>- How do I get somewhere else?
+
+```{r eval=FALSE, results='hide', size='tiny'}
+setwd("Desktop")
+```
+
+>- ... or use the Session menu ...
+
+>- ... or start in the desired directory by double-clicking
+an appropriate file and let RStudio set the working directory
+
+>- Try to stick with relative pathnames to make your work portable
+from machine to machine to cloud to company/client network to ...
+
+## Directory paths
+
+- Windows paths are constructed with the backward slash "\\" separator
+
+- mac, *nix machines construct paths with the forward slash "/" separator
+
+- Furthermore, in R, the backward slash "\\" 
+is used for things like tabs and newline characters
+
+    - If you really need a slash and aren't intending to "escape" the next character, just type it twice
+
+- Foreshadowing: For a painless, OS-independent approach to constructing
+paths to files, 
+use the `file.path` function
+
+## Script files
+
+- Scripts are text files that store R code
+
+- **Extremely** important
+
+- You will use scripts, a.k.a. "source files", frequently
+
+- They will store the programs you write
+
+## Exercise 3
+
+3.1 Create a new script that stores the two lines from Exercise 2.1, area of a circle
+
+3.2 Run the script line-by-line.
+
+3.3 Run the script in its entirety by "Source-ing" it with the 
+"Source" icon above the code pane
+
+>- What was the difference?
+
+3.4 Save the script with the name Test.R
+
+>- How do you know it was saved?
+
+3.5 In the Console pane, "source" the file from it's stored location using its full name
+
+## Installing and using packages
+
+- An R "package" is a collection of R code and objects that,
+in the eyes of the author(s),
+facilitate
+some computation, analysis, etc.
+
+- R's package facility is arguably what makes the language so powerful
+
+- To use a package
+
+    - First, download it and install it
+
+        - The easiest way to download and install is with RStudio's "Packages" menu
+    
+        - Packages are installed in the library folder of the version of R you are running
+    
+    - Second, 
+    
+        - either load the entirety of its capabilities with the `library` function
+        
+        - or use a specific object from the package using the construct
+        `packageName::objectName`
+        
+        - You will almost always use the `library` function
+        
+- You already installed the `raw` package and its suggested packages
+
+- We will be using many packages in this camp,
+so we will not belabor the point now and move along
+        
+## Exercise 4
+
+4.1 Install the `actuar` package
+
+4.2 Get help on the package contents (hint: `help(package = actuar)`)
+
+4.3 Get help on the package's 
+**Empirical Limited Expected Value** function (`elev`)
+
+>- Did you get the message
+
+`No documentation for 'elev' in specified packages and libraries:`  
+`you could try '??elev'`

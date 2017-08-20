@@ -9,7 +9,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="d:\home\git\Other\CASRBootcamp17\slides\slide_output\3A04_GLMs_files/reveal.js-3.3.0.1/css/reveal.css"/>
+  <link rel="stylesheet" href="3A04_GLMs_files/reveal.js-3.3.0.1/css/reveal.css"/>
 
 
 <style type="text/css">
@@ -50,7 +50,7 @@ code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* Com
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
-<link rel="stylesheet" href="d:\home\git\Other\CASRBootcamp17\slides\slide_output\3A04_GLMs_files/reveal.js-3.3.0.1/css/theme/solarized.css" id="theme">
+<link rel="stylesheet" href="3A04_GLMs_files/reveal.js-3.3.0.1/css/theme/solarized.css" id="theme">
 
 
   <!-- some tweaks to reveal css -->
@@ -98,7 +98,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
     <style type="text/css">code{white-space: pre;}</style>
 
-    <link rel="stylesheet" href="css\revealOpts.css"/>
+    <link rel="stylesheet" href="css/revealOpts.css"/>
 
 <!-- Printing and PDF exports -->
 <script id="paper-css" type="application/dynamic-css">
@@ -494,13 +494,13 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </section>
 
 <section><section id="fit-a-sample" class="titleslide slide level1"><h1>Fit a sample</h1></section><section id="data" class="slide level2">
-<h2>Data</h2>
+<h1>Data</h1>
 <p>Claim counts for 5,000 policies.</p>
 <p><img src="3A04_GLMs_files/figure-revealjs/unnamed-chunk-3-1.png" width="768" /></p>
 </section><section id="how-would-you-fit-this-data" class="slide level2">
-<h2>How would you fit this data?</h2>
+<h1>How would you fit this data?</h1>
 </section><section id="things-we-can-do-when-fitting-a-sample" class="slide level2">
-<h2>Things we can do when fitting a sample</h2>
+<h1>Things we can do when fitting a sample</h1>
 <ul>
 <li>Pick a distribution</li>
 <li>Normal, lognormal, gamma, etc</li>
@@ -517,26 +517,26 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </ul>
 </section></section>
 <section><section id="add-predictors" class="titleslide slide level1"><h1>Add predictors</h1></section><section id="number-of-claims-payroll" class="slide level2">
-<h2>Number of claims ~ Payroll</h2>
+<h1>Number of claims ~ Payroll</h1>
 <p><img src="3A04_GLMs_files/figure-revealjs/unnamed-chunk-4-1.png" width="768" /></p>
 </section><section id="whats-wrong-with-a-linear-fit" class="slide level2">
-<h2>What’s wrong with a linear fit?</h2>
+<h1>What’s wrong with a linear fit?</h1>
 <ul>
 <li>Heteroskedastic</li>
 <li>Does it really capture the mean?</li>
 </ul>
 </section><section id="number-of-claims-payroll-1" class="slide level2">
-<h2>Number of claims ~ Payroll</h2>
+<h1>Number of claims ~ Payroll</h1>
 <p><img src="3A04_GLMs_files/figure-revealjs/unnamed-chunk-5-1.png" width="768" /></p>
 </section><section id="another-distribution-makes-more-sense" class="slide level2">
-<h2>Another distribution makes more sense</h2>
+<h1>Another distribution makes more sense</h1>
 <p>But how do we do that? If only we had a linear model that was a bit more general …</p>
 </section></section>
 <section><section id="glms" class="titleslide slide level1"><h1>GLMs</h1></section><section id="recall-ols-assumptions" class="slide level2">
-<h2>Recall OLS Assumptions</h2>
+<h1>Recall OLS Assumptions</h1>
 <p><strong>Warning</strong>: I play fast and loose with the difference between the response variable and the error term.</p>
 </section><section id="ols-assumptions" class="slide level2">
-<h2>OLS Assumptions</h2>
+<h1>OLS Assumptions</h1>
 <ul>
 <li>Linear relationship between response and predictors</li>
 <li>Errors are normally distributed</li>
@@ -544,32 +544,32 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <li>Errors are homoskedastic</li>
 </ul>
 </section><section id="more-general-assumptions" class="slide level2">
-<h2>More general assumptions</h2>
+<h1>More general assumptions</h1>
 <ul>
 <li>Relationship is between response and <em>transformed</em> linear combination of predictors</li>
 <li>Errors need not be normally distributed</li>
 </ul>
 </section><section id="mathematically" class="slide level2">
-<h2>Mathematically</h2>
+<h1>Mathematically</h1>
 <p><span class="math inline">\(E[y]=g^{-1}(\beta_0+\sum_{j=1}^p\beta_{ij})\)</span></p>
 <p><span class="math inline">\(g(x)\)</span> is the “link” function.</p>
 <p>The linear combination is often referred to by <span class="math inline">\(\eta\)</span>. I don’t know why it doesn’t get a name.</p>
 <p>I also don’t know why the expectation is equal to the inverse of the link function. If talking about the transformed expectation doesn’t make your head hurt, then you may like this formula better.</p>
 <p><span class="math inline">\(g(E[y])=\beta_0+\sum_{j=1}^p\beta_{ij}\)</span></p>
 </section><section id="specify-two-things" class="slide level2">
-<h2>Specify two things</h2>
+<h1>Specify two things</h1>
 <ol type="1">
 <li>The distribution</li>
 <li>The “link” function</li>
 </ol>
 </section><section id="distribution-restrictions" class="slide level2">
-<h2>Distribution restrictions</h2>
+<h1>Distribution restrictions</h1>
 <p>Must be one of the exponential family of functions.</p>
 <p><span class="math inline">\(f(y; \theta,\phi) = exp[\frac{y\theta - b(\theta) }{a(\phi)} + c(y,\phi)]\)</span></p>
 <p>Note this <em>doesn’t</em> include the lognormal. That’s OK; we can always perform a log transform of our data and fit a normal.</p>
 <p>Lots of folks get very excited about this formula. I don’t. I can never remember it and I never feel as though I need to. If you like this formula, you’ll see it often, but you won’t see it any more today.</p>
 </section><section id="canonical-links" class="slide level2">
-<h2>Canonical links</h2>
+<h1>Canonical links</h1>
 <table>
 <thead>
 <tr class="header">
@@ -602,46 +602,55 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </tbody>
 </table>
 </section><section id="very-easy-to-program" class="slide level2">
-<h2>Very easy to program</h2>
+<h1>Very easy to program</h1>
 <p>A linear model:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_lm &lt;-<span class="st"> </span><span class="kw">lm</span>(NumClaims <span class="op">~</span><span class="st"> </span>Payroll, <span class="dt">data =</span> dfGLM)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_lm &lt;-<span class="st"> </span><span class="kw">lm</span>(NumClaims ~<span class="st"> </span>Payroll, <span class="dt">data =</span> dfGLM)</code></pre></div>
 <p>A GLM:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_glm &lt;-<span class="st"> </span><span class="kw">glm</span>(NumClaims <span class="op">~</span><span class="st"> </span>Payroll, <span class="dt">data =</span> dfGLM, <span class="dt">family =</span> <span class="st">&quot;poisson&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_glm &lt;-<span class="st"> </span><span class="kw">glm</span>(NumClaims ~<span class="st"> </span>Payroll, <span class="dt">data =</span> dfGLM, <span class="dt">family =</span> <span class="st">&quot;poisson&quot;</span>)</code></pre></div>
 </section><section id="programmatic-differences" class="slide level2">
-<h2>Programmatic differences:</h2>
+<h1>Programmatic differences:</h1>
 <ul>
 <li>Must indicate the family</li>
 <li>Must provide the link, though only if we’re using something non-canonical</li>
 </ul>
 </section><section id="offset" class="slide level2">
-<h2>Offset</h2>
+<h1>Offset</h1>
 <p>The offset is a kind of scaling factor that should not be included as a predictor. Comparable to the notion of exposure in insurance pricing.</p>
 </section><section id="compare-these-two-models" class="slide level2">
-<h2>Compare these two models</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">glm</span>(NumClaims <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Payroll, <span class="dt">data =</span> dfGLM, <span class="dt">family=</span><span class="st">&quot;poisson&quot;</span>)
+<h1>Compare these two models</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_1 &lt;-<span class="st"> </span><span class="kw">glm</span>(NumClaims ~<span class="st"> </span><span class="dv">1</span> +<span class="st"> </span>Payroll, <span class="dt">data =</span> dfGLM, <span class="dt">family=</span><span class="st">&quot;poisson&quot;</span>)
 
-fit_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">glm</span>(NumClaims <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> dfGLM, <span class="dt">family=</span><span class="st">&quot;poisson&quot;</span>, <span class="dt">offset=</span><span class="kw">log</span>(Payroll))
+fit_2 &lt;-<span class="st"> </span><span class="kw">glm</span>(NumClaims ~<span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> dfGLM, <span class="dt">family=</span><span class="st">&quot;poisson&quot;</span>, <span class="dt">offset=</span><span class="kw">log</span>(Payroll))
 
-fit_<span class="dv">1</span><span class="op">$</span>aic
+fit_1$aic
 ## [1] 24074.27
-fit_<span class="dv">2</span><span class="op">$</span>aic
+fit_2$aic
 ## [1] 23139.99
-<span class="kw">coef</span>(fit_<span class="dv">1</span>)
+<span class="kw">coef</span>(fit_1)
 ##  (Intercept)      Payroll 
 ## 8.662942e-01 1.998568e-07
-<span class="kw">coef</span>(fit_<span class="dv">2</span>)
+<span class="kw">coef</span>(fit_2)
 ## (Intercept) 
 ##    -13.4123</code></pre></div>
 <p>Fit for the second model is much better, because payroll isn’t really a <em>predictor</em> of loss. It is a scaling element for exposure. Think the number of deaths by heart disease in Manhattan vs. number of deaths by heart disease in a rural town.</p>
-</section><section id="binomial" class="slide level2">
-<h2>Binomial</h2>
+</section></section>
+<section><section id="measuring-fit-quality" class="titleslide slide level1"><h1>Measuring fit quality</h1></section></section>
+<section><section id="measuring-fit-quality-1" class="titleslide slide level1"><h1>Measuring fit quality</h1></section><section id="deviance" class="slide level2">
+<h1>Deviance</h1>
+<ul>
+<li>Null deviance is comparable to sum of squares in OLS</li>
+<li>Reduction in residual deviance suggests a better model. However, trivial improvements may favor a more parsimonious model.</li>
+</ul>
+</section></section>
+<section><section id="if-time-permits" class="titleslide slide level1"><h1>If time permits</h1></section><section id="binomial" class="slide level2">
+<h1>Binomial</h1>
 <p><img src="3A04_GLMs_files/figure-revealjs/unnamed-chunk-9-1.png" width="768" /></p>
 </section><section id="binomial-wfit" class="slide level2">
-<h2>Binomial w/fit</h2>
+<h1>Binomial w/fit</h1>
 <p><img src="3A04_GLMs_files/figure-revealjs/unnamed-chunk-10-1.png" width="768" /></p>
 <p><img src="3A04_GLMs_files/figure-revealjs/unnamed-chunk-11-1.png" width="768" /></p>
 </section><section id="section" class="slide level2">
-<h2></h2>
+<h1></h1>
 <pre><code>## 
 ## Call:
 ## glm(formula = Open ~ 0 + ClaimSeverity, family = &quot;binomial&quot;, 
@@ -687,25 +696,68 @@ fit_<span class="dv">2</span><span class="op">$</span>aic
 ## AIC: 38137
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
-</section><section id="measuring-fit-quality" class="slide level2">
-<h2>Measuring fit quality</h2>
-<p>Comparing models typically involves comparison of the likelihood. Note that - comparable to r^2 - more parameters will <em>always</em> give better fit metrics, unless we’re penalizing for extra parameters.</p>
-<p><span class="math inline">\(AIC = 2[-l(\boldsymbol{y};\boldsymbol{\theta}^M)+r]\)</span> <span class="math inline">\(BIC = 2[-l(\boldsymbol{y};\boldsymbol{\theta}^M)+rln(n)]\)</span></p>
-</section><section id="deviance" class="slide level2">
-<h2>Deviance</h2>
-<ul>
-<li>Null deviance is comparable to sum of squares in OLS</li>
-<li>Reduction in residual deviance suggests a better model. However, trivial improvements may favor a more parsimonious model.</li>
-</ul>
+<pre><code>## 
+## Call:
+## glm(formula = Open ~ 0 + ClaimSeverity, family = binomial(link = &quot;identity&quot;), 
+##     data = dfBinomial)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.2036  -0.7003  -0.6075  -0.4842   2.4287  
+## 
+## Coefficients:
+##                Estimate Std. Error z value Pr(&gt;|z|)    
+## ClaimSeverity 1.978e-06  1.976e-08   100.1   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance:   Inf  on 39388  degrees of freedom
+## Residual deviance: 38121  on 39387  degrees of freedom
+## AIC: 38123
+## 
+## Number of Fisher Scoring iterations: 3</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = Open ~ 1 + ClaimSeverity, family = binomial(link = &quot;identity&quot;), 
+##     data = dfBinomial)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.2133  -0.7008  -0.6063  -0.4803   2.4504  
+## 
+## Coefficients:
+##                 Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)   -3.641e-03  6.035e-03  -0.603    0.546    
+## ClaimSeverity  2.013e-06  6.220e-08  32.366   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 39125  on 39387  degrees of freedom
+## Residual deviance: 38121  on 39386  degrees of freedom
+## AIC: 38125
+## 
+## Number of Fisher Scoring iterations: 3</code></pre>
 </section></section>
 <section><section id="resources" class="titleslide slide level1"><h1>Resources</h1></section><section id="good-books" class="slide level2">
-<h2>Good books</h2>
+<h1>Good books</h1>
+<ul>
+<li>Frees, Derrig, et al</li>
+</ul>
+<div id="refs" class="references">
+<div id="ref-GelmanAndHill">
+<p>Gelman, Andrew, and Jennifer Hill. 2006. <em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em>. <a href="http://www.stat.columbia.edu/~gelman/arm/" class="uri">http://www.stat.columbia.edu/~gelman/arm/</a>.</p>
+</div>
+</div>
 </section></section>
     </div>
   </div>
 
-  <script src="d:\home\git\Other\CASRBootcamp17\slides\slide_output\3A04_GLMs_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
-  <script src="d:\home\git\Other\CASRBootcamp17\slides\slide_output\3A04_GLMs_files/reveal.js-3.3.0.1/js/reveal.js"></script>
+  <script src="3A04_GLMs_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="3A04_GLMs_files/reveal.js-3.3.0.1/js/reveal.js"></script>
 
   <script>
 
@@ -725,8 +777,8 @@ fit_<span class="dv">2</span><span class="op">$</span>aic
 
         // Optional reveal.js plugins
         dependencies: [
-          { src: 'd:\home\git\Other\CASRBootcamp17\slides\slide_output\3A04_GLMs_files/reveal.js-3.3.0.1/plugin/notes/notes.js', async: true },
-          { src: 'd:\home\git\Other\CASRBootcamp17\slides\slide_output\3A04_GLMs_files/reveal.js-3.3.0.1/plugin/zoom-js/zoom.js', async: true },
+          { src: '3A04_GLMs_files/reveal.js-3.3.0.1/plugin/notes/notes.js', async: true },
+          { src: '3A04_GLMs_files/reveal.js-3.3.0.1/plugin/zoom-js/zoom.js', async: true },
         ]
       });
     </script>

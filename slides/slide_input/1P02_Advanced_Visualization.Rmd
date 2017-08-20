@@ -2,14 +2,17 @@
 title: "Advanced Visualization"
 author: "Brian A. Fannin"
 date: "August 21, 2017"
-output: 
+output:
+  tufte::tufte_handout: default
   revealjs::revealjs_presentation:
-    self_contained: false
+    center: no
     css: ./css/revealOpts.css
+    reveal_plugins:
+    - notes
+    - zoom
+    self_contained: no
     theme: solarized
     transition: slide
-    center: false
-    reveal_plugins: ["notes", "zoom"]
 ---
 
 ```{r echo=FALSE}

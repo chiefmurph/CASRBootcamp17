@@ -56,16 +56,16 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   </p>
 </div>
 <div id="introducing-vectors" class="slide section level2">
-<h2>Introducing vectors</h2>
+<h1>Introducing vectors</h1>
 <p>In R, every variable is a vector. Think of a set of contiguous cells in a spreadsheet.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1234</span>)
 e  &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>)
-X1 &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></code></pre></div>
+X1 &lt;-<span class="st"> </span><span class="dv">1</span>:<span class="dv">10</span></code></pre></div>
 <p>Here, <code>e</code> is a vector with <code>N</code> values. <code>X1</code> is the sequence of integers from 1 through 10.</p>
 <p>Vectors can grow and shrink automatically. No need to move cells around on a sheet. No need to copy formulas or change named ranges.</p>
 </div>
 <div id="vector-properties" class="slide section level2">
-<h2>Vector properties</h2>
+<h1>Vector properties</h1>
 <ul>
 <li>Every element in a vector must be the same type.
 <ul>
@@ -80,7 +80,7 @@ X1 &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</sp
 </ul>
 </div>
 <div id="vector-construction" class="slide section level2">
-<h2>Vector construction</h2>
+<h1>Vector construction</h1>
 <p>Vectors are constructed in one of several ways:</p>
 <ul>
 <li>Return from a function or operation
@@ -92,33 +92,33 @@ X1 &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</sp
 </ul>
 </div>
 <div id="seq" class="slide section level2">
-<h2><code>seq</code></h2>
+<h1><code>seq</code></h1>
 <p><code>seq</code> is used often to generate a sequence of values. The colon operator <code>:</code> is a shortcut for a sequence of integers.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pies =<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">0</span>, <span class="dt">by =</span> pi, <span class="dt">length.out =</span> <span class="dv">5</span>)
-i &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">5</span>
-year =<span class="st"> </span><span class="dv">2000</span><span class="op">:</span><span class="dv">2004</span></code></pre></div>
-<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABIAAAAJACAMAAADCTu3mAAAABlBMVEWy34r///97mpN0AAAACXBIWXMAAB2HAAAdhwGP5fFlAAAJN0lEQVR4nO3UwY0EMQwEsbn8k74k5K7HkgE0DAGu7w8g8tUPAH6XAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoDWvmsmLyfZcvK1B5/G5N0kW06+9uDTmLybZMvJ1x58GpN3k2w5+dqDT2PybpItJ1978GlM3k2y5eRrDz6NybtJtpx87cGnMXk3yZaTrz34NCbvJtly8rUHn8bk3SRbTr724NOYvJtky8nXHnwak3eTbDn52oNPY/Juki0nX3vwaUzeTbLl5GsPPo3Ju0m2nHztwacxeTfJlpOvPfg0Ju8m2XLytQefxuTdJFtOvvbg05i8m2TLydcefBqTd5NsOfnag09j8m6SLSdfe/BpTN5NsuXkaw8+jcm7SbacfO3BpzF5N8mWk689+DQm7ybZcvK1B5/G5N0kW06+9uDTmLybZMvJ1x58GpN3k2w5+dqDT2PybpItJ1978GlM3k2y5eRrDz6NybtJtpx87cGnMXk3yZaTrz34NCbvJtly8rUHn8bk3SRbTr724NOYvJtky8nXHnwak3eTbDn52oNPY/Juki0nX3vwaUzeTbLl5GsPPo3Ju0m2nHztwacxeTfJlpOvPfg0Ju8m2XLytQefxuTdJFtOvvbg05i8m2TLydcefBqTd5NsOfnag09j8m6SLSdfe/BpTN5NsuXkaw8+jcm7SbacfO3BpzF5N8mWk689+DQm7ybZcvK1B5/G5N0kW06+9uDTmLybZMvJ1x58GpN3k2w5+dqDT2PybpItJ1978GlM3k2y5eRrDz6NybtJtpx87cGnMXk3yZaTrz34NCbvJtly8rUHn8bk3SRbTr724NOYvJtky8nXHnwak3eTbDn52oNPY/Juki0nX3vwaUzeTbLl5GsPPo3Ju0m2nHztwacxeTfJlpOvPfg0Ju8m2XLytQefxuTdJFtOvvbg05i8m2TLydcefBqTd5NsOfnag09j8m6SLSdfe/BpTN5NsuXkaw8+jcm7SbacfO3BpzF5N8mWk689+DQm7ybZcvK1B5/G5N0kW06+9uDTmLybZMvJ1x58GpN3k2w5+dqDT2PybpItJ1978GlM3k2y5eRrDz6NybtJtpx87cGnMXk3yZaTrz34NCbvJtlyciAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRk/gFvNaBjAcSdXQAAAABJRU5ErkJggg==" width="576" /></p>
+i &lt;-<span class="st"> </span><span class="dv">1</span>:<span class="dv">5</span>
+year =<span class="st"> </span><span class="dv">2000</span>:<span class="dv">2004</span></code></pre></div>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABIAAAAJACAMAAADCTu3mAAAAWlBMVEWy34rU7b7X7sLa8Mfd8cvn9dvp9t7q9t/t9+Tw+ejy+uvz+uzz+u30+u71+/D2+/H4/PX5/PX5/Pb5/fb5/ff6/fj7/fj7/fn7/fr8/fr8/vv9/vv9/vz///8owKkhAAAACXBIWXMAAB2HAAAdhwGP5fFlAAAJCUlEQVR4nO3UWa5YBQwFwcccEiAhkAHI3f822YTllvyqFnDkD6tfHoDIS30A8HoJEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBGjbt3fDvjx/T0/+8/w1Pfnv8+f05H/Ph+nJb/V3vDoCtO3ty7Cfnh+nJ395fpiefPN8Pz356/Pd9OTb+jteHQHaJkBTBOgAAdomQFME6AAB2iZAUwToAAHaJkBTBOgAAdomQFME6AAB2iZAUwToAAHaJkBTBOgAAdomQFME6AAB2iZAUwToAAHaJkBTBOgAAdomQFME6AAB2iZAUwToAAHaJkBTBOgAAdomQFME6AAB2iZAUwToAAHaJkBTBOgAAdomQFME6AAB2iZAUwToAAHaJkBTBOgAAdomQFME6AAB2iZAUwToAAHaJkBTBOgAAdomQFME6AAB2iZAUwToAAHaJkBTBOgAAdomQFME6AAB2iZAUwToAAHaJkBTBOgAAdomQFME6AAB2iZAUwToAAHaJkBTBOgAAdomQFME6AAB2iZAUwToAAHaJkBTBOgAAdomQFME6AAB2iZAUwToAAHaJkBTBOgAAdomQFME6AAB2iZAUwToAAHaJkBTBOgAAdomQFME6AAB2iZAUwToAAHaJkBTBOgAAdomQFME6AAB2iZAUwToAAHaJkBTBOgAAdomQFME6AAB2iZAUwToAAHaJkBTBOgAAdomQFME6AAB2iZAUwToAAHaJkBTBOgAAdomQFME6AAB2iZAUwToAAHaJkBTBOgAAdomQFME6AAB2iZAUwToAAHaJkBTBOgAAdomQFME6AAB2iZAUwToAAHaJkBTBOgAAdomQFME6AAB2iZAUwToAAHaJkBTBOgAAdomQFME6AAB2iZAUwToAAHaJkBTBOgAAdomQFME6AAB2iZAUwToAAHaJkBTBOgAAdomQFME6AAB2iZAUwToAAHaJkBTBOgAAdomQFME6AAB2iZAUwToAAHaJkBTBOgAAdomQFME6AAB2iZAUwToAAHaJkBTBOgAAdr29edhH57305Mfnz+mJz89v09Pfn5+m578Un/HqyNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGT+B2qR/l5BxN1AAAAAAElFTkSuQmCC" width="576" /></p>
 </div>
 <div id="rep" class="slide section level2">
-<h2><code>rep</code></h2>
+<h1><code>rep</code></h1>
 <p>The <code>rep</code> function will replicate its input</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">i =<span class="st"> </span><span class="kw">rep</span>(pi, <span class="dv">100</span>)
 <span class="kw">head</span>(i)</code></pre></div>
 <pre><code>## [1] 3.141593 3.141593 3.141593 3.141593 3.141593 3.141593</code></pre>
 </div>
 <div id="concatenation" class="slide section level2">
-<h2>Concatenation</h2>
+<h1>Concatenation</h1>
 <p>The <code>c()</code> function will concatenate values.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">i &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)
 j &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>)
 k &lt;-<span class="st"> </span><span class="kw">c</span>(i, j)
-l &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">6</span><span class="op">:</span><span class="dv">10</span>)</code></pre></div>
-<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABIAAAAJACAMAAADCTu3mAAAABlBMVEX/AAD///9BHTQRAAAACXBIWXMAAB2HAAAdhwGP5fFlAAAJN0lEQVR4nO3UwY0EMQwEsbn8k74k5K7HkgE0DAGu7w8g8tUPAH6XAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoDWvmsmLyfZcvK1B5/G5N0kW06+9uDTmLybZMvJ1x58GpN3k2w5+dqDT2PybpItJ1978GlM3k2y5eRrDz6NybtJtpx87cGnMXk3yZaTrz34NCbvJtly8rUHn8bk3SRbTr724NOYvJtky8nXHnwak3eTbDn52oNPY/Juki0nX3vwaUzeTbLl5GsPPo3Ju0m2nHztwacxeTfJlpOvPfg0Ju8m2XLytQefxuTdJFtOvvbg05i8m2TLydcefBqTd5NsOfnag09j8m6SLSdfe/BpTN5NsuXkaw8+jcm7SbacfO3BpzF5N8mWk689+DQm7ybZcvK1B5/G5N0kW06+9uDTmLybZMvJ1x58GpN3k2w5+dqDT2PybpItJ1978GlM3k2y5eRrDz6NybtJtpx87cGnMXk3yZaTrz34NCbvJtly8rUHn8bk3SRbTr724NOYvJtky8nXHnwak3eTbDn52oNPY/Juki0nX3vwaUzeTbLl5GsPPo3Ju0m2nHztwacxeTfJlpOvPfg0Ju8m2XLytQefxuTdJFtOvvbg05i8m2TLydcefBqTd5NsOfnag09j8m6SLSdfe/BpTN5NsuXkaw8+jcm7SbacfO3BpzF5N8mWk689+DQm7ybZcvK1B5/G5N0kW06+9uDTmLybZMvJ1x58GpN3k2w5+dqDT2PybpItJ1978GlM3k2y5eRrDz6NybtJtpx87cGnMXk3yZaTrz34NCbvJtly8rUHn8bk3SRbTr724NOYvJtky8nXHnwak3eTbDn52oNPY/Juki0nX3vwaUzeTbLl5GsPPo3Ju0m2nHztwacxeTfJlpOvPfg0Ju8m2XLytQefxuTdJFtOvvbg05i8m2TLydcefBqTd5NsOfnag09j8m6SLSdfe/BpTN5NsuXkaw8+jcm7SbacfO3BpzF5N8mWk689+DQm7ybZcvK1B5/G5N0kW06+9uDTmLybZMvJ1x58GpN3k2w5+dqDT2PybpItJ1978GlM3k2y5eRrDz6NybtJtpx87cGnMXk3yZaTrz34NCbvJtlyciAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRk/gFvNaBjAcSdXQAAAABJRU5ErkJggg==" width="576" /><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABIAAAAJACAMAAADCTu3mAAAABlBMVEUAAP////973JksAAAACXBIWXMAAB2HAAAdhwGP5fFlAAAJN0lEQVR4nO3UwY0EMQwEsbn8k74k5K7HkgE0DAGu7w8g8tUPAH6XAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoDWvmsmLyfZcvK1B5/G5N0kW06+9uDTmLybZMvJ1x58GpN3k2w5+dqDT2PybpItJ1978GlM3k2y5eRrDz6NybtJtpx87cGnMXk3yZaTrz34NCbvJtly8rUHn8bk3SRbTr724NOYvJtky8nXHnwak3eTbDn52oNPY/Juki0nX3vwaUzeTbLl5GsPPo3Ju0m2nHztwacxeTfJlpOvPfg0Ju8m2XLytQefxuTdJFtOvvbg05i8m2TLydcefBqTd5NsOfnag09j8m6SLSdfe/BpTN5NsuXkaw8+jcm7SbacfO3BpzF5N8mWk689+DQm7ybZcvK1B5/G5N0kW06+9uDTmLybZMvJ1x58GpN3k2w5+dqDT2PybpItJ1978GlM3k2y5eRrDz6NybtJtpx87cGnMXk3yZaTrz34NCbvJtly8rUHn8bk3SRbTr724NOYvJtky8nXHnwak3eTbDn52oNPY/Juki0nX3vwaUzeTbLl5GsPPo3Ju0m2nHztwacxeTfJlpOvPfg0Ju8m2XLytQefxuTdJFtOvvbg05i8m2TLydcefBqTd5NsOfnag09j8m6SLSdfe/BpTN5NsuXkaw8+jcm7SbacfO3BpzF5N8mWk689+DQm7ybZcvK1B5/G5N0kW06+9uDTmLybZMvJ1x58GpN3k2w5+dqDT2PybpItJ1978GlM3k2y5eRrDz6NybtJtpx87cGnMXk3yZaTrz34NCbvJtly8rUHn8bk3SRbTr724NOYvJtky8nXHnwak3eTbDn52oNPY/Juki0nX3vwaUzeTbLl5GsPPo3Ju0m2nHztwacxeTfJlpOvPfg0Ju8m2XLytQefxuTdJFtOvvbg05i8m2TLydcefBqTd5NsOfnag09j8m6SLSdfe/BpTN5NsuXkaw8+jcm7SbacfO3BpzF5N8mWk689+DQm7ybZcvK1B5/G5N0kW06+9uDTmLybZMvJ1x58GpN3k2w5+dqDT2PybpItJ1978GlM3k2y5eRrDz6NybtJtpx87cGnMXk3yZaTrz34NCbvJtlyciAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRk/gFvNaBjAcSdXQAAAABJRU5ErkJggg==" width="576" /><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABIAAAAJACAMAAADCTu3mAAAACVBMVEUAAP//AAD////1Ly4uAAAACXBIWXMAAB2HAAAdhwGP5fFlAAAIjklEQVR4nO3UQWokQRAEwZH+/2h9YYci8IQ1OwdNk1D++QWIfOofAP5fAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAUz//7qvxd+vl+POFr9a78befZsh9p1YPX4AexgJ0iPtOrR6+AD2MBegQ951aPXwBehgL0CHuO7V6+AL0MBagQ9x3avXwBehhLECHuO/U6uEL0MNYgA5x36nVwxegh7EAHeK+U6uHL0APYwE6xH2nVg9fgB7GAnSI+06tHr4APYwF6BD3nVo9fAF6GAvQIe47tXr4AvQwFqBD3Hdq9fAF6GEsQIe479Tq4QvQw1iADnHfqdXDF6CHsQAd4r5Tq4cvQA9jATrEfadWD1+AHsYCdIj7Tq0evgA9jAXoEPedWj18AXoYC9Ah7ju1evgC9DAWoEPcd2r18AXoYSxAh7jv1OrhC9DDWIAOcd+p1cMXoIexAB3ivlOrhy9AD2MBOsR9p1YPX4AexgJ0iPtOrR6+AD2MBegQ951aPXwBehgL0CHuO7V6+AL0MBagQ9x3avXwBehhLECHuO/U6uEL0MNYgA5x36nVwxegh7EAHeK+U6uHL0APYwE6xH2nVg9fgB7GAnSI+06tHr4APYwF6BD3nVo9fAF6GAvQIe47tXr4AvQwFqBD3Hdq9fAF6GEsQIe479Tq4QvQw1iADnHfqdXDF6CHsQAd4r5Tq4cvQA9jATrEfadWD1+AHsYCdIj7Tq0evgA9jAXoEPcFMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgIDMH3e40/A1DKRTAAAAAElFTkSuQmCC" width="576" /></p>
+l &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">5</span>, <span class="dv">6</span>:<span class="dv">10</span>)</code></pre></div>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABIAAAAJACAMAAADCTu3mAAAAWlBMVEX/AAD/cnL/e3v/hIT/jY3/sLD/trb/u7v/w8P/zMz/1NT/1dX/1tb/2dn/29v/3t7/4eH/6Oj/6ur/6+v/7Oz/7e3/7+//8vL/8/P/9PT/9fX/9/f/+Pj///8OoHhzAAAACXBIWXMAAB2HAAAdhwGP5fFlAAAJCUlEQVR4nO3UXa5QBQxG0Sso+A+CCipn/tN0Ek130rvWAL70odkvD0DkpT4AeL0ECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyArTt26/Dvjx/TU/+83yenvz3+TQ9+d/zx/Tkt/o7Xh0B2vbLy7Afnu+nJ98/b6cnf3zeTE/+9Hw3Pflz/R2vjgBtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG37+m7Yp+fj9OSfz4fpyb+f36cnvzy/TU9+rb/j1REgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjL/A7h8AFsu3r0CAAAAAElFTkSuQmCC" width="576" /><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABIAAAAJACAMAAADCTu3mAAAAWlBMVEUAAP9ycv97e/+EhP+Njf+wsP+2tv+7u//Dw//MzP/U1P/V1f/W1v/Z2f/b2//e3v/h4f/o6P/q6v/r6//s7P/t7f/v7//y8v/z8//09P/19f/39//4+P/////btNCCAAAACXBIWXMAAB2HAAAdhwGP5fFlAAAJCUlEQVR4nO3UXa5QBQxG0Sso+A+CCipn/tN0Ek130rvWAL70odkvD0DkpT4AeL0ECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyArTt26/Dvjx/TU/+83yenvz3+TQ9+d/zx/Tkt/o7Xh0B2vbLy7Afnu+nJ98/b6cnf3zeTE/+9Hw3Pflz/R2vjgBtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG0ToCkCdIAAbROgKQJ0gABtE6ApAnSAAG37+m7Yp+fj9OSfz4fpyb+f36cnvzy/TU9+rb/j1REgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjL/A7h8AFsu3r0CAAAAAElFTkSuQmCC" width="576" /><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABIAAAAJACAMAAADCTu3mAAAAXVBMVEUAAP8DA/9BQf9tbf+AgP++vv/Bwf/t7f/u7v/x8f/19f/29v/6+v/7+//+/v//AAD/BQX/Pj7/cXH/f3//vr7/wMD/7e3/8PD/8fH/9fX/9vb/+vr//Pz//v7///+CDFXBAAAACXBIWXMAAB2HAAAdhwGP5fFlAAAIUElEQVR4nO3UuQ5dVRBFQTOa2YxmMD7//5kQHnV0X9BaElTFO+igtd4cgMib+gDg/0uAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBGjVx/fPnfPC+OP54/n4w/nr+fjP8+GFO855+9wP5+vn4+/Ot8/H35zvX7jjxaNZJECr3r977Mfz9/Pxu9/PT8/Hv51fno9/Pr++cMe/H/TcV+fT5+MvzufPx5+dL1+445xPno/f1j/03yZAqwToJkBMArRKgG4CxCRAqwToJkBMArRKgG4CxCRAqwToJkBMArRKgG4CxCRAqwToJkBMArRKgG4CxCRAqwToJkBMArRKgG4CxCRAqwToJkBMArRKgG4CxCRAqwToJkBMArRKgG4CxCRAqwToJkBMArRKgG4CxCRAqwToJkBMArRKgG4CxCRAqwToJkBMArRKgG4CxCRAqwToJkBMArRKgG4CxCRAqwToJkBMArRKgG4CxCRAqwToJkBMArRKgG4CxCRAqwToJkBMArRKgG4CxCRAqwToJkBMArRKgG4CxCRAqwToJkBMArRKgG4CxCRAqwToJkBMArRKgG4CxCRAqwToJkBMArRKgG4CxCRAqwToJkBMArRKgG4CxCRAqwToJkBMArRKgG4CxCRAqwToJkBMArRKgG4CxCRAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjI/ANtg0Pl8+jIJQAAAABJRU5ErkJggg==" width="576" /></p>
 </div>
 <div id="growth-by-assignment" class="slide section level2">
-<h2>Growth by assignment</h2>
+<h1>Growth by assignment</h1>
 <p>Assigning a value beyond a vectors limits will automatically grow the vector. Interim values are assigned <code>NA</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">i &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">i &lt;-<span class="st"> </span><span class="dv">1</span>:<span class="dv">10</span>
 i[<span class="dv">30</span>] =<span class="st"> </span>pi
 i</code></pre></div>
 <pre><code>##  [1]  1.000000  2.000000  3.000000  4.000000  5.000000  6.000000  7.000000
@@ -128,42 +128,42 @@ i</code></pre></div>
 ## [29]        NA  3.141593</code></pre>
 </div>
 <div id="vector-access---by-index" class="slide section level2">
-<h2>Vector access - by index</h2>
+<h1>Vector access - by index</h1>
 <p>Vectors may be accessed by their numeric indices. Remember, ‘:’ is shorthand to generate a sequence.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1234</span>)
 e &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>)
 e[<span class="dv">1</span>]</code></pre></div>
 <pre><code>## [1] -1.207066</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">e[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>]</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">e[<span class="dv">1</span>:<span class="dv">4</span>]</code></pre></div>
 <pre><code>## [1] -1.2070657  0.2774292  1.0844412 -2.3456977</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">e[<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)]</code></pre></div>
 <pre><code>## [1] -1.207066  1.084441</code></pre>
 </div>
 <div id="vector-access---logical-access" class="slide section level2">
-<h2>Vector access - logical access</h2>
+<h1>Vector access - logical access</h1>
 <p>Vectors may be accessed logically. This may be done by passing in a logical vector, or a logical expression.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">i =<span class="st"> </span><span class="dv">5</span><span class="op">:</span><span class="dv">9</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">i =<span class="st"> </span><span class="dv">5</span>:<span class="dv">9</span>
 i[<span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>, <span class="ot">FALSE</span>, <span class="ot">FALSE</span>, <span class="ot">TRUE</span>)]</code></pre></div>
 <pre><code>## [1] 5 9</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">i[i <span class="op">&gt;</span><span class="st"> </span><span class="dv">7</span>]</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">i[i &gt;<span class="st"> </span><span class="dv">7</span>]</code></pre></div>
 <pre><code>## [1] 8 9</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">b =<span class="st"> </span>i <span class="op">&gt;</span><span class="st"> </span><span class="dv">7</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">b =<span class="st"> </span>i &gt;<span class="st"> </span><span class="dv">7</span>
 b</code></pre></div>
 <pre><code>## [1] FALSE FALSE FALSE  TRUE  TRUE</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">i[b]</code></pre></div>
 <pre><code>## [1] 8 9</code></pre>
 </div>
 <div id="which" class="slide section level2">
-<h2><code>which</code></h2>
+<h1><code>which</code></h1>
 <p>The <code>which</code> function returns indices that match a logical expression.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">i &lt;-<span class="st"> </span><span class="dv">11</span><span class="op">:</span><span class="dv">20</span>
-<span class="kw">which</span>(i <span class="op">&gt;</span><span class="st"> </span><span class="dv">12</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">i &lt;-<span class="st"> </span><span class="dv">11</span>:<span class="dv">20</span>
+<span class="kw">which</span>(i &gt;<span class="st"> </span><span class="dv">12</span>)</code></pre></div>
 <pre><code>## [1]  3  4  5  6  7  8  9 10</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">i[<span class="kw">which</span>(i <span class="op">&gt;</span><span class="st"> </span><span class="dv">12</span>)]</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">i[<span class="kw">which</span>(i &gt;<span class="st"> </span><span class="dv">12</span>)]</code></pre></div>
 <pre><code>## [1] 13 14 15 16 17 18 19 20</code></pre>
 </div>
 <div id="sample" class="slide section level2">
-<h2><code>sample</code></h2>
+<h1><code>sample</code></h1>
 <p>The <code>sample</code> function will generate a random sample. Great to use for randomizing a vector.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">months &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;January&quot;</span>, <span class="st">&quot;February&quot;</span>, <span class="st">&quot;March&quot;</span>, <span class="st">&quot;April&quot;</span>
             , <span class="st">&quot;May&quot;</span>, <span class="st">&quot;June&quot;</span>, <span class="st">&quot;July&quot;</span>, <span class="st">&quot;August&quot;</span>
@@ -180,10 +180,10 @@ lotsOfMonths &lt;-<span class="st"> </span><span class="kw">sample</span>(months
 <pre><code>## [1] &quot;February&quot; &quot;August&quot;   &quot;August&quot;   &quot;August&quot;   &quot;November&quot; &quot;August&quot;</code></pre>
 </div>
 <div id="sample-ii" class="slide section level2">
-<h2><code>sample</code> II</h2>
+<h1><code>sample</code> II</h1>
 <p>Sample may also be used within the indexing of the vector itself:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1234</span>)
-moreMonths &lt;-<span class="st"> </span>months[<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">12</span>, <span class="dt">replace=</span><span class="ot">TRUE</span>, <span class="dt">size=</span><span class="dv">100</span>)]
+moreMonths &lt;-<span class="st"> </span>months[<span class="kw">sample</span>(<span class="dv">1</span>:<span class="dv">12</span>, <span class="dt">replace=</span><span class="ot">TRUE</span>, <span class="dt">size=</span><span class="dv">100</span>)]
 <span class="kw">head</span>(moreMonths)</code></pre></div>
 <pre><code>## [1] &quot;February&quot; &quot;August&quot;   &quot;August&quot;   &quot;August&quot;   &quot;November&quot; &quot;August&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Cleaner with sample.int</span>
@@ -193,10 +193,10 @@ evenMoreMonths &lt;-<span class="st"> </span>months[<span class="kw">sample.int<
 <pre><code>## [1] &quot;February&quot; &quot;August&quot;   &quot;August&quot;   &quot;August&quot;   &quot;November&quot; &quot;August&quot;</code></pre>
 </div>
 <div id="order" class="slide section level2">
-<h2><code>order</code></h2>
+<h1><code>order</code></h1>
 <p>The function <code>order</code> will return the indices of the vector in order.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1234</span>)
-x &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>)
+x &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span>:<span class="dv">10</span>)
 x</code></pre></div>
 <pre><code>##  [1]  2  6  5  8  9  4  1  7 10  3</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">order</span>(x)</code></pre></div>
@@ -205,7 +205,7 @@ x</code></pre></div>
 <pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
 </div>
 <div id="vector-arithmetic" class="slide section level2">
-<h2>Vector arithmetic</h2>
+<h1>Vector arithmetic</h1>
 <p>Vectors may be used in arithmetic operations.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">B0 &lt;-<span class="st"> </span><span class="dv">5</span>
 B1 &lt;-<span class="st"> </span><span class="fl">1.5</span>
@@ -215,36 +215,36 @@ B1 &lt;-<span class="st"> </span><span class="fl">1.5</span>
 e &lt;-<span class="st"> </span><span class="kw">rnorm</span>(N, <span class="dt">mean =</span> <span class="dv">0</span>, <span class="dt">sd =</span> <span class="dv">1</span>)
 X1 &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">seq</span>(<span class="dv">1</span>,<span class="dv">10</span>),<span class="dv">10</span>)
 
-Y &lt;-<span class="st"> </span>B0 <span class="op">+</span><span class="st"> </span>B1 <span class="op">*</span><span class="st"> </span>X1 <span class="op">+</span><span class="st"> </span>e</code></pre></div>
+Y &lt;-<span class="st"> </span>B0 +<span class="st"> </span>B1 *<span class="st"> </span>X1 +<span class="st"> </span>e</code></pre></div>
 <p>Y is now a vector with length equal to the longest vector used in the calculation.</p>
 <p>Question: B0 and B1 are vectors of length 1.</p>
 <p>X1 and e are vectors of length 100.</p>
 <p>How are they combined?</p>
 </div>
 <div id="recycling" class="slide section level2">
-<h2>Recycling</h2>
+<h1>Recycling</h1>
 <p>R will “recycle” vectors until there are enough elements to perform an operation. Everything gets as “long” as the longest vector in the operation. For scalar operations on a vector this doesn’t involve any drama. Try the following code:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vector1 =<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span>
-vector2 =<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">5</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vector1 =<span class="st"> </span><span class="dv">1</span>:<span class="dv">10</span>
+vector2 =<span class="st"> </span><span class="dv">1</span>:<span class="dv">5</span>
 scalar =<span class="st"> </span><span class="dv">3</span>
 
-<span class="kw">print</span>(vector1 <span class="op">+</span><span class="st"> </span>scalar)</code></pre></div>
+<span class="kw">print</span>(vector1 +<span class="st"> </span>scalar)</code></pre></div>
 <pre><code>##  [1]  4  5  6  7  8  9 10 11 12 13</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(vector2 <span class="op">+</span><span class="st"> </span>scalar)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(vector2 +<span class="st"> </span>scalar)</code></pre></div>
 <pre><code>## [1] 4 5 6 7 8</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(vector1 <span class="op">+</span><span class="st"> </span>vector2)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(vector1 +<span class="st"> </span>vector2)</code></pre></div>
 <pre><code>##  [1]  2  4  6  8 10  7  9 11 13 15</code></pre>
 </div>
 <div id="set-theory---part-i" class="slide section level2">
-<h2>Set theory - Part I</h2>
+<h1>Set theory - Part I</h1>
 <p>The <code>%in%</code> operator will return a logical vector indicating whether or not an element of the first set is contained in the second set.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span>
-y &lt;-<span class="st"> </span><span class="dv">5</span><span class="op">:</span><span class="dv">15</span>
-x <span class="op">%in%</span><span class="st"> </span>y</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">1</span>:<span class="dv">10</span>
+y &lt;-<span class="st"> </span><span class="dv">5</span>:<span class="dv">15</span>
+x %in%<span class="st"> </span>y</code></pre></div>
 <pre><code>##  [1] FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</code></pre>
 </div>
 <div id="set-theory---part-ii" class="slide section level2">
-<h2>Set theory - Part II</h2>
+<h1>Set theory - Part II</h1>
 <ul>
 <li><code>union</code></li>
 <li><code>intersect</code></li>
@@ -253,8 +253,8 @@ x <span class="op">%in%</span><span class="st"> </span>y</code></pre></div>
 <li><code>is.element</code></li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">?union</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">1900</span><span class="op">:</span><span class="dv">1910</span>
-y &lt;-<span class="st"> </span><span class="dv">1905</span><span class="op">:</span><span class="dv">1915</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">1900</span>:<span class="dv">1910</span>
+y &lt;-<span class="st"> </span><span class="dv">1905</span>:<span class="dv">1915</span>
 <span class="kw">intersect</span>(x, y)</code></pre></div>
 <pre><code>## [1] 1905 1906 1907 1908 1909 1910</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setdiff</span>(x, y)</code></pre></div>
@@ -265,9 +265,9 @@ y &lt;-<span class="st"> </span><span class="dv">1905</span><span class="op">:</
 <pre><code>## [1] FALSE</code></pre>
 </div>
 <div id="summarization" class="slide section level2">
-<h2>Summarization</h2>
+<h1>Summarization</h1>
 <p>Loads of functions take vector input and return scalar output. Translation of a large sest of numbers into a few, informative values is one of the cornerstones of statistics.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x =<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">50</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x =<span class="st"> </span><span class="dv">1</span>:<span class="dv">50</span>
 <span class="kw">sum</span>(x)
 <span class="kw">mean</span>(x)
 <span class="kw">max</span>(x)
@@ -275,12 +275,12 @@ y &lt;-<span class="st"> </span><span class="dv">1905</span><span class="op">:</
 <span class="kw">var</span>(x)</code></pre></div>
 </div>
 <div id="vectors" class="slide section level2">
-<h2>Vectors</h2>
+<h1>Vectors</h1>
 <p>Vectors are like atoms. If you understand vectors- how to create them, how to manipulate them, how to access the elements, you’re well on your way to grasping how to handle other objects in R.</p>
 <p>Vectors may combine to form molecules, but fundamentally, <em>everything</em> in R is a vector.</p>
 </div>
 <div id="exercise---vectors" class="slide section level2">
-<h2>Exercise - Vectors</h2>
+<h1>Exercise - Vectors</h1>
 <p>Create a vector of length 10, with years starting from 1980.</p>
 <p>Create a vector with values from 1972 to 2012 in increments of four (1972, 1976, 1980, etc.)</p>
 <p>Construct the following vectors (feel free to use the <code>VectorQuestion.R</code> script):</p>
@@ -300,15 +300,15 @@ ElectionYear &lt;-<span class="st"> </span><span class="kw">seq</span>(<span cla
 </ul>
 </div>
 <div id="answer" class="slide section level2">
-<h2>Answer</h2>
+<h1>Answer</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">LastName[<span class="kw">order</span>(LastName)]</code></pre></div>
 <pre><code>##  [1] &quot;Bush&quot;    &quot;Bush&quot;    &quot;Bush&quot;    &quot;Carter&quot;  &quot;Clinton&quot; &quot;Clinton&quot; &quot;Nixon&quot;  
 ##  [8] &quot;Obama&quot;   &quot;Obama&quot;   &quot;Reagan&quot;  &quot;Reagan&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ElectionYear[<span class="kw">order</span>(FirstName)]</code></pre></div>
 <pre><code>##  [1] 2008 2012 1988 2000 2004 1976 1972 1980 1984 1992 1996</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ElectionYear[FirstName <span class="op">==</span><span class="st"> 'George'</span>]</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ElectionYear[FirstName ==<span class="st"> 'George'</span>]</code></pre></div>
 <pre><code>## [1] 1988 2000 2004</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myLogical &lt;-<span class="st"> </span>(FirstName <span class="op">==</span><span class="st"> 'George'</span>) <span class="op">&amp;</span><span class="st"> </span>(ElectionYear <span class="op">&lt;</span><span class="st"> </span><span class="dv">1996</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myLogical &lt;-<span class="st"> </span>(FirstName ==<span class="st"> 'George'</span>) &amp;<span class="st"> </span>(ElectionYear &lt;<span class="st"> </span><span class="dv">1996</span>)
 <span class="kw">length</span>(<span class="kw">which</span>(myLogical))</code></pre></div>
 <pre><code>## [1] 1</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(myLogical)</code></pre></div>
@@ -331,7 +331,7 @@ ElectionYear &lt;-<span class="st"> </span><span class="kw">seq</span>(<span cla
 ##  [99] &quot;Bush&quot;    &quot;Nixon&quot;</code></pre>
 </div>
 <div id="lists" class="slide section level2">
-<h2>Lists</h2>
+<h1>Lists</h1>
 <p>Lists have data of arbitrary complexity. Any type, any length. Note the new <code>[[ ]]</code> double bracket operator.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">list</span>()
 <span class="kw">typeof</span>(x)</code></pre></div>
@@ -348,43 +348,43 @@ x[[<span class="dv">2</span>]] &lt;-<span class="st"> </span><span class="kw">c<
 ##  $ : num [1:2] 3.14 2.72</code></pre>
 </div>
 <div id="lists-1" class="slide section level2">
-<h2>Lists</h2>
-<p><img src="data:image/png;base64,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JQEaJ0CUBGicAFESoHECREmAxgkQJQEaJ0CUBGicAFESoHECREmAxgkQJQEaJ0CUBGicAFESoHECREmAxgkQJQEaJ0CUBGicAFESoHECREmAxgkQJQEaJ0CUBGicAFESoHECREmAxgkQJQEaJ0CUBGicAFESoHECREmAxgkQJQEaJ0CUBGicAFESoHECREmAxgkQJQEaJ0CUBGicAFESoHECREmAxgkQJQEaJ0CUBGicAFESoHECREmAxgkQJQEaJ0CUBGicAFESoHECREmAxgkQJQEaJ0CUBGicAFESoHECREmAxgkQJQEaJ0CUBGicAFESoHECREmAxgkQJQEaJ0CUBGicAFESoHECREmAxgkQJQEaJ0CUBGicAFESoHECREmAxgkQJQEaJ0CUBGicAFESoHECREmAxgkQJQEaJ0CUBGicAFESoHECREmAxgkQJQEaJ0CUBGicAFESoHECREmAgIwAARkBGmcFoyRA4wSIkgCNEyBKAjROgCgJ0DgBoiRA4wSIkgCNEyBKAjROgCgJ0DgBoiRA4wSIkgCNEyBKAjROgCgJ0DgBoiRA4wSIkgCNEyBKAjROgCgJ0DgBoiRA4wSIkgCNEyBKAjROgCgJ0DgBoiRA4wSIkgCNEyBKAjROgCgJ0DgBoiRA4wSIkgCNEyBKAjROgCgJ0DgBoiRA4wSIkgCNEyBKAjROgCgJ0DgBoiRA4wSIkgCNEyBKAjROgCgJ0DgBoiRA4wSIkgCNEyBKAjROgCgJ0DgBoiRA4wSIkgCNEyBKAjROgCgJ0DgBoiRA4wSIkgCNEyBKAjROgCgJ0DgBoiRA4wSIkgCNEyBKAjROgCgJ0DgBoiRA4wSIkgCNEyBKAjROgCgJ0DgBoiRA4wSIkgCNEyBKAjROgCgJ0DgBoiRA4wSIkgCNEyBKAjROgCgJ0DgBoiRA4wSIkgCNEyBKAjROgCgJ0DgBoiRA4wSIkgABGQECMgI0zgpGSYDGCRAlARonQJQEaJwAURKgcQJESYDGCRAlARonQJQEaJwAURKgcQJESYDGCRAlARonQJQEaJwAURKgcQJESYDGCRAlARonQJQEaJwAURKgcQJESYDGCRAlARonQJQEaJwAURKgcQJESYDGCRAlARonQJQEaJwAURKgcQJESYDGCRAlARonQJQEaJwAURKgcQJESYDGCRAlARonQJQEaJwAURKgcQJESYDGCRAlARonQJQEaJwAURKgcQJESYDGCRAlARonQJQEaJwAURKgcQJESYDGCRAlARonQJQEaJwAURKgcQJESYDGCRAlARonQJQEaJwAURKgcQJESYDGCRAlARonQJQEaJwAURKgcQJESYDGCRAlARonQJQEaJwAURKgcQJESYDGCRAlARonQJQEaJwAURKgcQJESYDGCRAlARonQJQEaJwAURKgcQJESYDGCRAlARonQJQEaJwAURKgcQJESYCAjAABGQEaZwWjJEDjBIiSAI0TIEoCNE6AKAnQOAGiJEDjBIiSAI0TIEoCNE6AKAnQOAGiJEDjBIiSAI0TIEoCNE6AKAnQOAGiJEDjBIiSAI0TIEoCNE6AKAnQOAGiJEDjBIiSAI0TIEoCNE6AKAnQOAGiJEDjBIiSAI0TIEoCNE6AKAnQOAGiJEDjBIiSAI0TIEoCNE6AKAnQOAGiJEDjBIiSAI0TIEoCNE6AKAnQOAGiJEDjBIiSAI0TIEoCNE6AKAnQOAGiJEDjBIiSAI0TIEoCNE6AKAnQOAGiJEDjBIiSAI0TIEoCNE6AKAnQOAGiJEDjBIiSAI0TIEoCNE6AKAnQOAGiJEDjBIiSAI0TIEoCNE6AKAnQOAGiJEDjBIiSAI0TIEoCNE6AKAnQOAGiJEDjBIiSAI0TIEoCNE6AKAnQOAGiJEDjBIiSAI0TIEoCNE6AKAnQOAGiJEDjBIiSAI0TIEoCNE6AKAnQOAGiJEBARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMgIEZAQIyAgQkBEgICNAQEaAgIwAARkBAjICBGQECMgIEJARICAjQEBGgICMAAEZAQIyAgRkBAjICBCQESAgI0BARoCAjAABGQECMv8BYX6LZ2fiNJgAAAAASUVORK5CYII=" width="576" /></p>
+<h1>Lists</h1>
+<p><img src="data:image/png;base64,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EEEC1E6ACBKgdgJEkAC1EyCCBKidABEkQO0EiCABaidABAlQOwEiSIDaCRBBAtROgAgSoHYCRJAAtRMgggSonQARJEDtBIggAWonQAQJUDsBIkiA2gkQQQLUToAIEqB2AkSQALUTIIIEqJ0AESRA7QSIIAFqJ0AECVA7ASJIgNoJEEEC1O6fc/lXetkcDAIExAhQux/O5efpZXMwCFA754AIEqB2AkSQALUTIIIEqJ0AESRA7QSIIAFqJ0AECVA7ASJIgNoJEEEC1E6ACBKgdgJEkAC1EyCCBKidABEkQO0EiCABaidABAlQOwEiSIDaCRBBAtROgAgSoHYCRJAAtRMgggSonQARJEDtBIggAWonQAQJUDsBIkiA2gkQQQLUToAIEqB2AkSQALUTIIIEqJ0AESRA7QSIIAFqJ0AECVA7ASJIgNoJEEEC1E6ACBKgdgJEkAC1EyCCBKidABEkQO0EiCABaidABAlQOwEiSIDaCRBBAtROgAgSoHYCRJAAtRMgggSonQARJEDtBIggAWonQAQJUDsBIkiA2gkQQQLUToAIEqB2AkSQALUTIIIEqJ0AESRA7QSIIAFqJ0AECVA7ASJIgNoJEEEC1E6ACBKgdgJEkAC1EyCCBKidABEkQO0EiCABaidABAlQOwEiSIDaCRBBAtROgAgSoHYCRJAAtRMgggSonQARJEDtHpnLY+llczAIEBAjQECMAAExAgTECBAQI0BAjAABMQIExAgQECNAQIwAATECBMQIEBAjQECMAAExAgTECBAQI0BAjAABMQIExAgQECNAQIwAATECBMQIEBAjQECMAAExAgTECBAQI0BAjAABMQIExAgQECNAQIwAATECBMQIEBAjQECMAAExAgTECBAQI0BAjAABMQIExAgQECNAQIwAATECBMQIEBAjQECMAAExAgTECBAQI0BAjAABMQIExAgQECNAQIwAATECBMQIEBAjQECMAAExAgTECBAQI0BAjAABMQIExAgQECNAQIwAATECBMQIEBAjQECMAAEx/wWs+mLP1EVWUwAAAABJRU5ErkJggg==" width="576" /></p>
 </div>
 <div id="vs." class="slide section level2">
-<h2>[ vs. [[</h2>
+<h1>[ vs. [[</h1>
 <p><code>[</code> is (almost always) used to set and return an element of the same type as the <em>containing</em> object.</p>
 <p><code>[[</code> is used to set and return an element of the same type as the <em>contained</em> object.</p>
 <p>This is why we use <code>[[</code> to set an item in a list.</p>
 <p>Don’t worry if this doesn’t make sense yet. It’s difficult for most R programmers.</p>
 </div>
 <div id="recursive-storage" class="slide section level2">
-<h2>Recursive storage</h2>
+<h1>Recursive storage</h1>
 <p>Lists can contain other lists as elements.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y &lt;-<span class="st"> </span><span class="kw">list</span>()
 y[[<span class="dv">1</span>]] &lt;-<span class="st"> &quot;Lou Reed&quot;</span>
 y[[<span class="dv">2</span>]] &lt;-<span class="st"> </span><span class="dv">45</span>
 
 x[[<span class="dv">3</span>]] &lt;-<span class="st"> </span>y</code></pre></div>
-<p><img src="data:image/png;base64,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" width="576" /></p>
+<p><img src="data:image/png;base64,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" width="576" /></p>
 </div>
 <div id="list-metadata" class="slide section level2">
-<h2>List metadata</h2>
+<h1>List metadata</h1>
 <p>Again, typically names. However, these become very important for lists. Names are handled with the special <code>$</code> operator. <code>$</code> permits access to a single element. (A single element of a list can be a vector!)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y[[<span class="dv">1</span>]] &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Lou Reed&quot;</span>, <span class="st">&quot;Patti Smith&quot;</span>)
 y[[<span class="dv">2</span>]] &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">45</span>, <span class="dv">63</span>)
 
 <span class="kw">names</span>(y) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Artist&quot;</span>, <span class="st">&quot;Age&quot;</span>)
 
-y<span class="op">$</span>Artist</code></pre></div>
+y$Artist</code></pre></div>
 <pre><code>## [1] &quot;Lou Reed&quot;    &quot;Patti Smith&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y<span class="op">$</span>Age</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y$Age</code></pre></div>
 <pre><code>## [1] 45 63</code></pre>
 </div>
 <div id="lapply" class="slide section level2">
-<h2><code>lapply</code></h2>
+<h1><code>lapply</code></h1>
 <p><code>lapply</code> is one of many functions which may be applied to lists. Can be difficult at first, but very powerful. Applies the same function to each element of a list.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myList &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">firstVector =</span> <span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myList &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">firstVector =</span> <span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">10</span>)
                , <span class="dt">secondVector =</span> <span class="kw">c</span>(<span class="dv">89</span>, <span class="dv">56</span>, <span class="dv">84</span>, <span class="dv">298</span>, <span class="dv">56</span>)
                , <span class="dt">thirdVector =</span> <span class="kw">c</span>(<span class="dv">7</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">2</span>))
 <span class="kw">lapply</span>(myList, mean)</code></pre></div>
@@ -416,7 +416,7 @@ y<span class="op">$</span>Artist</code></pre></div>
 ## [1] 29</code></pre>
 </div>
 <div id="why-lapply" class="slide section level2">
-<h2>Why <code>lapply</code>?</h2>
+<h1>Why <code>lapply</code>?</h1>
 <p>Two reasons:</p>
 <ol style="list-style-type: decimal">
 <li>It’s expressive. A loop is a lot of code which does little to clarify intent. <code>lapply</code> indicates that we want to apply the same function to each element of a list. Think of a formula that exists as a column in a spreadsheet.</li>
@@ -424,41 +424,41 @@ y<span class="op">$</span>Artist</code></pre></div>
 </ol>
 </div>
 <div id="summary-functions" class="slide section level2">
-<h2>Summary functions</h2>
+<h1>Summary functions</h1>
 <p>Because lists are arbitrary, we can’t expect functions like <code>sum</code> or <code>mean</code> to work. Use <code>lapply</code> to summarize particular list elements.</p>
 </div>
 <div id="list-questions" class="slide section level2">
-<h2>List Questions</h2>
+<h1>List Questions</h1>
 <ul>
 <li>Create a list with two elements. Have the first element be a vector with 100 numbers. Have the second element be a vector with 100 dates. Give your list the names: “Claim” and “AccidentDate”.</li>
 <li>What is the average value of a claim?</li>
 </ul>
 </div>
 <div id="answers" class="slide section level2">
-<h2>Answers</h2>
+<h1>Answers</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myList &lt;-<span class="st"> </span><span class="kw">list</span>()
-myList<span class="op">$</span>Claims &lt;-<span class="st"> </span><span class="kw">rlnorm</span>(<span class="dv">100</span>, <span class="kw">log</span>(<span class="dv">10000</span>))
-myList<span class="op">$</span>AccidentDate &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">seq.Date</span>(<span class="kw">as.Date</span>(<span class="st">'2000-01-01'</span>), <span class="kw">as.Date</span>(<span class="st">'2009-12-31'</span>), <span class="dt">length.out =</span> <span class="dv">1000</span>), <span class="dv">100</span>)
-<span class="kw">mean</span>(myList<span class="op">$</span>Claims)</code></pre></div>
+myList$Claims &lt;-<span class="st"> </span><span class="kw">rlnorm</span>(<span class="dv">100</span>, <span class="kw">log</span>(<span class="dv">10000</span>))
+myList$AccidentDate &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">seq.Date</span>(<span class="kw">as.Date</span>(<span class="st">'2000-01-01'</span>), <span class="kw">as.Date</span>(<span class="st">'2009-12-31'</span>), <span class="dt">length.out =</span> <span class="dv">1000</span>), <span class="dv">100</span>)
+<span class="kw">mean</span>(myList$Claims)</code></pre></div>
 <pre><code>## [1] 18004.31</code></pre>
 </div>
 <div id="matrices" class="titleslide slide section level1"><h1>Matrices</h1></div><div id="defining-a-matrix" class="slide section level2">
-<h2>Defining a matrix</h2>
+<h1>Defining a matrix</h1>
 <p>Defining a matrix is straightforward. Use the option byrow=TRUE to fill across the rows.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A&lt;-<span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>,<span class="dt">nrow=</span><span class="dv">2</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A&lt;-<span class="kw">matrix</span>(<span class="dv">1</span>:<span class="dv">6</span>,<span class="dt">nrow=</span><span class="dv">2</span>)
 A</code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
 ## [1,]    1    3    5
 ## [2,]    2    4    6</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A&lt;-<span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>,<span class="dt">nrow=</span><span class="dv">2</span>,<span class="dt">byrow=</span><span class="ot">TRUE</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A&lt;-<span class="kw">matrix</span>(<span class="dv">1</span>:<span class="dv">6</span>,<span class="dt">nrow=</span><span class="dv">2</span>,<span class="dt">byrow=</span><span class="ot">TRUE</span>)
 A</code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
 ## [1,]    1    2    3
 ## [2,]    4    5    6</code></pre>
 </div><div id="recycling-1" class="slide section level2">
-<h2>Recycling</h2>
+<h1>Recycling</h1>
 <p>Recycling will occur if needed and you’ll get a warning.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A&lt;-<span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>,<span class="dt">nrow=</span><span class="dv">2</span>,<span class="dt">ncol=</span><span class="dv">5</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A&lt;-<span class="kw">matrix</span>(<span class="dv">1</span>:<span class="dv">6</span>,<span class="dt">nrow=</span><span class="dv">2</span>,<span class="dt">ncol=</span><span class="dv">5</span>)</code></pre></div>
 <pre><code>## Warning in matrix(1:6, nrow = 2, ncol = 5): data length [6] is not a sub-
 ## multiple or multiple of the number of columns [5]</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A</code></pre></div>
@@ -466,7 +466,7 @@ A</code></pre></div>
 ## [1,]    1    3    5    1    3
 ## [2,]    2    4    6    2    4</code></pre>
 </div><div id="matrices-are-their-own-class" class="slide section level2">
-<h2>Matrices are their own class</h2>
+<h1>Matrices are their own class</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(A)</code></pre></div>
 <pre><code>## [1] &quot;matrix&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">attributes</span>(A)</code></pre></div>
@@ -485,7 +485,7 @@ A</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dim</span>(A)[<span class="dv">2</span>]</code></pre></div>
 <pre><code>## [1] 5</code></pre>
 </div><div id="selecting-individual-elements-rows-and-columns." class="slide section level2">
-<h2>Selecting individual elements, rows and columns.</h2>
+<h1>Selecting individual elements, rows and columns.</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A[<span class="dv">2</span>,<span class="dv">2</span>]</code></pre></div>
 <pre><code>## [1] 4</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A[<span class="dv">1</span>,]</code></pre></div>
@@ -503,9 +503,9 @@ A</code></pre></div>
 <pre><code>##      [,1] [,2] [,3] [,4] [,5]
 ## [1,]    1    3    5    1    3</code></pre>
 </div><div id="submatrices" class="slide section level2">
-<h2>Submatrices</h2>
+<h1>Submatrices</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">6345789</span>)
-x&lt;-<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>,<span class="dt">size=</span><span class="dv">9</span>,<span class="dt">replace=</span><span class="ot">TRUE</span>)
+x&lt;-<span class="kw">sample</span>(<span class="dv">1</span>:<span class="dv">20</span>,<span class="dt">size=</span><span class="dv">9</span>,<span class="dt">replace=</span><span class="ot">TRUE</span>)
 m1&lt;-<span class="kw">matrix</span>(x,<span class="dt">nrow=</span><span class="dv">3</span>)
 m1</code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
@@ -519,12 +519,12 @@ m1</code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]   15   15
 ## [2,]   19   12</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m1[<span class="op">-</span><span class="dv">2</span>,<span class="op">-</span><span class="dv">1</span>]</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m1[-<span class="dv">2</span>,-<span class="dv">1</span>]</code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]   15   15
 ## [2,]   19   12</code></pre>
 </div><div id="using-row-and-column-names" class="slide section level2">
-<h2>Using Row and Column Names</h2>
+<h1>Using Row and Column Names</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rownames</span>(m1)</code></pre></div>
 <pre><code>## NULL</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">colnames</span>(m1)</code></pre></div>
@@ -536,7 +536,7 @@ m1[<span class="kw">c</span>(<span class="st">&quot;row1&quot;</span>,<span clas
 ## row1   15   15
 ## row2   11    9</code></pre>
 </div><div id="character-matrices-and-mixed-matrices" class="slide section level2">
-<h2>Character matrices and mixed matrices</h2>
+<h1>Character matrices and mixed matrices</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">B&lt;-<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>,<span class="st">&quot;c&quot;</span>,<span class="st">&quot;d&quot;</span>),<span class="dt">nrow=</span><span class="dv">2</span>);B</code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,] &quot;a&quot;  &quot;c&quot; 
@@ -547,9 +547,9 @@ m1[<span class="kw">c</span>(<span class="st">&quot;row1&quot;</span>,<span clas
 ## [1,] 1    3   
 ## [2,] 2    &quot;a&quot;</code></pre>
 </div><div id="using-rbind-and-cbind-to-add-rows-and-columns" class="slide section level2">
-<h2>Using rbind and cbind to add rows and columns</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A&lt;-<span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>,<span class="dt">nrow=</span><span class="dv">2</span>)
-B&lt;-<span class="kw">rbind</span>(A,<span class="dv">7</span><span class="op">:</span><span class="dv">9</span>)
+<h1>Using rbind and cbind to add rows and columns</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A&lt;-<span class="kw">matrix</span>(<span class="dv">1</span>:<span class="dv">6</span>,<span class="dt">nrow=</span><span class="dv">2</span>)
+B&lt;-<span class="kw">rbind</span>(A,<span class="dv">7</span>:<span class="dv">9</span>)
 B</code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
 ## [1,]    1    3    5
@@ -559,7 +559,7 @@ B</code></pre></div>
 <pre><code>## [1] 3 3</code></pre>
 </div><div class="slide section level2">
 
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">C&lt;-<span class="kw">cbind</span>(A,<span class="dv">10</span><span class="op">:</span><span class="dv">11</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">C&lt;-<span class="kw">cbind</span>(A,<span class="dv">10</span>:<span class="dv">11</span>)
 C</code></pre></div>
 <pre><code>##      [,1] [,2] [,3] [,4]
 ## [1,]    1    3    5   10
@@ -567,21 +567,21 @@ C</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dim</span>(C)</code></pre></div>
 <pre><code>## [1] 2 4</code></pre>
 </div><div id="matrix-operations" class="slide section level2">
-<h2>Matrix Operations</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A&lt;-<span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>,<span class="dt">nrow=</span><span class="dv">2</span>)
-<span class="dv">3</span><span class="op">*</span>A</code></pre></div>
+<h1>Matrix Operations</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A&lt;-<span class="kw">matrix</span>(<span class="dv">1</span>:<span class="dv">6</span>,<span class="dt">nrow=</span><span class="dv">2</span>)
+<span class="dv">3</span>*A</code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
 ## [1,]    3    9   15
 ## [2,]    6   12   18</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A<span class="op">+</span>A</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A+A</code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
 ## [1,]    2    6   10
 ## [2,]    4    8   12</code></pre>
 </div><div id="matrix-operations-1" class="slide section level2">
-<h2>Matrix Operations</h2>
+<h1>Matrix Operations</h1>
 <p><code>A^2</code> squares each element. The transpose of A is given by <code>t(A)</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A&lt;-<span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>,<span class="dt">nrow=</span><span class="dv">2</span>)
-A<span class="op">^</span><span class="dv">2</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A&lt;-<span class="kw">matrix</span>(<span class="dv">1</span>:<span class="dv">6</span>,<span class="dt">nrow=</span><span class="dv">2</span>)
+A^<span class="dv">2</span></code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
 ## [1,]    1    9   25
 ## [2,]    4   16   36</code></pre>
@@ -591,10 +591,10 @@ A<span class="op">^</span><span class="dv">2</span></code></pre></div>
 ## [2,]    3    4
 ## [3,]    5    6</code></pre>
 </div><div id="matrix-multiplication" class="slide section level2">
-<h2>Matrix Multiplication</h2>
+<h1>Matrix Multiplication</h1>
 <p>Remember that when multiplying two matrices AB the number of columns of A has to equal the number of rows in B.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">B&lt;-<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">6</span>,<span class="dv">8</span>,<span class="dv">7</span>,<span class="dv">4</span>,<span class="dv">1</span>),<span class="dt">nrow=</span><span class="dv">3</span>)
-C&lt;-A <span class="op">%*%</span><span class="st"> </span>B
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">B&lt;-<span class="kw">matrix</span>(<span class="kw">c</span>(-<span class="dv">1</span>,<span class="dv">6</span>,<span class="dv">8</span>,<span class="dv">7</span>,<span class="dv">4</span>,<span class="dv">1</span>),<span class="dt">nrow=</span><span class="dv">3</span>)
+C&lt;-A %*%<span class="st"> </span>B
 <span class="kw">dim</span>(C)</code></pre></div>
 <pre><code>## [1] 2 2</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">C</code></pre></div>
@@ -603,7 +603,7 @@ C&lt;-A <span class="op">%*%</span><span class="st"> </span>B
 ## [2,]   70   36</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># B %*% A will give an error</span></code></pre></div>
 </div><div id="solving-equations" class="slide section level2">
-<h2>Solving Equations</h2>
+<h1>Solving Equations</h1>
 <p>Solve the following system of equations. <span class="math display">\[ x + y =8\]</span> <span class="math display">\[ 3x + 2y=18\]</span></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(A&lt;-<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">2</span>),<span class="dt">nrow=</span><span class="dv">2</span>,<span class="dt">byrow=</span><span class="ot">TRUE</span>))</code></pre></div>
 <pre><code>##      [,1] [,2]
@@ -614,7 +614,7 @@ C&lt;-A <span class="op">%*%</span><span class="st"> </span>B
 ## [1,]    8
 ## [2,]   18</code></pre>
 </div><div id="solution" class="slide section level2">
-<h2>Solution</h2>
+<h1>Solution</h1>
 <p>First, check that the determinant is non-zero so that it has a solution.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">det</span>(A)</code></pre></div>
 <pre><code>## [1] -1</code></pre>
@@ -624,21 +624,22 @@ C&lt;-A <span class="op">%*%</span><span class="st"> </span>B
 ## [1,]    2
 ## [2,]    6</code></pre>
 </div><div id="computing-the-inverse-of-a-matrix" class="slide section level2">
-<h2>Computing the inverse of a matrix</h2>
+<h1>Computing the inverse of a matrix</h1>
 <p><code>solve</code> also gives the inverse of a matrix.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">solve</span>(A)</code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]   -2    1
 ## [2,]    3   -1</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">solve</span>(A)<span class="op">%*%</span>B</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">solve</span>(A)%*%B</code></pre></div>
 <pre><code>##      [,1]
 ## [1,]    2
 ## [2,]    6</code></pre>
 </div><div id="eigenvalues" class="slide section level2">
-<h2>Eigenvalues</h2>
+<h1>Eigenvalues</h1>
 <p><code>eigen</code> computes eigenvalues and eigenvectors.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">eigen</span>(A)</code></pre></div>
-<pre><code>## $values
+<pre><code>## eigen() decomposition
+## $values
 ## [1]  3.3027756 -0.3027756
 ## 
 ## $vectors
@@ -646,7 +647,7 @@ C&lt;-A <span class="op">%*%</span><span class="st"> </span>B
 ## [1,] -0.3983218 -0.6088937
 ## [2,] -0.9172457  0.7932518</code></pre>
 </div><div id="diagonal-matrices" class="slide section level2">
-<h2>Diagonal Matrices</h2>
+<h1>Diagonal Matrices</h1>
 <p><code>diag</code> extract the diagonal of a matrix and also creates a diagonal matrix, depending on its argument.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">diag</span>(A)</code></pre></div>
 <pre><code>## [1] 1 2</code></pre>
@@ -657,9 +658,9 @@ C&lt;-A <span class="op">%*%</span><span class="st"> </span>B
 ## [3,]    0    0    6    0
 ## [4,]    0    0    0    8</code></pre>
 </div><div id="rowcolumn-operations" class="slide section level2">
-<h2>Row/Column Operations</h2>
+<h1>Row/Column Operations</h1>
 <p><code>rowsums, colsums, rowmeans, colmeans</code> give the sums and means of rows and columns.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(A&lt;-<span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>,<span class="dt">nrow=</span><span class="dv">2</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(A&lt;-<span class="kw">matrix</span>(<span class="dv">1</span>:<span class="dv">6</span>,<span class="dt">nrow=</span><span class="dv">2</span>))</code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
 ## [1,]    1    3    5
 ## [2,]    2    4    6</code></pre>
@@ -674,7 +675,7 @@ C&lt;-A <span class="op">%*%</span><span class="st"> </span>B
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">colMeans</span>(A)</code></pre></div>
 <pre><code>## [1] 1.5 3.5 5.5</code></pre>
 </div><div id="exercise-create-a-matrix-that-gives-the-following-table." class="slide section level2">
-<h2>Exercise: Create a matrix that gives the following table.</h2>
+<h1>Exercise: Create a matrix that gives the following table.</h1>
 <table>
 <thead>
 <tr class="header">
@@ -718,7 +719,7 @@ C&lt;-A <span class="op">%*%</span><span class="st"> </span>B
 </tbody>
 </table>
 </div><div id="solution-1" class="slide section level2">
-<h2>Solution</h2>
+<h1>Solution</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">teams&lt;-<span class="kw">c</span>(<span class="st">&quot;Toronto&quot;</span>,<span class="st">&quot;New York&quot;</span>,<span class="st">&quot;Baltimore&quot;</span>,<span class="st">&quot;Tampa Bay&quot;</span>,<span class="st">&quot;Boston&quot;</span>)
 wins&lt;-<span class="kw">c</span>(<span class="dv">93</span>,<span class="dv">87</span>,<span class="dv">81</span>,<span class="dv">80</span>,<span class="dv">78</span>)
 losses&lt;-<span class="kw">c</span>(<span class="dv">69</span>,<span class="dv">75</span>,<span class="dv">81</span>,<span class="dv">82</span>,<span class="dv">84</span>)</code></pre></div>
@@ -731,7 +732,7 @@ alEast</code></pre></div>
 ## [4,]   80   82
 ## [5,]   78   84</code></pre>
 </div><div id="add-row-and-column-names" class="slide section level2">
-<h2>Add row and column names</h2>
+<h1>Add row and column names</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rownames</span>(alEast)&lt;-teams
 <span class="kw">colnames</span>(alEast)&lt;-<span class="kw">c</span>(<span class="st">&quot;Wins&quot;</span>,<span class="st">&quot;Losses&quot;</span>)
 alEast</code></pre></div>
@@ -742,8 +743,8 @@ alEast</code></pre></div>
 ## Tampa Bay   80     82
 ## Boston      78     84</code></pre>
 </div><div id="add-winning-percentage" class="slide section level2">
-<h2>Add winning percentage</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Pct&lt;-<span class="kw">round</span>(alEast[,<span class="st">&quot;Wins&quot;</span>]<span class="op">/</span>(alEast[,<span class="st">&quot;Wins&quot;</span>]<span class="op">+</span>alEast[,<span class="st">&quot;Losses&quot;</span>]),<span class="dv">3</span>)
+<h1>Add winning percentage</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Pct&lt;-<span class="kw">round</span>(alEast[,<span class="st">&quot;Wins&quot;</span>]/(alEast[,<span class="st">&quot;Wins&quot;</span>]+alEast[,<span class="st">&quot;Losses&quot;</span>]),<span class="dv">3</span>)
 alEast&lt;-<span class="kw">cbind</span>(alEast,Pct)
 alEast</code></pre></div>
 <pre><code>##           Wins Losses   Pct
@@ -753,7 +754,7 @@ alEast</code></pre></div>
 ## Tampa Bay   80     82 0.494
 ## Boston      78     84 0.481</code></pre>
 </div><div id="what-if-we-want-the-team-names-to-be-a-column-in-the-matrix" class="slide section level2">
-<h2>What if we want the team names to be a column in the matrix?</h2>
+<h1>What if we want the team names to be a column in the matrix?</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">alEast&lt;-<span class="kw">matrix</span>(<span class="kw">c</span>(teams,wins,losses),<span class="dt">nrow=</span><span class="dv">5</span>,<span class="dt">byrow=</span><span class="ot">FALSE</span>)
 alEast</code></pre></div>
 <pre><code>##      [,1]        [,2] [,3]
@@ -763,7 +764,7 @@ alEast</code></pre></div>
 ## [4,] &quot;Tampa Bay&quot; &quot;80&quot; &quot;82&quot;
 ## [5,] &quot;Boston&quot;    &quot;78&quot; &quot;84&quot;</code></pre>
 </div><div id="try-to-coerce-column-to-numeric" class="slide section level2">
-<h2>Try to coerce column to numeric</h2>
+<h1>Try to coerce column to numeric</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(alEast[,<span class="dv">2</span>])</code></pre></div>
 <pre><code>## [1] &quot;character&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.numeric</span>(alEast[,<span class="dv">2</span>])</code></pre></div>
@@ -777,7 +778,7 @@ alEast</code></pre></div>
 ## [4,] &quot;Tampa Bay&quot; &quot;80&quot; &quot;82&quot;
 ## [5,] &quot;Boston&quot;    &quot;78&quot; &quot;84&quot;</code></pre>
 </div><div id="use-cbind-to-put-them-together" class="slide section level2">
-<h2>Use <code>cbind</code> to put them together</h2>
+<h1>Use <code>cbind</code> to put them together</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">alEast&lt;-<span class="kw">cbind</span>(teams,wins,losses)
 alEast</code></pre></div>
 <pre><code>##      teams       wins losses
@@ -791,7 +792,7 @@ alEast</code></pre></div>
 <p>We need a matrix-like structure that allows columns to be of different classes.</p>
 </div>
 <div id="data-frames" class="titleslide slide section level1"><h1>Data Frames</h1></div><div id="section" class="slide section level2">
-<h2></h2>
+<h1></h1>
 <p>Data frames allow for columns with different classes.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">alEast&lt;-<span class="kw">data.frame</span>(<span class="dt">Team=</span>teams,<span class="dt">W=</span>wins,<span class="dt">L=</span>losses)
 alEast</code></pre></div>
@@ -804,7 +805,7 @@ alEast</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(alEast)</code></pre></div>
 <pre><code>## [1] &quot;data.frame&quot;</code></pre>
 </div><div id="classes-are-different." class="slide section level2">
-<h2>Classes are different.</h2>
+<h1>Classes are different.</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sapply</span>(alEast,class)</code></pre></div>
 <pre><code>##      Team         W         L 
 ##  &quot;factor&quot; &quot;numeric&quot; &quot;numeric&quot;</code></pre>
@@ -815,7 +816,7 @@ alEast</code></pre></div>
 <pre><code>##        Team           W           L 
 ## &quot;character&quot;   &quot;numeric&quot;   &quot;numeric&quot;</code></pre>
 </div><div id="selecting-rows-and-columns" class="slide section level2">
-<h2>Selecting rows and columns</h2>
+<h1>Selecting rows and columns</h1>
 <p>We can access rows and columns the same way as matrices.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">alEast[,<span class="st">&quot;Team&quot;</span>,drop=<span class="ot">FALSE</span>]</code></pre></div>
 <pre><code>##        Team
@@ -827,15 +828,15 @@ alEast</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(alEast[,<span class="st">&quot;Team&quot;</span>,<span class="dt">drop=</span><span class="ot">FALSE</span>])</code></pre></div>
 <pre><code>## [1] &quot;data.frame&quot;</code></pre>
 </div><div id="we-can-also-access-them-like-elements-of-a-list." class="slide section level2">
-<h2>We can also access them like elements of a list.</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">alEast<span class="op">$</span>W</code></pre></div>
+<h1>We can also access them like elements of a list.</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">alEast$W</code></pre></div>
 <pre><code>## [1] 93 87 81 80 78</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">alEast[[<span class="dv">2</span>]]</code></pre></div>
 <pre><code>## [1] 93 87 81 80 78</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dim</span>(alEast)</code></pre></div>
 <pre><code>## [1] 5 3</code></pre>
 </div><div id="attributes-of-a-data-frame" class="slide section level2">
-<h2>Attributes of a data frame</h2>
+<h1>Attributes of a data frame</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">attributes</span>(alEast)</code></pre></div>
 <pre><code>## $names
 ## [1] &quot;Team&quot; &quot;W&quot;    &quot;L&quot;   
@@ -846,15 +847,15 @@ alEast</code></pre></div>
 ## $class
 ## [1] &quot;data.frame&quot;</code></pre>
 </div><div id="lahman-baseball-database" class="slide section level2">
-<h2>Lahman Baseball Database</h2>
+<h1>Lahman Baseball Database</h1>
 <p>R package created from <a href="http://seanlahman.com/">Sean Lahman’s</a> baseball database. We’ll look at the Teams dataframe.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(Lahman)
 <span class="kw">class</span>(Teams)</code></pre></div>
 <pre><code>## [1] &quot;data.frame&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dim</span>(Teams)</code></pre></div>
-<pre><code>## [1] 2835   48</code></pre>
+<pre><code>## [1] 2805   48</code></pre>
 </div><div id="column-and-row-names" class="slide section level2">
-<h2>Column and row names</h2>
+<h1>Column and row names</h1>
 <p>Instead of <code>colnames</code>, we just use <code>names</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">names</span>(Teams)</code></pre></div>
 <pre><code>##  [1] &quot;yearID&quot;         &quot;lgID&quot;           &quot;teamID&quot;         &quot;franchID&quot;      
@@ -875,11 +876,11 @@ alEast</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw">row.names</span>(Teams))</code></pre></div>
 <pre><code>## [1] &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot; &quot;5&quot; &quot;6&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nrow</span>(Teams)</code></pre></div>
-<pre><code>## [1] 2835</code></pre>
+<pre><code>## [1] 2805</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ncol</span>(Teams)</code></pre></div>
 <pre><code>## [1] 48</code></pre>
 </div><div id="exploring-data-frames" class="slide section level2">
-<h2>Exploring data frames</h2>
+<h1>Exploring data frames</h1>
 <p>You’ve already seen <code>head</code> and <code>tail</code>. They let you see the top and bottom of the data frame. An additional argument lets you give the number of rows to be shown.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(Teams,<span class="dv">6</span>)</code></pre></div>
 <pre><code>##   yearID lgID teamID franchID divID Rank  G Ghome  W  L DivWin WCWin LgWin
@@ -896,13 +897,13 @@ alEast</code></pre></div>
 ## 4  &lt;NA&gt; 137  746 178  19   8  2 33  9 16 NA  NA NA 243  97 5.17 19   1  0
 ## 5  &lt;NA&gt; 302 1404 403  43  21  1 33 15 46 NA  NA NA 313 121 3.72 32   1  0
 ## 6  &lt;NA&gt; 376 1281 410  66  27  9 46 23 56 NA  NA NA 266 137 4.95 27   0  0
-##   IPouts  HA HRA BBA SOA   E DP    FP                    name
-## 1    828 367   2  42  23 225 NA 0.838    Boston Red Stockings
-## 2    753 308   6  28  22 218 NA 0.829 Chicago White Stockings
-## 3    762 346  13  53  34 223 NA 0.814  Cleveland Forest Citys
-## 4    507 261   5  21  17 163 NA 0.803    Fort Wayne Kekiongas
-## 5    879 373   7  42  22 227 NA 0.839        New York Mutuals
-## 6    747 329   3  53  16 194 NA 0.845  Philadelphia Athletics
+##   IPouts  HA HRA BBA SOA   E DP   FP                    name
+## 1    828 367   2  42  23 225 NA 0.83    Boston Red Stockings
+## 2    753 308   6  28  22 218 NA 0.82 Chicago White Stockings
+## 3    762 346  13  53  34 223 NA 0.81  Cleveland Forest Citys
+## 4    507 261   5  21  17 163 NA 0.80    Fort Wayne Kekiongas
+## 5    879 373   7  42  22 227 NA 0.83        New York Mutuals
+## 6    747 329   3  53  16 194 NA 0.84  Philadelphia Athletics
 ##                           park attendance BPF PPF teamIDBR teamIDlahman45
 ## 1          South End Grounds I         NA 103  98      BOS            BS1
 ## 2      Union Base-Ball Grounds         NA 104 102      CHI            CH1
@@ -921,123 +922,123 @@ alEast</code></pre></div>
 
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tail</span>(Teams,<span class="dv">4</span>)</code></pre></div>
 <pre><code>##      yearID lgID teamID franchID divID Rank   G Ghome  W  L DivWin WCWin
-## 2832   2016   AL    TBA      TBD     E    5 162    81 68 94      N     N
-## 2833   2016   AL    TEX      TEX     W    1 162    81 95 67      Y     N
-## 2834   2016   AL    TOR      TOR     E    2 162    81 89 73      N     Y
-## 2835   2016   NL    WAS      WSN     E    1 162    81 95 67      Y     N
+## 2802   2015   NL    SFN      SFG     W    2 162    81 84 78      N     N
+## 2803   2015   NL    ARI      ARI     W    3 162    81 79 83      N     N
+## 2804   2015   NL    SDN      SDP     W    4 162    81 74 88      N     N
+## 2805   2015   NL    COL      COL     W    5 162    81 68 94      N     N
 ##      LgWin WSWin   R   AB    H X2B X3B  HR  BB   SO  SB CS HBP SF  RA  ER
-## 2832     N     N 672 5481 1333 288  32 216 449 1482  60 37  69 28 713 665
-## 2833     N     N 765 5525 1446 257  23 215 436 1220  99 36  70 40 757 700
-## 2834     N     N 759 5479 1358 276  18 221 632 1362  54 24  55 40 666 613
-## 2835     N     N 763 5490 1403 268  29 203 536 1252 121 39  64 63 612 570
+## 2802     N     N 696 5565 1486 288  39 136 457 1159  93 36  49 37 627 597
+## 2803     N     N 720 5649 1494 289  48 154 490 1312 132 44  33 57 713 659
+## 2804     N     N 650 5457 1324 260  36 148 426 1327  82 29  40 42 731 655
+## 2805     N     N 737 5572 1479 274  49 186 388 1283  97 43  33 34 844 799
 ##       ERA CG SHO SV IPouts   HA HRA BBA  SOA  E  DP    FP
-## 2832 4.20  1   8 42   4279 1395 210 491 1357 94 129 0.984
-## 2833 4.37  1   6 56   4329 1441 201 534 1154 97 190 0.984
-## 2834 3.78  0  10 43   4378 1340 183 461 1314 88 144 0.986
-## 2835 3.51  1  12 46   4379 1272 155 468 1476 73 142 0.988
-##                      name                          park attendance BPF PPF
-## 2832       Tampa Bay Rays               Tropicana Field    1286163  93  94
-## 2833        Texas Rangers Rangers Ballpark in Arlington    2710402 106 105
-## 2834    Toronto Blue Jays                 Rogers Centre    3392099 111 110
-## 2835 Washington Nationals                Nationals Park    2481938 100  98
-##      teamIDBR teamIDlahman45 teamIDretro
-## 2832      TBR            TBA         TBA
-## 2833      TEX            TEX         TEX
-## 2834      TOR            TOR         TOR
-## 2835      WSN            MON         WAS</code></pre>
+## 2802 3.72  7  18 41   4333 1344 155 431 1165 78 145 0.987
+## 2803 4.04  1  12 44   4400 1450 182 500 1215 86 146 0.986
+## 2804 4.09  1   6 41   4321 1371 171 516 1393 92 138 0.985
+## 2805 5.04  4   4 36   4279 1579 183 579 1112 95 171 0.985
+##                      name        park attendance BPF PPF teamIDBR
+## 2802 San Francisco Giants   AT&amp;T Park    3375882  99  97      SFG
+## 2803 Arizona Diamondbacks Chase Field    2080145 107 106      ARI
+## 2804     San Diego Padres  Petco Park    2459742  98  97      SDP
+## 2805     Colorado Rockies Coors Field    2506789 119 118      COL
+##      teamIDlahman45 teamIDretro
+## 2802            SFN         SFN
+## 2803            ARI         ARI
+## 2804            SDN         SDN
+## 2805            COL         COL</code></pre>
 </div><div id="summary" class="slide section level2">
-<h2>Summary</h2>
+<h1>Summary</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Teams)</code></pre></div>
 <pre><code>##      yearID     lgID          teamID        franchID       divID          
-##  Min.   :1871   AA:  85   CHN    : 141   ATL    : 141   Length:2835       
-##  1st Qu.:1920   AL:1220   PHI    : 134   CHC    : 141   Class :character  
-##  Median :1964   FL:  16   PIT    : 130   CIN    : 135   Mode  :character  
-##  Mean   :1956   NA:  50   CIN    : 127   PIT    : 135                     
-##  3rd Qu.:1993   NL:1444   SLN    : 125   STL    : 135                     
-##  Max.   :2016   PL:   8   BOS    : 116   PHI    : 134                     
-##                 UA:  12   (Other):2062   (Other):2014                     
-##       Rank              G             Ghome            W         
-##  Min.   : 1.000   Min.   :  6.0   Min.   :44.0   Min.   :  0.00  
-##  1st Qu.: 2.000   1st Qu.:154.0   1st Qu.:77.0   1st Qu.: 66.00  
-##  Median : 4.000   Median :157.0   Median :81.0   Median : 77.00  
-##  Mean   : 4.095   Mean   :150.5   Mean   :78.5   Mean   : 74.81  
-##  3rd Qu.: 6.000   3rd Qu.:162.0   3rd Qu.:81.0   3rd Qu.: 87.00  
-##  Max.   :13.000   Max.   :165.0   Max.   :84.0   Max.   :116.00  
-##                                   NA's   :399                    
+##  Min.   :1871   AA:  85   CHN    : 140   ATL    : 140   Length:2805       
+##  1st Qu.:1919   AL:1205   PHI    : 133   CHC    : 140   Class :character  
+##  Median :1963   FL:  16   PIT    : 129   CIN    : 134   Mode  :character  
+##  Mean   :1955   NA:  50   CIN    : 126   PIT    : 134                     
+##  3rd Qu.:1992   NL:1429   SLN    : 124   STL    : 134                     
+##  Max.   :2015   PL:   8   BOS    : 115   PHI    : 133                     
+##                 UA:  12   (Other):2038   (Other):1990                     
+##       Rank              G             Ghome             W         
+##  Min.   : 1.000   Min.   :  6.0   Min.   :44.00   Min.   :  0.00  
+##  1st Qu.: 2.000   1st Qu.:153.0   1st Qu.:77.00   1st Qu.: 66.00  
+##  Median : 4.000   Median :157.0   Median :81.00   Median : 77.00  
+##  Mean   : 4.107   Mean   :150.3   Mean   :78.47   Mean   : 74.75  
+##  3rd Qu.: 6.000   3rd Qu.:162.0   3rd Qu.:81.00   3rd Qu.: 87.00  
+##  Max.   :13.000   Max.   :165.0   Max.   :84.00   Max.   :116.00  
+##                                   NA's   :399                     
 ##        L             DivWin             WCWin              LgWin          
-##  Min.   :  4.00   Length:2835        Length:2835        Length:2835       
+##  Min.   :  4.00   Length:2805        Length:2805        Length:2805       
 ##  1st Qu.: 65.00   Class :character   Class :character   Class :character  
 ##  Median : 76.00   Mode  :character   Mode  :character   Mode  :character  
-##  Mean   : 74.81                                                           
+##  Mean   : 74.75                                                           
 ##  3rd Qu.: 87.00                                                           
 ##  Max.   :134.00                                                           
 ##                                                                           
 ##     WSWin                 R                AB             H       
-##  Length:2835        Min.   :  24.0   Min.   : 211   Min.   :  33  
-##  Class :character   1st Qu.: 614.0   1st Qu.:5132   1st Qu.:1300  
-##  Mode  :character   Median : 690.0   Median :5395   Median :1393  
-##                     Mean   : 682.4   Mean   :5146   Mean   :1347  
-##                     3rd Qu.: 763.0   3rd Qu.:5518   3rd Qu.:1467  
+##  Length:2805        Min.   :  24.0   Min.   : 211   Min.   :  33  
+##  Class :character   1st Qu.: 613.0   1st Qu.:5127   1st Qu.:1299  
+##  Mode  :character   Median : 690.0   Median :5389   Median :1393  
+##                     Mean   : 681.9   Mean   :5142   Mean   :1346  
+##                     3rd Qu.: 763.0   3rd Qu.:5517   3rd Qu.:1467  
 ##                     Max.   :1220.0   Max.   :5781   Max.   :1783  
 ##                                                                   
-##       X2B             X3B               HR            BB     
-##  Min.   :  3.0   Min.   :  0.00   Min.   :  0   Min.   :  0  
-##  1st Qu.:193.5   1st Qu.: 30.00   1st Qu.: 42   1st Qu.:426  
-##  Median :231.0   Median : 41.00   Median :108   Median :493  
-##  Mean   :228.1   Mean   : 46.91   Mean   :102   Mean   :474  
-##  3rd Qu.:271.0   3rd Qu.: 60.00   3rd Qu.:150   3rd Qu.:554  
-##  Max.   :376.0   Max.   :150.00   Max.   :264   Max.   :835  
-##                                                              
-##        SO               SB            CS              HBP        
-##  Min.   :   0.0   Min.   :  0   Min.   :  0.00   Min.   : 26.00  
-##  1st Qu.: 508.0   1st Qu.: 64   1st Qu.: 35.00   1st Qu.: 47.00  
-##  Median : 762.0   Median : 95   Median : 45.00   Median : 54.00  
-##  Mean   : 744.2   Mean   :112   Mean   : 48.53   Mean   : 56.03  
-##  3rd Qu.: 976.0   3rd Qu.:140   3rd Qu.: 58.00   3rd Qu.: 64.00  
-##  Max.   :1543.0   Max.   :581   Max.   :191.00   Max.   :103.00  
-##  NA's   :120      NA's   :144   NA's   :859      NA's   :2325    
-##        SF              RA               ER            ERA       
-##  Min.   :24.00   Min.   :  34.0   Min.   :  25   Min.   :1.220  
-##  1st Qu.:38.00   1st Qu.: 609.5   1st Qu.: 501   1st Qu.:3.350  
-##  Median :44.00   Median : 688.0   Median : 592   Median :3.820  
-##  Mean   :44.43   Mean   : 682.4   Mean   : 572   Mean   :3.819  
-##  3rd Qu.:50.00   3rd Qu.: 764.0   3rd Qu.: 667   3rd Qu.:4.300  
-##  Max.   :75.00   Max.   :1252.0   Max.   :1023   Max.   :8.000  
-##  NA's   :2325                                                   
+##       X2B             X3B              HR              BB       
+##  Min.   :  3.0   Min.   :  0.0   Min.   :  0.0   Min.   :  0.0  
+##  1st Qu.:193.0   1st Qu.: 31.0   1st Qu.: 42.0   1st Qu.:425.0  
+##  Median :231.0   Median : 41.0   Median :107.0   Median :493.0  
+##  Mean   :227.6   Mean   : 47.1   Mean   :101.1   Mean   :473.6  
+##  3rd Qu.:270.0   3rd Qu.: 60.0   3rd Qu.:149.0   3rd Qu.:554.0  
+##  Max.   :376.0   Max.   :150.0   Max.   :264.0   Max.   :835.0  
+##                                                                 
+##        SO               SB              CS              HBP       
+##  Min.   :   0.0   Min.   :  0.0   Min.   :  0.00   Min.   : 26.0  
+##  1st Qu.: 506.0   1st Qu.: 64.0   1st Qu.: 35.00   1st Qu.: 47.0  
+##  Median : 757.0   Median : 96.0   Median : 46.00   Median : 54.0  
+##  Mean   : 737.9   Mean   :112.3   Mean   : 48.77   Mean   : 56.1  
+##  3rd Qu.: 970.0   3rd Qu.:141.0   3rd Qu.: 58.00   3rd Qu.: 64.0  
+##  Max.   :1535.0   Max.   :581.0   Max.   :191.00   Max.   :103.0  
+##  NA's   :120      NA's   :144     NA's   :859      NA's   :2325   
+##        SF              RA               ER              ERA       
+##  Min.   :24.00   Min.   :  34.0   Min.   :  25.0   Min.   :1.220  
+##  1st Qu.:38.00   1st Qu.: 609.0   1st Qu.: 500.0   1st Qu.:3.340  
+##  Median :44.00   Median : 688.0   Median : 590.0   Median :3.820  
+##  Mean   :44.68   Mean   : 681.9   Mean   : 570.9   Mean   :3.815  
+##  3rd Qu.:50.00   3rd Qu.: 764.0   3rd Qu.: 666.0   3rd Qu.:4.300  
+##  Max.   :75.00   Max.   :1252.0   Max.   :1023.0   Max.   :8.000  
+##  NA's   :2325                                                     
 ##        CG              SHO               SV            IPouts    
 ##  Min.   :  0.00   Min.   : 0.000   Min.   : 0.00   Min.   : 162  
-##  1st Qu.: 13.00   1st Qu.: 6.000   1st Qu.: 9.00   1st Qu.:4078  
-##  Median : 45.00   Median : 9.000   Median :24.00   Median :4240  
-##  Mean   : 49.98   Mean   : 9.659   Mean   :23.87   Mean   :4026  
-##  3rd Qu.: 77.00   3rd Qu.:13.000   3rd Qu.:38.00   3rd Qu.:4341  
+##  1st Qu.: 14.00   1st Qu.: 6.000   1st Qu.: 9.00   1st Qu.:4077  
+##  Median : 45.00   Median : 9.000   Median :24.00   Median :4236  
+##  Mean   : 50.48   Mean   : 9.664   Mean   :23.67   Mean   :4022  
+##  3rd Qu.: 78.00   3rd Qu.:13.000   3rd Qu.:38.00   3rd Qu.:4341  
 ##  Max.   :148.00   Max.   :32.000   Max.   :68.00   Max.   :4518  
 ##                                                                  
-##        HA            HRA           BBA             SOA        
-##  Min.   :  49   Min.   :  0   Min.   :  0.0   Min.   :   0.0  
-##  1st Qu.:1289   1st Qu.: 47   1st Qu.:429.0   1st Qu.: 503.0  
-##  Median :1392   Median :110   Median :494.0   Median : 740.0  
-##  Mean   :1347   Mean   :102   Mean   :474.3   Mean   : 737.2  
-##  3rd Qu.:1470   3rd Qu.:150   3rd Qu.:554.0   3rd Qu.: 972.0  
-##  Max.   :1993   Max.   :258   Max.   :827.0   Max.   :1510.0  
+##        HA            HRA             BBA           SOA        
+##  Min.   :  49   Min.   :  0.0   Min.   :  0   Min.   :   0.0  
+##  1st Qu.:1288   1st Qu.: 46.0   1st Qu.:427   1st Qu.: 501.0  
+##  Median :1392   Median :109.0   Median :494   Median : 735.0  
+##  Mean   :1346   Mean   :101.1   Mean   :474   Mean   : 731.2  
+##  3rd Qu.:1470   3rd Qu.:148.0   3rd Qu.:555   3rd Qu.: 965.0  
+##  Max.   :1993   Max.   :241.0   Max.   :827   Max.   :1450.0  
 ##                                                               
 ##        E               DP              FP             name          
-##  Min.   : 47.0   Min.   : 18.0   Min.   :0.7650   Length:2835       
-##  1st Qu.:116.0   1st Qu.:127.0   1st Qu.:0.9650   Class :character  
-##  Median :145.0   Median :145.0   Median :0.9760   Mode  :character  
-##  Mean   :185.4   Mean   :140.2   Mean   :0.9654                     
-##  3rd Qu.:215.0   3rd Qu.:159.0   3rd Qu.:0.9810                     
+##  Min.   : 47.0   Min.   : 18.0   Min.   :0.7600   Length:2805       
+##  1st Qu.:116.0   1st Qu.:126.0   1st Qu.:0.9600   Class :character  
+##  Median :145.0   Median :145.0   Median :0.9700   Mode  :character  
+##  Mean   :186.3   Mean   :140.2   Mean   :0.9615                     
+##  3rd Qu.:217.0   3rd Qu.:159.2   3rd Qu.:0.9800                     
 ##  Max.   :639.0   Max.   :217.0   Max.   :0.9910                     
 ##                  NA's   :317                                        
 ##      park             attendance           BPF             PPF       
-##  Length:2835        Min.   :   6088   Min.   : 60.0   Min.   : 60.0  
-##  Class :character   1st Qu.: 534826   1st Qu.: 97.0   1st Qu.: 97.0  
-##  Mode  :character   Median :1154750   Median :100.0   Median :100.0  
-##                     Mean   :1357173   Mean   :100.2   Mean   :100.2  
-##                     3rd Qu.:2042453   3rd Qu.:103.0   3rd Qu.:103.0  
+##  Length:2805        Min.   :   6088   Min.   : 60.0   Min.   : 60.0  
+##  Class :character   1st Qu.: 528716   1st Qu.: 97.0   1st Qu.: 97.0  
+##  Mode  :character   Median :1140348   Median :100.0   Median :100.0  
+##                     Mean   :1344346   Mean   :100.2   Mean   :100.2  
+##                     3rd Qu.:2014687   3rd Qu.:103.0   3rd Qu.:103.0  
 ##                     Max.   :4483350   Max.   :129.0   Max.   :141.0  
 ##                     NA's   :279                                      
 ##    teamIDBR         teamIDlahman45     teamIDretro       
-##  Length:2835        Length:2835        Length:2835       
+##  Length:2805        Length:2805        Length:2805       
 ##  Class :character   Class :character   Class :character  
 ##  Mode  :character   Mode  :character   Mode  :character  
 ##                                                          
@@ -1045,9 +1046,9 @@ alEast</code></pre></div>
 ##                                                          
 ## </code></pre>
 </div><div id="structure" class="slide section level2">
-<h2>Structure</h2>
+<h1>Structure</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(Teams)</code></pre></div>
-<pre><code>## 'data.frame':    2835 obs. of  48 variables:
+<pre><code>## 'data.frame':    2805 obs. of  48 variables:
 ##  $ yearID        : int  1871 1871 1871 1871 1871 1871 1871 1871 1871 1872 ...
 ##  $ lgID          : Factor w/ 7 levels &quot;AA&quot;,&quot;AL&quot;,&quot;FL&quot;,..: 4 4 4 4 4 4 4 4 4 4 ...
 ##  $ teamID        : Factor w/ 149 levels &quot;ALT&quot;,&quot;ANA&quot;,&quot;ARI&quot;,..: 24 31 39 56 90 97 111 136 142 8 ...
@@ -1087,7 +1088,7 @@ alEast</code></pre></div>
 ##  $ SOA           : int  23 22 34 17 22 16 16 12 13 0 ...
 ##  $ E             : int  225 218 223 163 227 194 220 198 217 432 ...
 ##  $ DP            : int  NA NA NA NA NA NA NA NA NA NA ...
-##  $ FP            : num  0.838 0.829 0.814 0.803 0.839 0.845 0.821 0.845 0.85 0.829 ...
+##  $ FP            : num  0.83 0.82 0.81 0.8 0.83 0.84 0.82 0.84 0.85 0.82 ...
 ##  $ name          : chr  &quot;Boston Red Stockings&quot; &quot;Chicago White Stockings&quot; &quot;Cleveland Forest Citys&quot; &quot;Fort Wayne Kekiongas&quot; ...
 ##  $ park          : chr  &quot;South End Grounds I&quot; &quot;Union Base-Ball Grounds&quot; &quot;National Association Grounds&quot; &quot;Hamilton Field&quot; ...
 ##  $ attendance    : int  NA NA NA NA NA NA NA NA NA NA ...
@@ -1097,7 +1098,7 @@ alEast</code></pre></div>
 ##  $ teamIDlahman45: chr  &quot;BS1&quot; &quot;CH1&quot; &quot;CL1&quot; &quot;FW1&quot; ...
 ##  $ teamIDretro   : chr  &quot;BS1&quot; &quot;CH1&quot; &quot;CL1&quot; &quot;FW1&quot; ...</code></pre>
 </div><div id="data-frame-operations" class="slide section level2">
-<h2>Data Frame Operations</h2>
+<h1>Data Frame Operations</h1>
 <ul>
 <li>select - pick columns by name</li>
 <li>filter - keep rows matching criteria</li>
@@ -1106,7 +1107,7 @@ alEast</code></pre></div>
 <li>summarize - reduce variables to values</li>
 </ul>
 </div><div id="select" class="slide section level2">
-<h2>Select</h2>
+<h1>Select</h1>
 <p>Let’s get a data frame similar to theone we just created byselecting the Year, League, Team, Division, Wins, and Losses.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myTeams&lt;-Teams[,<span class="kw">c</span>(<span class="st">&quot;yearID&quot;</span>,<span class="st">&quot;lgID&quot;</span>,<span class="st">&quot;teamID&quot;</span>,<span class="st">&quot;divID&quot;</span>,<span class="st">&quot;W&quot;</span>,<span class="st">&quot;L&quot;</span>)]
 <span class="kw">head</span>(myTeams)</code></pre></div>
@@ -1121,20 +1122,20 @@ alEast</code></pre></div>
 
 <p>Use <code>str</code> to see what the league ID and division ID’s are.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(myTeams)</code></pre></div>
-<pre><code>## 'data.frame':    2835 obs. of  6 variables:
+<pre><code>## 'data.frame':    2805 obs. of  6 variables:
 ##  $ yearID: int  1871 1871 1871 1871 1871 1871 1871 1871 1871 1872 ...
 ##  $ lgID  : Factor w/ 7 levels &quot;AA&quot;,&quot;AL&quot;,&quot;FL&quot;,..: 4 4 4 4 4 4 4 4 4 4 ...
 ##  $ teamID: Factor w/ 149 levels &quot;ALT&quot;,&quot;ANA&quot;,&quot;ARI&quot;,..: 24 31 39 56 90 97 111 136 142 8 ...
 ##  $ divID : chr  NA NA NA NA ...
 ##  $ W     : int  20 19 10 7 16 21 4 13 15 35 ...
 ##  $ L     : int  10 9 19 12 17 7 21 15 15 19 ...</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">unique</span>(myTeams<span class="op">$</span>divID)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">unique</span>(myTeams$divID)</code></pre></div>
 <pre><code>## [1] NA  &quot;W&quot; &quot;E&quot; &quot;C&quot;</code></pre>
 </div><div id="filter" class="slide section level2">
-<h2>Filter</h2>
+<h1>Filter</h1>
 <p>Find the 2014 AL East standings.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">alEast2014&lt;-myTeams[myTeams<span class="op">$</span>yearID<span class="op">==</span><span class="dv">2014</span> <span class="op">&amp;</span><span class="st"> </span>myTeams<span class="op">$</span>lgID<span class="op">==</span><span class="st">&quot;AL&quot;</span> 
-                    <span class="op">&amp;</span><span class="st"> </span>myTeams<span class="op">$</span>divID<span class="op">==</span><span class="st">&quot;E&quot;</span>,]
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">alEast2014&lt;-myTeams[myTeams$yearID==<span class="dv">2014</span> &amp;<span class="st"> </span>myTeams$lgID==<span class="st">&quot;AL&quot;</span> 
+                    &amp;<span class="st"> </span>myTeams$divID==<span class="st">&quot;E&quot;</span>,]
 alEast2014</code></pre></div>
 <pre><code>##      yearID lgID teamID divID  W  L
 ## 2748   2014   AL    BAL     E 96 66
@@ -1155,9 +1156,9 @@ alEast2014</code></pre></div>
 ## 2772  TBA   77     85
 ## 2774  TOR   83     79</code></pre>
 </div><div id="mutate" class="slide section level2">
-<h2>Mutate</h2>
+<h1>Mutate</h1>
 <p>Add the percentage of wins.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">alEast2014<span class="op">$</span>Pct&lt;-<span class="kw">round</span>(alEast2014<span class="op">$</span>Wins<span class="op">/</span>(alEast2014<span class="op">$</span>Wins<span class="op">+</span>alEast2014<span class="op">$</span>Losses),<span class="dv">3</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">alEast2014$Pct&lt;-<span class="kw">round</span>(alEast2014$Wins/(alEast2014$Wins+alEast2014$Losses),<span class="dv">3</span>)
 alEast2014</code></pre></div>
 <pre><code>##      Team Wins Losses   Pct
 ## 2748  BAL   96     66 0.593
@@ -1166,9 +1167,9 @@ alEast2014</code></pre></div>
 ## 2772  TBA   77     85 0.475
 ## 2774  TOR   83     79 0.512</code></pre>
 </div><div id="arrange" class="slide section level2">
-<h2>Arrange</h2>
+<h1>Arrange</h1>
 <p>List the teams from highest to lowest winning percentage. (Note the - indicates decreasing.)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">alEast2014[<span class="kw">order</span>(<span class="op">-</span>alEast2014<span class="op">$</span>Pct),]</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">alEast2014[<span class="kw">order</span>(-alEast2014$Pct),]</code></pre></div>
 <pre><code>##      Team Wins Losses   Pct
 ## 2748  BAL   96     66 0.593
 ## 2763  NYA   84     78 0.519
@@ -1176,33 +1177,33 @@ alEast2014</code></pre></div>
 ## 2772  TBA   77     85 0.475
 ## 2749  BOS   71     91 0.438</code></pre>
 </div><div id="summarize" class="slide section level2">
-<h2>Summarize</h2>
+<h1>Summarize</h1>
 <p>Determine the total wins for each of 6 divisions in 2014.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mlb2014&lt;-<span class="kw">subset</span>(Teams,yearID<span class="op">==</span><span class="dv">2014</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mlb2014&lt;-<span class="kw">subset</span>(Teams,yearID==<span class="dv">2014</span>)
 mlb2014&lt;-mlb2014[,<span class="kw">c</span>(<span class="st">&quot;lgID&quot;</span>,<span class="st">&quot;divID&quot;</span>,<span class="st">&quot;W&quot;</span>)]
-d1&lt;-<span class="kw">aggregate</span>(W<span class="op">~</span>lgID<span class="op">+</span>divID,<span class="dt">data=</span>mlb2014,sum)</code></pre></div>
+d1&lt;-<span class="kw">aggregate</span>(W~lgID+divID,<span class="dt">data=</span>mlb2014,sum)</code></pre></div>
 </div>
 <div id="getting-data-in-and-out-of-r" class="titleslide slide section level1"><h1>Getting Data in and out of R</h1></div><div id="basics" class="slide section level2">
-<h2>Basics</h2>
+<h1>Basics</h1>
 <p>There’s a manual, “R Data Import/Export”, located at C:/Program Files/R/R-X.Y.Z/doc/manual/R-data.pdf</p>
 <h3 id="getting-data-in">Getting Data In</h3>
 <p><code>read.csv</code> and <code>read.fwf</code> are straightforward to use. Pay attention to the option <code>stringsAsFactors</code>. <code>read.table</code> gives you more options. <code>readLines</code> will read in a text file and returns a character vector of length the number of lines read.</p>
 <h3 id="getting-data-out">Getting Data Out</h3>
 <p><code>write.csv</code> and <code>write.table</code> export data in formats that are read by, e.g. Excel and Access.</p>
 </div><div id="readr-and-data.table-packages" class="slide section level2">
-<h2>readr and data.table Packages</h2>
+<h1>readr and data.table Packages</h1>
 <h3 id="readr">readr</h3>
 <p>The <code>readr</code> package has functions for reading and writing csv files (<code>read_csv</code> and <code>write_csv</code>.) These functions are faster than those included in base R.</p>
 <p>You can read about it at <a href="http://blog.rstudio.org/2015/10/28/readr-0-2-0/" class="uri">http://blog.rstudio.org/2015/10/28/readr-0-2-0/</a></p>
 <h3 id="data.table">data.table</h3>
 <p><code>data.table</code> has a function <code>fread</code> that is a “Fast and friendly file finagler.” By default it returns a data.table but will return a data frame when the argument <code>data.table=FALSE</code> is used.</p>
 </div><div id="manual-data-entry" class="slide section level2">
-<h2>Manual data entry</h2>
+<h1>Manual data entry</h1>
 <p>If you’re a real masochist, use <code>edit</code>. You’ll get a spreadsheet interface to enter numbers in.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x&lt;-<span class="kw">data.frame</span>()
 x&lt;-<span class="kw">edit</span>(x)</code></pre></div>
 </div><div id="reading-from-excel" class="slide section level2">
-<h2>Reading from Excel</h2>
+<h1>Reading from Excel</h1>
 <p>Use the package <code>readxl</code>. It has two functions: <code>excel_sheets</code> and <code>read_excel</code>.</p>
 <p>Choose an excel file using the dialog box and read it into R.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readxl)
@@ -1211,7 +1212,7 @@ d1&lt;-<span class="kw">excel_sheets</span>(f1)
 <span class="kw">class</span>(d1)
 d2&lt;-<span class="kw">read_excel</span>(f1) <span class="co">#default is first sheet</span></code></pre></div>
 </div><div id="reading-from-excel-1" class="slide section level2">
-<h2>Reading from Excel</h2>
+<h1>Reading from Excel</h1>
 <p>This is the example from ?read_excel.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">suppressWarnings</span>(<span class="kw">library</span>(readxl))
 datasets &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/datasets.xlsx&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;readxl&quot;</span>)
@@ -1228,7 +1229,7 @@ datasets &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span
 ## 5  18.7     8   360   175  3.15 3.440 17.02     0     0     3     2
 ## 6  18.1     6   225   105  2.76 3.460 20.22     1     0     3     1</code></pre>
 </div><div id="saving-and-loading-r-data-sets." class="slide section level2">
-<h2>Saving and loading R data sets.</h2>
+<h1>Saving and loading R data sets.</h1>
 <p>When you close R you get the question “Save Workspace Image?” If you answer “Yes” it’ll create a copy of your environment and save it in the file .RData. (This uses the <code>save.image</code> function.)</p>
 <p>If you wish to save only certain objects the use <code>save</code> and provide a list of objects and a file name. Some people use .rda as the suffix for these files.</p>
 </div>

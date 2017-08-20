@@ -9,7 +9,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="d:\home\git\Other\CASRBootcamp17\slides\slide_output\1P02_Advanced_Visualization_files/reveal.js-3.3.0.1/css/reveal.css"/>
+  <link rel="stylesheet" href="1P02_Advanced_Visualization_files/reveal.js-3.3.0.1/css/reveal.css"/>
 
 
 <style type="text/css">
@@ -50,7 +50,7 @@ code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* Com
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
-<link rel="stylesheet" href="d:\home\git\Other\CASRBootcamp17\slides\slide_output\1P02_Advanced_Visualization_files/reveal.js-3.3.0.1/css/theme/solarized.css" id="theme">
+<link rel="stylesheet" href="1P02_Advanced_Visualization_files/reveal.js-3.3.0.1/css/theme/solarized.css" id="theme">
 
 
   <!-- some tweaks to reveal css -->
@@ -98,7 +98,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
     <style type="text/css">code{white-space: pre;}</style>
 
-    <link rel="stylesheet" href="css\revealOpts.css"/>
+    <link rel="stylesheet" href="css/revealOpts.css"/>
 
 <!-- Printing and PDF exports -->
 <script id="paper-css" type="application/dynamic-css">
@@ -494,7 +494,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </section>
 
 <section><section id="overview" class="titleslide slide level1"><h1>Overview</h1></section><section id="ggplot2" class="slide level2">
-<h2>ggplot2</h2>
+<h1>ggplot2</h1>
 <p>ggplot2 developed by Hadley Wickham, based on the “grammar of graphics”. Particularly well suited (IMHO) for multi-dimensional, multivariate analysis.</p>
 <p>Requires 3 things:</p>
 <ol type="1">
@@ -503,7 +503,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <li>Geometric layers</li>
 </ol>
 </section><section id="data" class="slide level2">
-<h2>Data</h2>
+<h1>Data</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(raw)
 <span class="kw">data</span>(RegionExperience)
 <span class="kw">library</span>(ggplot2)
@@ -515,75 +515,75 @@ basePlot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(RegionExpe
 <p>Notice that we assigned the result of the function call to an object called <code>basePlot</code>. This means we don’t automatically get output. Take a bit of time to have a look at what’s contained in the <code>basePlot</code> object.</p>
 </aside>
 </section><section id="aesthetics" class="slide level2">
-<h2>Aesthetics</h2>
+<h1>Aesthetics</h1>
 <p>Aesthetics are anything visible on the plot. When an aesthetic is “mapped”, it means that the data will define how the aesthetic appears. We’ll map our aesthetics with the <code>aes</code> function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">basePlot &lt;-<span class="st"> </span>basePlot <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> PolicyYear, <span class="dt">y =</span> NumClaims, <span class="dt">color=</span>Region)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">basePlot &lt;-<span class="st"> </span>basePlot +<span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> PolicyYear, <span class="dt">y =</span> NumClaims, <span class="dt">color=</span>Region)</code></pre></div>
 </section><section id="adding-layers" class="slide level2">
-<h2>Adding layers</h2>
+<h1>Adding layers</h1>
 <p>The <code>geom_*</code> functions add geometric shapes.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span>basePlot <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>()
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span>basePlot +<span class="st"> </span><span class="kw">geom_line</span>()
 p</code></pre></div>
 <p><img src="1P02_Advanced_Visualization_files/figure-revealjs/unnamed-chunk-4-1.png" width="768" /></p>
 </section><section id="adding-layers-1" class="slide level2">
-<h2>Adding layers</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span>basePlot <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>()
+<h1>Adding layers</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span>basePlot +<span class="st"> </span><span class="kw">geom_point</span>()
 p</code></pre></div>
 <p><img src="1P02_Advanced_Visualization_files/figure-revealjs/unnamed-chunk-5-1.png" width="768" /></p>
 </section><section id="nothing-wrong-with-adding-two-layers" class="slide level2">
-<h2>Nothing wrong with adding two layers</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span>basePlot <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>()
+<h1>Nothing wrong with adding two layers</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span>basePlot +<span class="st"> </span><span class="kw">geom_point</span>() +<span class="st"> </span><span class="kw">geom_line</span>()
 p</code></pre></div>
 <p><img src="1P02_Advanced_Visualization_files/figure-revealjs/unnamed-chunk-6-1.png" width="768" /></p>
 </section><section id="one-step" class="slide level2">
-<h2>One step</h2>
+<h1>One step</h1>
 <p>Typically we don’t do this in steps.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(RegionExperience, <span class="kw">aes</span>(<span class="dt">x =</span> PolicyYear, <span class="dt">y =</span> NumClaims, <span class="dt">group=</span>Region, <span class="dt">color=</span>Region)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>()
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(RegionExperience, <span class="kw">aes</span>(<span class="dt">x =</span> PolicyYear, <span class="dt">y =</span> NumClaims, <span class="dt">group=</span>Region, <span class="dt">color=</span>Region)) +<span class="st"> </span><span class="kw">geom_line</span>()
 p</code></pre></div>
 <p><img src="1P02_Advanced_Visualization_files/figure-revealjs/unnamed-chunk-7-1.png" width="768" /></p>
 </section><section id="layers-have-loads-of-parameters" class="slide level2">
-<h2>Layers have loads of parameters</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span>basePlot <span class="op">+</span><span class="st"> </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>, <span class="kw">aes</span>(<span class="dt">fill =</span> Region))
+<h1>Layers have loads of parameters</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span>basePlot +<span class="st"> </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>, <span class="kw">aes</span>(<span class="dt">fill =</span> Region))
 p</code></pre></div>
 <p><img src="1P02_Advanced_Visualization_files/figure-revealjs/unnamed-chunk-8-1.png" width="768" /></p>
 </section><section id="mmm-parameters" class="slide level2">
-<h2>Mmm, parameters</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span>basePlot <span class="op">+</span><span class="st"> </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>, <span class="dt">position=</span><span class="st">&quot;dodge&quot;</span>, <span class="kw">aes</span>(<span class="dt">fill=</span>Region))
+<h1>Mmm, parameters</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span>basePlot +<span class="st"> </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>, <span class="dt">position=</span><span class="st">&quot;dodge&quot;</span>, <span class="kw">aes</span>(<span class="dt">fill=</span>Region))
 p</code></pre></div>
 <p><img src="1P02_Advanced_Visualization_files/figure-revealjs/unnamed-chunk-9-1.png" width="768" /></p>
 </section><section id="layer-parameters" class="slide level2">
-<h2>Layer parameters</h2>
+<h1>Layer parameters</h1>
 <p>How do I know which parameters do what? RTFM</p>
 <p>Help, google and stack overflow are your friends. Also, loads of books on the subject.</p>
 </section></section>
 <section><section id="more-features" class="titleslide slide level1"><h1>More features</h1></section><section id="facets" class="slide level2">
-<h2>Facets</h2>
+<h1>Facets</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(StateExperience)
-p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(StateExperience, <span class="kw">aes</span>(<span class="dt">x =</span> PolicyYear, <span class="dt">y =</span> NumClaims, <span class="dt">color =</span> State)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Region)
-p &lt;-<span class="st"> </span>p <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)
+p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(StateExperience, <span class="kw">aes</span>(<span class="dt">x =</span> PolicyYear, <span class="dt">y =</span> NumClaims, <span class="dt">color =</span> State)) +<span class="st"> </span><span class="kw">geom_point</span>() +<span class="st"> </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>Region)
+p &lt;-<span class="st"> </span>p +<span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)
 p</code></pre></div>
 <p><img src="1P02_Advanced_Visualization_files/figure-revealjs/unnamed-chunk-10-1.png" width="768" /></p>
 </section><section id="statistical-smoothers" class="slide level2">
-<h2>Statistical smoothers</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(RegionExperience, <span class="kw">aes</span>(<span class="dt">x =</span> PolicyYear, <span class="dt">y =</span> NumClaims, <span class="dt">group=</span>Region, <span class="dt">color=</span>Region)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>()
-p <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">se =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<h1>Statistical smoothers</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(RegionExperience, <span class="kw">aes</span>(<span class="dt">x =</span> PolicyYear, <span class="dt">y =</span> NumClaims, <span class="dt">group=</span>Region, <span class="dt">color=</span>Region)) +<span class="st"> </span><span class="kw">geom_point</span>()
+p +<span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">se =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <p><img src="1P02_Advanced_Visualization_files/figure-revealjs/unnamed-chunk-11-1.png" width="768" /></p>
 </section><section id="linear-smoother" class="slide level2">
-<h2>Linear smoother</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> lm)</code></pre></div>
+<h1>Linear smoother</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p +<span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> lm)</code></pre></div>
 <p><img src="1P02_Advanced_Visualization_files/figure-revealjs/unnamed-chunk-12-1.png" width="768" /></p>
 </section></section>
 <section><section id="scales" class="titleslide slide level1"><h1>Scales</h1></section><section id="scales-1" class="slide level2">
-<h2>Scales</h2>
+<h1>Scales</h1>
 <p>Scales control how things render on the plot. We must scale our numbers to the plotting device (typically a section of a computer screen.) We can also map things like color and axes to data values and control formatting.</p>
 </section><section id="scales-2" class="slide level2">
-<h2>Scales</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p <span class="op">+</span><span class="st"> </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>comma)</code></pre></div>
+<h1>Scales</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p +<span class="st"> </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales::comma)</code></pre></div>
 <p><img src="1P02_Advanced_Visualization_files/figure-revealjs/unnamed-chunk-13-1.png" width="768" /></p>
 </section><section id="scales-3" class="slide level2">
-<h2>Scales</h2>
+<h1>Scales</h1>
 <p>The use of scales is a <em>very</em> detailed topic, particularly when we start talking about color. Your specific problem will likely require a bit of research and experimentation. StackOverflow.com is your friend.</p>
 </section><section id="non-data-visual-elements" class="slide level2">
-<h2>Non-data visual elements</h2>
+<h1>Non-data visual elements</h1>
 <p>Non-data elements are things like labels. Here’s a sample of a few:</p>
 <ul>
 <li><code>xlab()</code>, <code>ylab()</code> -&gt; <code>plt + ylab(&quot;This is my y label&quot;) + xlab(&quot;Here is an x label&quot;)</code></li>
@@ -595,28 +595,28 @@ p <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth
 </ul>
 </section></section>
 <section><section id="summary" class="titleslide slide level1"><h1>Summary</h1></section><section id="summary-1" class="slide level2">
-<h2>Summary</h2>
+<h1>Summary</h1>
 <ul>
 <li><code>ggplot2</code> is difficult at first, but will repay your investment.</li>
 <li>Works very well with grouped data to color/facet points.</li>
 <li>Fine-tuning things like axis labels can be a headache, but will get easier. Yes, Excel makes it easier to add data labels and change colors. <code>ggplot2</code> makes it easier to work with data.</li>
 </ul>
 </section><section id="questions-to-ask-when-debugging" class="slide level2">
-<h2>Questions to ask when debugging</h2>
+<h1>Questions to ask when debugging</h1>
 <ol type="1">
 <li>How am I mapping my data to an aesthetic?</li>
 <li>How are these aesthetics handled by the geom that I’m using?</li>
 <li></li>
 </ol>
 </section><section id="reference" class="slide level2">
-<h2>Reference</h2>
+<h1>Reference</h1>
 <ul>
 <li><a href="http://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf" class="uri">http://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf</a></li>
 <li>R Graphics Cookbook by Winston Chang</li>
 <li><a href="http://vita.had.co.nz/papers/layered-grammar.html" class="uri">http://vita.had.co.nz/papers/layered-grammar.html</a></li>
 </ul>
 </section><section id="your-turn" class="slide level2">
-<h2>Your turn</h2>
+<h1>Your turn</h1>
 <ol type="1">
 <li>Create a scatter plot for policy year and number of claims</li>
 <li>Color each point based on region</li>
@@ -628,36 +628,36 @@ p <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth
 <li>Use the state data to create a time series number of claims. Facet by region.</li>
 </ol>
 </section><section id="answers" class="slide level2">
-<h2>Answers</h2>
+<h1>Answers</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(raw)
 <span class="kw">data</span>(<span class="st">&quot;RegionExperience&quot;</span>)
-plt1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(RegionExperience, <span class="kw">aes</span>(<span class="dt">x =</span> PolicyYear, <span class="dt">y =</span> NumClaims)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>()
+plt1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(RegionExperience, <span class="kw">aes</span>(<span class="dt">x =</span> PolicyYear, <span class="dt">y =</span> NumClaims)) +<span class="st"> </span><span class="kw">geom_point</span>()
 plt1</code></pre></div>
 <p><img src="1P02_Advanced_Visualization_files/figure-revealjs/unnamed-chunk-14-1.png" width="768" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
-plt2 &lt;-<span class="st"> </span>plt1 <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">color =</span> Region)
+plt2 &lt;-<span class="st"> </span>plt1 +<span class="st"> </span><span class="kw">aes</span>(<span class="dt">color =</span> Region)
 plt2</code></pre></div>
 <p><img src="1P02_Advanced_Visualization_files/figure-revealjs/unnamed-chunk-14-2.png" width="768" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
-plt3 &lt;-<span class="st"> </span>plt2 <span class="op">+</span><span class="st"> </span><span class="kw">stat_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)
+plt3 &lt;-<span class="st"> </span>plt2 +<span class="st"> </span><span class="kw">stat_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)
 plt3</code></pre></div>
 <p><img src="1P02_Advanced_Visualization_files/figure-revealjs/unnamed-chunk-14-3.png" width="768" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
-RegionExperience<span class="op">$</span>Frequency &lt;-<span class="st"> </span><span class="kw">with</span>(RegionExperience, NumClaims <span class="op">/</span><span class="st"> </span>NumPolicies)
+RegionExperience$Frequency &lt;-<span class="st"> </span><span class="kw">with</span>(RegionExperience, NumClaims /<span class="st"> </span>NumPolicies)
 
-plt4 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(RegionExperience, <span class="kw">aes</span>(<span class="dt">x =</span> PolicyYear, <span class="dt">y =</span> Frequency, <span class="dt">color =</span> Region)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">stat_smooth</span>(<span class="dt">method =</span> lm)
+plt4 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(RegionExperience, <span class="kw">aes</span>(<span class="dt">x =</span> PolicyYear, <span class="dt">y =</span> Frequency, <span class="dt">color =</span> Region)) +<span class="st"> </span><span class="kw">geom_point</span>() +<span class="st"> </span><span class="kw">geom_line</span>() +<span class="st"> </span><span class="kw">stat_smooth</span>(<span class="dt">method =</span> lm)
 plt4</code></pre></div>
 <p><img src="1P02_Advanced_Visualization_files/figure-revealjs/unnamed-chunk-14-4.png" width="768" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">&quot;StateExperience&quot;</span>)
-pltExtra &lt;-<span class="st"> </span><span class="kw">ggplot</span>(StateExperience, <span class="kw">aes</span>(<span class="dt">x =</span> PolicyYear, <span class="dt">y =</span> NumClaims, <span class="dt">color =</span> Postal)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>()
-pltExtra <span class="op">+</span><span class="st"> </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Region)</code></pre></div>
+pltExtra &lt;-<span class="st"> </span><span class="kw">ggplot</span>(StateExperience, <span class="kw">aes</span>(<span class="dt">x =</span> PolicyYear, <span class="dt">y =</span> NumClaims, <span class="dt">color =</span> Postal)) +<span class="st"> </span><span class="kw">geom_point</span>() +<span class="st"> </span><span class="kw">geom_line</span>()
+pltExtra +<span class="st"> </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>Region)</code></pre></div>
 <p><img src="1P02_Advanced_Visualization_files/figure-revealjs/unnamed-chunk-15-1.png" width="768" /></p>
 </section></section>
     </div>
   </div>
 
-  <script src="d:\home\git\Other\CASRBootcamp17\slides\slide_output\1P02_Advanced_Visualization_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
-  <script src="d:\home\git\Other\CASRBootcamp17\slides\slide_output\1P02_Advanced_Visualization_files/reveal.js-3.3.0.1/js/reveal.js"></script>
+  <script src="1P02_Advanced_Visualization_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="1P02_Advanced_Visualization_files/reveal.js-3.3.0.1/js/reveal.js"></script>
 
   <script>
 
@@ -677,8 +677,8 @@ pltExtra <span class="op">+</span><span class="st"> </span><span class="kw">face
 
         // Optional reveal.js plugins
         dependencies: [
-          { src: 'd:\home\git\Other\CASRBootcamp17\slides\slide_output\1P02_Advanced_Visualization_files/reveal.js-3.3.0.1/plugin/notes/notes.js', async: true },
-          { src: 'd:\home\git\Other\CASRBootcamp17\slides\slide_output\1P02_Advanced_Visualization_files/reveal.js-3.3.0.1/plugin/zoom-js/zoom.js', async: true },
+          { src: '1P02_Advanced_Visualization_files/reveal.js-3.3.0.1/plugin/notes/notes.js', async: true },
+          { src: '1P02_Advanced_Visualization_files/reveal.js-3.3.0.1/plugin/zoom-js/zoom.js', async: true },
         ]
       });
     </script>

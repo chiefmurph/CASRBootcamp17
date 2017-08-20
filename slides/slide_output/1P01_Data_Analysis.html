@@ -9,7 +9,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="d:\home\git\Other\CASRBootcamp17\slides\slide_output\1P01_Data_Analysis_files/reveal.js-3.3.0.1/css/reveal.css"/>
+  <link rel="stylesheet" href="1P01_Data_Analysis_files/reveal.js-3.3.0.1/css/reveal.css"/>
 
 
 <style type="text/css">
@@ -50,7 +50,7 @@ code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* Com
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
-<link rel="stylesheet" href="d:\home\git\Other\CASRBootcamp17\slides\slide_output\1P01_Data_Analysis_files/reveal.js-3.3.0.1/css/theme/solarized.css" id="theme">
+<link rel="stylesheet" href="1P01_Data_Analysis_files/reveal.js-3.3.0.1/css/theme/solarized.css" id="theme">
 
 
   <!-- some tweaks to reveal css -->
@@ -98,7 +98,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
     <style type="text/css">code{white-space: pre;}</style>
 
-    <link rel="stylesheet" href="css\revealOpts.css"/>
+    <link rel="stylesheet" href="css/revealOpts.css"/>
 
 <!-- Printing and PDF exports -->
 <script id="paper-css" type="application/dynamic-css">
@@ -494,14 +494,14 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </section>
 
 <section><section id="preliminaries" class="titleslide slide level1"><h1>Preliminaries</h1></section><section id="what-well-cover" class="slide level2">
-<h2>What we’ll cover</h2>
+<h1>What we’ll cover</h1>
 <ul>
 <li>Basic data analysis in R</li>
 <li>Linear regression</li>
 <li>Fit a distribution</li>
 </ul>
 </section><section id="packages-well-use" class="slide level2">
-<h2>Packages we’ll use</h2>
+<h1>Packages we’ll use</h1>
 <ul>
 <li><code>MASS</code> (MASS = Modern Applied Statistics in S)
 <ul>
@@ -516,9 +516,9 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </ul></li>
 </ul>
 </section><section id="generate-some-loss-data" class="slide level2">
-<h2>Generate some loss data</h2>
+<h1>Generate some loss data</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">8910</span>)
-years &lt;-<span class="st"> </span><span class="dv">2001</span><span class="op">:</span><span class="dv">2010</span>
+years &lt;-<span class="st"> </span><span class="dv">2001</span>:<span class="dv">2010</span>
 frequency &lt;-<span class="st"> </span><span class="dv">1000</span>
 
 N &lt;-<span class="st"> </span><span class="kw">rpois</span>(<span class="kw">length</span>(years), frequency)
@@ -528,7 +528,7 @@ sevScale &lt;-<span class="st"> </span><span class="dv">1000</span>
 severity &lt;-<span class="st"> </span><span class="kw">rgamma</span>(<span class="kw">sum</span>(N), sevShape, <span class="dt">scale =</span> sevScale)</code></pre></div>
 </section></section>
 <section><section id="basic-analysis" class="titleslide slide level1"><h1>Basic analysis</h1></section><section id="basic-exploratory-functions" class="slide level2">
-<h2>Basic exploratory functions</h2>
+<h1>Basic exploratory functions</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(severity)
 ## [1] 1969.549
 <span class="kw">median</span>(severity)
@@ -544,24 +544,24 @@ severity &lt;-<span class="st"> </span><span class="kw">rgamma</span>(<span clas
 ##       25%       50%       75% 
 ##  928.9297 1640.1021 2676.1799</code></pre></div>
 </section><section id="summary" class="slide level2">
-<h2>Summary</h2>
+<h1>Summary</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(severity)
 ##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-##    21.93   928.90  1640.00  1970.00  2676.00 11130.00</code></pre></div>
+##    21.93   928.93  1640.10  1969.55  2676.18 11128.25</code></pre></div>
 </section><section id="hist-again" class="slide level2">
-<h2>Hist again</h2>
+<h1>Hist again</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(severity)</code></pre></div>
 <p><img src="1P01_Data_Analysis_files/figure-revealjs/unnamed-chunk-5-1.png" width="768" /></p>
 </section><section id="density-again" class="slide level2">
-<h2>Density again</h2>
+<h1>Density again</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">density</span>(severity))</code></pre></div>
 <p><img src="1P01_Data_Analysis_files/figure-revealjs/unnamed-chunk-6-1.png" width="768" /></p>
 </section><section id="basic-analysis-summary" class="slide level2">
-<h2>Basic analysis summary</h2>
+<h1>Basic analysis summary</h1>
 <p>For univariate continuous data, this is about it. Say, wouldn’t it be fun to fit this to a loss distribution?</p>
 </section></section>
 <section><section id="fit-a-distribution" class="titleslide slide level1"><h1>Fit a distribution</h1></section><section id="fitdistr" class="slide level2">
-<h2>fitdistr</h2>
+<h1>fitdistr</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(MASS)
 
 fitGamma &lt;-<span class="st"> </span><span class="kw">fitdistr</span>(severity, <span class="st">&quot;gamma&quot;</span>)
@@ -581,8 +581,8 @@ fitWeibull
 ##   1.472049e+00   2.184117e+03 
 ##  (1.117737e-02) (1.566082e+01)</code></pre></div>
 </section><section id="q-q-plot-code" class="slide level2">
-<h2>q-q plot code</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">probabilities =<span class="st"> </span>(<span class="dv">1</span><span class="op">:</span>(<span class="kw">sum</span>(N)))<span class="op">/</span>(<span class="kw">sum</span>(N)<span class="op">+</span><span class="dv">1</span>)
+<h1>q-q plot code</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">probabilities =<span class="st"> </span>(<span class="dv">1</span>:(<span class="kw">sum</span>(N)))/(<span class="kw">sum</span>(N)+<span class="dv">1</span>)
 
 weibullQ &lt;-<span class="st"> </span><span class="kw">qweibull</span>(probabilities, <span class="kw">coef</span>(fitWeibull)[<span class="dv">1</span>], <span class="kw">coef</span>(fitWeibull)[<span class="dv">2</span>])
 lnQ &lt;-<span class="st"> </span><span class="kw">qlnorm</span>(probabilities, <span class="kw">coef</span>(fitLognormal)[<span class="dv">1</span>], <span class="kw">coef</span>(fitLognormal)[<span class="dv">2</span>])
@@ -590,7 +590,7 @@ gammaQ &lt;-<span class="st"> </span><span class="kw">qgamma</span>(probabilitie
 
 sortedSeverity &lt;-<span class="st"> </span><span class="kw">sort</span>(severity)</code></pre></div>
 </section><section id="q-q-plot-plotting-code" class="slide level2">
-<h2>q-q plot, plotting code</h2>
+<h1>q-q plot, plotting code</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">oldPar &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))
 <span class="kw">plot</span>(<span class="kw">sort</span>(weibullQ), sortedSeverity, <span class="dt">xlab =</span> <span class="st">&#39;Theoretical Quantiles&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;Sample Quantiles&#39;</span>, <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">main =</span> <span class="st">&quot;Weibull Fit&quot;</span>)
 <span class="kw">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>)
@@ -603,18 +603,18 @@ sortedSeverity &lt;-<span class="st"> </span><span class="kw">sort</span>(severi
 
 <span class="kw">par</span>(oldPar)</code></pre></div>
 </section><section id="q-q-plot" class="slide level2">
-<h2>q-q plot</h2>
+<h1>q-q plot</h1>
 <p><img src="1P01_Data_Analysis_files/figure-revealjs/unnamed-chunk-10-1.png" width="768" /></p>
 </section><section id="compare-fit-to-histogram" class="slide level2">
-<h2>Compare fit to histogram</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sampleLogMean &lt;-<span class="st"> </span>fitLognormal<span class="op">$</span>estimate[<span class="dv">1</span>]
-sampleLogSd &lt;-<span class="st"> </span>fitLognormal<span class="op">$</span>estimate[<span class="dv">2</span>]
+<h1>Compare fit to histogram</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sampleLogMean &lt;-<span class="st"> </span>fitLognormal$estimate[<span class="dv">1</span>]
+sampleLogSd &lt;-<span class="st"> </span>fitLognormal$estimate[<span class="dv">2</span>]
 
-sampleShape &lt;-<span class="st"> </span>fitGamma<span class="op">$</span>estimate[<span class="dv">1</span>]
-sampleRate &lt;-<span class="st"> </span>fitGamma<span class="op">$</span>estimate[<span class="dv">2</span>]
+sampleShape &lt;-<span class="st"> </span>fitGamma$estimate[<span class="dv">1</span>]
+sampleRate &lt;-<span class="st"> </span>fitGamma$estimate[<span class="dv">2</span>]
 
-sampleShapeW &lt;-<span class="st"> </span>fitWeibull<span class="op">$</span>estimate[<span class="dv">1</span>]
-sampleScaleW &lt;-<span class="st"> </span>fitWeibull<span class="op">$</span>estimate[<span class="dv">2</span>]
+sampleShapeW &lt;-<span class="st"> </span>fitWeibull$estimate[<span class="dv">1</span>]
+sampleScaleW &lt;-<span class="st"> </span>fitWeibull$estimate[<span class="dv">2</span>]
 
 x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="kw">max</span>(severity), <span class="dt">length.out=</span><span class="dv">500</span>)
 yLN &lt;-<span class="st"> </span><span class="kw">dlnorm</span>(x, sampleLogMean, sampleLogSd)
@@ -626,10 +626,10 @@ yWeibull &lt;-<span class="st"> </span><span class="kw">dweibull</span>(x, sampl
 <span class="kw">lines</span>(x, yGamma, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)
 <span class="kw">lines</span>(x, yWeibull, <span class="dt">col=</span><span class="st">&quot;green&quot;</span>)</code></pre></div>
 </section><section id="compare" class="slide level2">
-<h2>Compare</h2>
+<h1>Compare</h1>
 <p><img src="1P01_Data_Analysis_files/figure-revealjs/unnamed-chunk-13-1.png" width="768" /></p>
 </section><section id="kolmogorov-smirnov" class="slide level2">
-<h2>Kolmogorov-Smirnov</h2>
+<h1>Kolmogorov-Smirnov</h1>
 <p>The Kolmogorov-Smirnov test measures the distance between a sample distribution’s empirical cumulative distribution function and the same for a candidate loss distribution. More formal than q-q plots.</p>
 <!--
 ## K-S
@@ -650,7 +650,7 @@ yLN <- plnorm(sortedSeverity, sampleLogMean, sampleLogSd)
 <img src="1P01_Data_Analysis_files/figure-revealjs/unnamed-chunk-15-1.png" width="768" />
 -->
 </section><section id="more-k-s" class="slide level2">
-<h2>More K-S</h2>
+<h1>More K-S</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">testGamma &lt;-<span class="st"> </span><span class="kw">ks.test</span>(severity, <span class="st">&quot;pgamma&quot;</span>, sampleShape, sampleRate)
 testLN &lt;-<span class="st"> </span><span class="kw">ks.test</span>(severity, <span class="st">&quot;plnorm&quot;</span>, sampleLogMean, sampleLogSd)
 testWeibull &lt;-<span class="st"> </span><span class="kw">ks.test</span>(severity, <span class="st">&quot;pweibull&quot;</span>, sampleShapeW, sampleScaleW)
@@ -678,18 +678,18 @@ testWeibull
 ## alternative hypothesis: two-sided</code></pre></div>
 <p>A low value for D indicates that the selected curve is fairly close to our data. The p-value indicates the chance that D was produced by the null hypothesis.</p>
 </section><section id="direct-optimization" class="slide level2">
-<h2>Direct optimization</h2>
+<h1>Direct optimization</h1>
 <p>The <code>optim</code> function will optimize a function. Works very similar to the Solver algorithm in Excel. <code>optim</code> takes a function as an argument, so let’s create a function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">quadraticFun &lt;-<span class="st"> </span><span class="cf">function</span>(a, b, c){
-  <span class="cf">function</span>(x) a<span class="op">*</span>x<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>b<span class="op">*</span>x <span class="op">+</span><span class="st"> </span>c
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">quadraticFun &lt;-<span class="st"> </span>function(a, b, c){
+  function(x) a*x^<span class="dv">2</span> +<span class="st"> </span>b*x +<span class="st"> </span>c
 }
 
-myQuad &lt;-<span class="st"> </span><span class="kw">quadraticFun</span>(<span class="dt">a=</span><span class="dv">4</span>, <span class="dt">b=</span><span class="op">-</span><span class="dv">3</span>, <span class="dt">c=</span><span class="dv">3</span>)</code></pre></div>
+myQuad &lt;-<span class="st"> </span><span class="kw">quadraticFun</span>(<span class="dt">a=</span><span class="dv">4</span>, <span class="dt">b=</span>-<span class="dv">3</span>, <span class="dt">c=</span><span class="dv">3</span>)</code></pre></div>
 </section><section id="direct-optimization-1" class="slide level2">
-<h2>Direct optimization</h2>
+<h1>Direct optimization</h1>
 <p><img src="1P01_Data_Analysis_files/figure-revealjs/unnamed-chunk-18-1.png" width="768" /></p>
 </section><section id="direct-optimization-2" class="slide level2">
-<h2>Direct optimization</h2>
+<h1>Direct optimization</h1>
 <p>8 is our initial guess. A good initial guess will speed up conversion.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myResult &lt;-<span class="st"> </span><span class="kw">optim</span>(<span class="dv">8</span>, myQuad)
 myResult
@@ -709,13 +709,13 @@ myResult
 ## $message
 ## NULL</code></pre></div>
 </section><section id="direct-optimization-3" class="slide level2">
-<h2>Direct optimization</h2>
+<h1>Direct optimization</h1>
 <p>Default is to minimize. Set the parameter <code>fnscale</code> to something negative to convert to a maximization problem.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myOtherQuad &lt;-<span class="st"> </span><span class="kw">quadraticFun</span>(<span class="op">-</span><span class="dv">6</span>, <span class="dv">20</span>, <span class="op">-</span><span class="dv">5</span>)
-<span class="kw">plot</span>(myOtherQuad, <span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myOtherQuad &lt;-<span class="st"> </span><span class="kw">quadraticFun</span>(-<span class="dv">6</span>, <span class="dv">20</span>, -<span class="dv">5</span>)
+<span class="kw">plot</span>(myOtherQuad, -<span class="dv">10</span>, <span class="dv">10</span>)</code></pre></div>
 <p><img src="1P01_Data_Analysis_files/figure-revealjs/unnamed-chunk-20-1.png" width="768" /></p>
 </section><section id="direct-optimization-4" class="slide level2">
-<h2>Direct optimization</h2>
+<h1>Direct optimization</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myResult &lt;-<span class="st"> </span><span class="kw">optim</span>(<span class="dv">8</span>, myOtherQuad)
 myResult
 ## $par
@@ -733,7 +733,7 @@ myResult
 ## 
 ## $message
 ## NULL
-myResult &lt;-<span class="st"> </span><span class="kw">optim</span>(<span class="dv">8</span>, myOtherQuad, <span class="dt">control =</span> <span class="kw">list</span>(<span class="dt">fnscale=</span><span class="op">-</span><span class="dv">1</span>))
+myResult &lt;-<span class="st"> </span><span class="kw">optim</span>(<span class="dv">8</span>, myOtherQuad, <span class="dt">control =</span> <span class="kw">list</span>(<span class="dt">fnscale=</span>-<span class="dv">1</span>))
 myResult
 ## $par
 ## [1] 1.666406
@@ -751,12 +751,12 @@ myResult
 ## $message
 ## NULL</code></pre></div>
 </section><section id="direct-optimization-5" class="slide level2">
-<h2>Direct optimization</h2>
+<h1>Direct optimization</h1>
 <p>Direct optimization allows us to create another objective function to maximize, or work with loss distributions for which there isn’t yet support in a package like <code>actuar</code>. May be used for general purpose optimization problems, e.g. maximize rate of return for various capital allocation methods.</p>
 <p>Note that optimization is a general, solved problem. Things like the simplex method already have package solutions in R. You don’t need to reinvent the wheel!</p>
 </section></section>
 <section><section id="linear-regression" class="titleslide slide level1"><h1>Linear regression</h1></section><section id="fake-some-data" class="slide level2">
-<h2>Fake some data</h2>
+<h1>Fake some data</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">N &lt;-<span class="st"> </span><span class="dv">100</span>
 B0 &lt;-<span class="st"> </span><span class="dv">5</span>
 B1 &lt;-<span class="st"> </span><span class="fl">1.5</span>
@@ -766,14 +766,14 @@ B1 &lt;-<span class="st"> </span><span class="fl">1.5</span>
 e &lt;-<span class="st"> </span><span class="kw">rnorm</span>(N, <span class="dt">mean =</span> <span class="dv">0</span>, <span class="dt">sd =</span> <span class="dv">1</span>)
 X1 &lt;-<span class="st"> </span><span class="kw">runif</span>(N, <span class="dv">0</span>, <span class="dv">10</span>)
 
-Y &lt;-<span class="st"> </span>B0 <span class="op">+</span><span class="st"> </span>B1 <span class="op">*</span><span class="st"> </span>X1 <span class="op">+</span><span class="st"> </span>e</code></pre></div>
+Y &lt;-<span class="st"> </span>B0 +<span class="st"> </span>B1 *<span class="st"> </span>X1 +<span class="st"> </span>e</code></pre></div>
 </section><section id="first-visualize" class="slide level2">
-<h2>First, visualize!</h2>
+<h1>First, visualize!</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(X1, Y)</code></pre></div>
 <p><img src="1P01_Data_Analysis_files/figure-revealjs/unnamed-chunk-23-1.png" width="768" /></p>
 </section><section id="fit-a-model" class="slide level2">
-<h2>Fit a model</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit &lt;-<span class="st"> </span><span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X1)
+<h1>Fit a model</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit &lt;-<span class="st"> </span><span class="kw">lm</span>(Y ~<span class="st"> </span>X1)
 <span class="kw">summary</span>(fit)
 ## 
 ## Call:
@@ -793,8 +793,22 @@ Y &lt;-<span class="st"> </span>B0 <span class="op">+</span><span class="st"> </
 ## Residual standard error: 0.993 on 98 degrees of freedom
 ## Multiple R-squared:  0.9366, Adjusted R-squared:  0.9359 
 ## F-statistic:  1448 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre></div>
+</section><section id="formulas" class="slide level2">
+<h1>Formulas</h1>
+<pre><code>y ~ x1
+y ~ 1 + x1
+y ~ 0 + x1
+y ~ x1 + x2
+y ~ I(x1 + x2)
+y ~ x1 + x2 + x1:x2</code></pre>
+<aside class="notes">
+<p>Formulas place the response variable on the left and an expression to the right of the <code>~</code> character. That character may be read as “is modelled as”.</p>
+<p>An intercept is implicit. To rermove it, use a “0” or “-1” in the expression</p>
+<p>The “+” does not mean addition in the algebraic sense. It means we’re adding another predictor variable to our model. To use arithmetic operations, wrap expressions in I()</p>
+The : is used for interactions.
+</aside>
 </section><section id="extract-data-from-the-fit" class="slide level2">
-<h2>Extract data from the fit</h2>
+<h1>Extract data from the fit</h1>
 <table>
 <thead>
 <tr class="header">
@@ -842,18 +856,18 @@ Y &lt;-<span class="st"> </span>B0 <span class="op">+</span><span class="st"> </
 </tbody>
 </table>
 </section><section id="predict" class="slide level2">
-<h2>Predict</h2>
+<h1>Predict</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">prediction &lt;-<span class="st"> </span><span class="kw">predict</span>(fit)</code></pre></div>
 </section><section id="visualize-prediction" class="slide level2">
-<h2>Visualize prediction</h2>
+<h1>Visualize prediction</h1>
 <p><img src="1P01_Data_Analysis_files/figure-revealjs/unnamed-chunk-26-1.png" width="768" /></p>
 </section><section id="visualize-your-residuals" class="slide level2">
-<h2>Visualize your residuals!</h2>
+<h1>Visualize your residuals!</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(Y, <span class="kw">residuals</span>(fit))
 <span class="kw">abline</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</code></pre></div>
 <p><img src="1P01_Data_Analysis_files/figure-revealjs/unnamed-chunk-27-1.png" width="768" /></p>
 </section><section id="what-are-we-looking-for" class="slide level2">
-<h2>What are we looking for?</h2>
+<h1>What are we looking for?</h1>
 <ul>
 <li>Heteroskedasticity =&gt; We should change the weights applied to the observations</li>
 <li>Doesn’t look like “noise”
@@ -864,8 +878,8 @@ Y &lt;-<span class="st"> </span>B0 <span class="op">+</span><span class="st"> </
 <li>Extreme values =&gt; A normal distribution may not be appropriate</li>
 </ul>
 </section></section>
-<section><section id="summary-1" class="titleslide slide level1"><h1>Summary</h1></section><section id="questions" class="slide level2">
-<h2>Questions</h2>
+<section><section id="questions" class="titleslide slide level1"><h1>Questions</h1></section><section id="questions-1" class="slide level2">
+<h1>Questions</h1>
 <ul>
 <li>Plot a lognormal distribution with a mean of $10,000 and a CV of 30%.</li>
 <li>For that distribution, what is the probability of seeing a claim greater than $100,000?</li>
@@ -877,18 +891,15 @@ Y &lt;-<span class="st"> </span>B0 <span class="op">+</span><span class="st"> </
 <li>What is the cost of a $50,000 xs $50,000 layer of reinsurance?</li>
 </ul>
 </section><section id="answers" class="slide level2">
-<h2>Answers</h2>
+<h1>Answers</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">severity &lt;-<span class="st"> </span><span class="dv">10000</span>
 CV &lt;-<span class="st"> </span>.<span class="dv">3</span>
-sigma &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">log</span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>CV<span class="op">^</span><span class="dv">2</span>))
-mu &lt;-<span class="st"> </span><span class="kw">log</span>(severity) <span class="op">-</span><span class="st"> </span>sigma<span class="op">^</span><span class="dv">2</span><span class="op">/</span><span class="dv">2</span>
-<span class="kw">plot</span>(<span class="cf">function</span>(x) <span class="kw">dlnorm</span>(x), mu, sigma, <span class="dt">ylab=</span><span class="st">&quot;LN f(x)&quot;</span>)</code></pre></div>
+sigma &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">log</span>(<span class="dv">1</span> +<span class="st"> </span>CV^<span class="dv">2</span>))
+mu &lt;-<span class="st"> </span><span class="kw">log</span>(severity) -<span class="st"> </span>sigma^<span class="dv">2</span>/<span class="dv">2</span>
+<span class="kw">plot</span>(function(x) <span class="kw">dlnorm</span>(x), mu, sigma, <span class="dt">ylab=</span><span class="st">&quot;LN f(x)&quot;</span>)</code></pre></div>
 <p><img src="1P01_Data_Analysis_files/figure-revealjs/unnamed-chunk-28-1.png" width="768" /></p>
-</section><section id="references" class="slide level2">
-<h2>References</h2>
-</section><section id="todo" class="slide level2">
-<h2>TODO</h2>
-<p>Show an example using the <code>coverage</code> function</p>
+</section><section id="references" class="slide level2 unnumbered">
+<h1>References</h1>
 <div id="refs" class="references">
 <div id="ref-actuarPackage">
 <p>Dutang, Christophe, Vincent Goulet, and Mathieu Pigeon. 2008. “Actuar: An R Package for Actuarial Science.” <em>Journal of Statistical Software</em> 25 (7): 38. <a href="http://www.jstatsoft.org/v25/i07" class="uri">http://www.jstatsoft.org/v25/i07</a>.</p>
@@ -898,8 +909,8 @@ mu &lt;-<span class="st"> </span><span class="kw">log</span>(severity) <span cla
     </div>
   </div>
 
-  <script src="d:\home\git\Other\CASRBootcamp17\slides\slide_output\1P01_Data_Analysis_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
-  <script src="d:\home\git\Other\CASRBootcamp17\slides\slide_output\1P01_Data_Analysis_files/reveal.js-3.3.0.1/js/reveal.js"></script>
+  <script src="1P01_Data_Analysis_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="1P01_Data_Analysis_files/reveal.js-3.3.0.1/js/reveal.js"></script>
 
   <script>
 
@@ -919,8 +930,8 @@ mu &lt;-<span class="st"> </span><span class="kw">log</span>(severity) <span cla
 
         // Optional reveal.js plugins
         dependencies: [
-          { src: 'd:\home\git\Other\CASRBootcamp17\slides\slide_output\1P01_Data_Analysis_files/reveal.js-3.3.0.1/plugin/notes/notes.js', async: true },
-          { src: 'd:\home\git\Other\CASRBootcamp17\slides\slide_output\1P01_Data_Analysis_files/reveal.js-3.3.0.1/plugin/zoom-js/zoom.js', async: true },
+          { src: '1P01_Data_Analysis_files/reveal.js-3.3.0.1/plugin/notes/notes.js', async: true },
+          { src: '1P01_Data_Analysis_files/reveal.js-3.3.0.1/plugin/zoom-js/zoom.js', async: true },
         ]
       });
     </script>

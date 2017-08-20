@@ -2,15 +2,18 @@
 title: "Data Analysis"
 author: "Brian A. Fannin"
 date: "August 21, 2017"
-bibliography: bibliography.bib
-output: 
+output:
+  tufte::tufte_handout: default
   revealjs::revealjs_presentation:
-    self_contained: false
+    center: no
     css: ./css/revealOpts.css
+    reveal_plugins:
+    - notes
+    - zoom
+    self_contained: no
     theme: solarized
     transition: slide
-    center: false
-    reveal_plugins: ["notes", "zoom"]
+bibliography: bibliography.bib
 ---
 
 ```{r include=FALSE}
@@ -317,6 +320,26 @@ fit <- lm(Y ~ X1)
 summary(fit)
 ```
 
+## Formulas
+
+```
+y ~ x1
+y ~ 1 + x1
+y ~ 0 + x1
+y ~ x1 + x2
+y ~ I(x1 + x2)
+y ~ x1 + x2 + x1:x2
+```
+<aside class="notes">
+  Formulas place the response variable on the left and an expression to the right of the `~` character. That character may be read as "is modelled as".
+  
+  An intercept is implicit. To rermove it, use a "0" or "-1" in the expression
+  
+  The "+" does not mean addition in the algebraic sense. It means we're adding another predictor variable to our model. To use arithmetic operations, wrap expressions in I()
+  
+  The : is used for interactions.
+</aside>
+
 ## Extract data from the fit
 
 | Element | What it shows       |
@@ -359,7 +382,7 @@ abline(0, 0, col="red")
     * Apply a transform (polynomial, trig, etc.)
 * Extreme values => A normal distribution may not be appropriate
 
-# Summary
+# Questions
 
 ## Questions
 
@@ -383,8 +406,3 @@ plot(function(x) dlnorm(x), mu, sigma, ylab="LN f(x)")
 ```
 
 ## References
-
-
-## TODO
-
-Show an example using the `coverage` function
