@@ -303,10 +303,14 @@ Cost/benefit analysis provides a useful methodology for insurers to quantify the
 A good cost measure is the net decrease in under-writing earnings expected from the program 
 (**"Net Benefit of Reinsurance"**).
 
-... Replace Venter's conclusion
+... 
 
 ## Acknowledgments
 
-Thank you Brian for sending me the link to Gary's *eForum* paper
-and thank you Gary for providing a pre-edition doc version ...
-and saved me all this typing!
+Big thank you's go out to 
+
+- Gary Venter for agreeing to allow his paper to be used
+for CAS educational purposes in this way,
+and for supplying a digital version! 
+
+- Brian Fannin for making me aware of the paper's existence
