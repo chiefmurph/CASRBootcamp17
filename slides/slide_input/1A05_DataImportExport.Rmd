@@ -1,0 +1,220 @@
+---
+title: "Data Import-Export"
+output: slidy_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Agenda
+
+- Read/write RData files
+
+- Read/write csv files
+
+- Read/write excel files
+
+- Read SQL database
+
+## RData files
+
+- RData files have the capability of storing any and all objects in your R environment
+
+- Much faster than other formats (csv), but not transferrable to other software
+
+- To save all objects in -- essentially an image of -- your environment,
+use the save.image function and give it a filename 
+(otherwise it's just ".RData" by default)
+
+    - I rarely do that
+    
+- I normally save a few specific objects
+
+    - use the save function and give it a list
+of objects to save, and a filename
+
+- To load an RData file that was saved with either save or save.image,
+use the load function and give it a filename
+
+    - I often do this
+    
+- My quarterly data extract procedure
+
+    - Run a stored procedure in a SQL database on a network
+    
+    - Bring the data over to R and clean it; for example
+    
+        - Is loss date outside the policy period?
+        
+        - Does the claim say "closed" but still has non-zero reserves?
+    
+    - Save the data in an RData file with an evaluation date in its name
+    for future processing as necessary
+
+## csv files
+
+"There should be no other standard than csv for storing reusable statistical data."  
+Hadley Wickham, ~2009
+
+- R's two main functions for csv import/export are read.csv and write.csv
+
+- The two main *gotchas!*
+
+    - row headers
+    
+    - field types ("classes" in R)
+
+- write.csv
+
+    - writes a column header (col.names = TRUE)
+    
+    - writes a "row header" (row.names = TRUE)
+
+```{r}
+xout <- data.frame(
+  claimno = 1:5,                              # integer
+  value = rlnorm(5),                          # numeric
+  date = as.Date("2017-01-01"),               # Date
+  state = LETTERS[1:5],                       # character
+  openclosed = c(rep(TRUE, 3), rep(FALSE, 2)) # logical
+)
+# What are the classes of each of the columns?
+(classout <- sapply(xout, class))
+write.csv(xout, "fiveclaims.csv", row.names = FALSE)
+```
+
+- read.csv
+
+    - Assumes a column header exists in the first row
+    
+    - Differences from write.csv
+    
+        - uses argument 'header' rather than 'col.names'
+        
+        - row.names argument cannot be logical
+        
+```{r}
+# Read the file you just created
+xin <- read.csv("fiveclaims.csv")
+# What are the classes of each of the columns?
+(classin <- sapply(xin, class))
+classin == classout
+```
+
+- Use the **colClasses** argument to force conversions of your data
+
+    - Especially important for Dates
+
+```{r}
+# Read the file you just created
+xin2 <- read.csv("fiveclaims.csv", colClasses = unname(classout))
+# What are the classes of each of the columns?
+(classin2 <- sapply(xin2, class))
+classin2 == classout
+```
+
+- Extra credit: How do you force R to store 'state' as character not factor?
+
+## Excel read/write
+
+- Reading from Excel via csv
+
+    - Open fiveclaims.csv in a text editor (~ Notepad) then in Excel
+
+        - Notice anything different?
+        
+    - From Excel, save it as a csv file "fiveclaimsExcel.csv"
+    
+*Note: code commented out will be run ad-hoc in the console*
+    
+```{r}
+#xin3 <- read.csv("fiveclaimsExcel.csv", colClasses = unname(classout))
+#(classin3 <- sapply(xin3, class))
+# Not crazy
+#View(xin3)
+# Whoa!
+```
+
+- Moral: reformat all dates in Excel using the international standard YYYY-MM-DD
+        
+    - Yikes!
+    
+- Isn't there a better way?
+    
+    - readxl package to the rescue -- maybe
+    
+## readxl package
+
+- Save fiveclaims.csv in xlsx format
+
+```{r}
+#library(readxl)
+#claims5 <- read_excel("fiveclaims.xlsx")
+#View(claims5)
+#sapply(claims5, class)
+```
+
+- Jeepers, now what happened?!
+
+    - read_excel is smarter than read.csv at detecting dates 
+    but returns dates using the international POSIX 8601 standard
+
+    - read_excel still recommends using the "col_types" argument
+(similar to "colClasses")
+
+        - "skip", "guess", "logical", "numeric", "date", "text" or "list"
+
+- Morale of the story
+
+    - Don't get your data from, or store your data in, Excel
+    
+- But if you have no other choice
+
+    - Use readxl
+
+    - Know your data, don't guess
+    
+    - Get comfortable with the POSIX datetime class
+    
+        - Convert to Date class if time gets in the way
+        
+## Writing data to Excel
+
+- Recommendation: Use a csv intermediate file
+
+- The statconn guys (www.autstat.com)
+have a commercial product that, with sufficient investment, appears promising
+        
+## Reading SQL data with RODBC
+
+- RODBC is a package developed to connect R with Data Base Management Systems (DBMS)
+
+- Importing data from the DBMS takes three steps
+
+    - Establish a connection to the network database
+    
+    - Form a string that the network side uses to run the query
+    
+    - Ask the network to run the query and return the results
+    
+- Example code
+
+    - Establish the connection (called a "channel")  
+    channel <- odbcDriverConnect("DSN=CompanyDataSetName;Description=Reporting DataSet;UID=reporting;PWD=reporting;APP=Microsoft® Query;WSID=ARIES-69B;DATABASE=ProductionDataBaseName;Trusted_Connection=No;UseProcForPrepare=0")
+    
+    - Form the query string  
+    querystring <- "EXECUTE STOREDPROCEDURE ACTUARYQUARTERLYREPORT, 6, 30, 2017"
+    
+    - Make the request to the network and save the result  
+    result <- sqlQuery(channel, querystring)
+    
+## How do you get IT to help you?
+
+- By helping IT do their job, i.e., supplying accurate, reliable data
+
+    - Find problems in their data within 24 hours of them giving it to you
+
+    - Clean, clean, clean
+
+- Clean data is valuable data
