@@ -1,0 +1,20 @@
+---
+title: Introductions
+output: 
+  slidy_presentation:
+    duration: 15
+---
+
+## 
+
+Meet:
+
+* Adam
+* Dan
+* Brian
+
+## Tell us about yourselves
+
+* Where you work/what you do?
+* Favorite thing to eat for breakfast
+* Jobs or Woz?

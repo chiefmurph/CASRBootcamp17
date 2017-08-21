@@ -497,8 +497,8 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <h1>What we’ll cover</h1>
 <ul>
 <li>Basic data analysis in R</li>
-<li>Linear regression</li>
 <li>Fit a distribution</li>
+<li>Linear regression</li>
 </ul>
 </section><section id="packages-well-use" class="slide level2">
 <h1>Packages we’ll use</h1>
@@ -760,13 +760,16 @@ myResult
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">N &lt;-<span class="st"> </span><span class="dv">100</span>
 B0 &lt;-<span class="st"> </span><span class="dv">5</span>
 B1 &lt;-<span class="st"> </span><span class="fl">1.5</span>
+B2 &lt;-<span class="st"> </span><span class="fl">0.8</span>
 
 <span class="kw">set.seed</span>(<span class="dv">1234</span>)
 
 e &lt;-<span class="st"> </span><span class="kw">rnorm</span>(N, <span class="dt">mean =</span> <span class="dv">0</span>, <span class="dt">sd =</span> <span class="dv">1</span>)
 X1 &lt;-<span class="st"> </span><span class="kw">runif</span>(N, <span class="dv">0</span>, <span class="dv">10</span>)
+X2 &lt;-<span class="st"> </span><span class="kw">runif</span>(N, <span class="dv">30</span>, <span class="dv">60</span>)
+X3 &lt;-<span class="st"> </span><span class="kw">runif</span>(N, <span class="dv">200</span>, <span class="dv">300</span>)
 
-Y &lt;-<span class="st"> </span>B0 +<span class="st"> </span>B1 *<span class="st"> </span>X1 +<span class="st"> </span>e</code></pre></div>
+Y &lt;-<span class="st"> </span>B0 +<span class="st"> </span>B1 *<span class="st"> </span>X1 +<span class="st"> </span>B2 *<span class="st"> </span>X2 +<span class="st"> </span>e</code></pre></div>
 </section><section id="first-visualize" class="slide level2">
 <h1>First, visualize!</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(X1, Y)</code></pre></div>
@@ -780,19 +783,19 @@ Y &lt;-<span class="st"> </span>B0 +<span class="st"> </span>B1 *<span class="st
 ## lm(formula = Y ~ X1)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -2.0069 -0.7943 -0.1368  0.6793  2.8109 
+##      Min       1Q   Median       3Q      Max 
+## -13.5778  -5.9302  -0.6026   6.4902  11.8346 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  5.18536    0.21314   24.33   &lt;2e-16 ***
-## X1           1.43174    0.03763   38.05   &lt;2e-16 ***
+## (Intercept)  42.8261     1.5845  27.028  &lt; 2e-16 ***
+## X1            1.2003     0.2797   4.291 4.18e-05 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 0.993 on 98 degrees of freedom
-## Multiple R-squared:  0.9366, Adjusted R-squared:  0.9359 
-## F-statistic:  1448 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre></div>
+## Residual standard error: 7.382 on 98 degrees of freedom
+## Multiple R-squared:  0.1581, Adjusted R-squared:  0.1496 
+## F-statistic: 18.41 on 1 and 98 DF,  p-value: 4.184e-05</code></pre></div>
 </section><section id="formulas" class="slide level2">
 <h1>Formulas</h1>
 <pre><code>y ~ x1
@@ -877,6 +880,52 @@ The : is used for interactions.
 </ul></li>
 <li>Extreme values =&gt; A normal distribution may not be appropriate</li>
 </ul>
+</section><section id="try-another-fit" class="slide level2">
+<h1>Try another fit</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit2 &lt;-<span class="st"> </span><span class="kw">lm</span>(Y ~<span class="st"> </span>X1 +<span class="st"> </span>X2)
+<span class="kw">summary</span>(fit2)
+## 
+## Call:
+## lm(formula = Y ~ X1 + X2)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -1.9870 -0.7513 -0.1599  0.5974  2.6735 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  4.56639    0.56507   8.081  1.8e-12 ***
+## X1           1.43554    0.03769  38.087  &lt; 2e-16 ***
+## X2           0.81316    0.01113  73.083  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.991 on 97 degrees of freedom
+## Multiple R-squared:  0.985,  Adjusted R-squared:  0.9847 
+## F-statistic:  3181 on 2 and 97 DF,  p-value: &lt; 2.2e-16
+
+fit3 &lt;-<span class="st"> </span><span class="kw">lm</span>(Y ~<span class="st"> </span>X1 +<span class="st"> </span>X2 +<span class="st"> </span>X3)
+<span class="kw">summary</span>(fit3)
+## 
+## Call:
+## lm(formula = Y ~ X1 + X2 + X3)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -1.9146 -0.7446 -0.1878  0.6012  2.6461 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  5.343254   1.121556   4.764 6.73e-06 ***
+## X1           1.434152   0.037800  37.940  &lt; 2e-16 ***
+## X2           0.812640   0.011165  72.782  &lt; 2e-16 ***
+## X3          -0.002941   0.003665  -0.802    0.424    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.9928 on 96 degrees of freedom
+## Multiple R-squared:  0.9851, Adjusted R-squared:  0.9846 
+## F-statistic:  2113 on 3 and 96 DF,  p-value: &lt; 2.2e-16</code></pre></div>
 </section></section>
 <section><section id="questions" class="titleslide slide level1"><h1>Questions</h1></section><section id="questions-1" class="slide level2">
 <h1>Questions</h1>
@@ -897,7 +946,7 @@ CV &lt;-<span class="st"> </span>.<span class="dv">3</span>
 sigma &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">log</span>(<span class="dv">1</span> +<span class="st"> </span>CV^<span class="dv">2</span>))
 mu &lt;-<span class="st"> </span><span class="kw">log</span>(severity) -<span class="st"> </span>sigma^<span class="dv">2</span>/<span class="dv">2</span>
 <span class="kw">plot</span>(function(x) <span class="kw">dlnorm</span>(x), mu, sigma, <span class="dt">ylab=</span><span class="st">&quot;LN f(x)&quot;</span>)</code></pre></div>
-<p><img src="1P01_Data_Analysis_files/figure-revealjs/unnamed-chunk-28-1.png" width="768" /></p>
+<p><img src="1P01_Data_Analysis_files/figure-revealjs/unnamed-chunk-29-1.png" width="768" /></p>
 </section><section id="references" class="slide level2 unnumbered">
 <h1>References</h1>
 <div id="refs" class="references">

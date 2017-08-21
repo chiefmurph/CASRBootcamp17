@@ -3,7 +3,6 @@ title: "Advanced Visualization"
 author: "Brian A. Fannin"
 date: "August 21, 2017"
 output:
-  tufte::tufte_handout: default
   revealjs::revealjs_presentation:
     center: no
     css: ./css/revealOpts.css
@@ -13,6 +12,7 @@ output:
     self_contained: no
     theme: solarized
     transition: slide
+  tufte::tufte_handout: default
 ---
 
 ```{r echo=FALSE}
@@ -180,7 +180,7 @@ Non-data elements are things like labels. Here's a sample of a few:
 
 1. How am I mapping my data to an aesthetic?
 2. How are these aesthetics handled by the geom that I'm using?
-3. 
+3. Have I used a factor rather than an integer?
 
 ## Reference
 

@@ -3,7 +3,6 @@ title: "Data Analysis"
 author: "Brian A. Fannin"
 date: "August 21, 2017"
 output:
-  tufte::tufte_handout: default
   revealjs::revealjs_presentation:
     center: no
     css: ./css/revealOpts.css
@@ -13,6 +12,7 @@ output:
     self_contained: no
     theme: solarized
     transition: slide
+  tufte::tufte_handout: default
 bibliography: bibliography.bib
 ---
 
@@ -33,8 +33,8 @@ knitr::opts_knit$set(root.dir = normalizePath('../../'))
 ## What we'll cover
 
 * Basic data analysis in R
-* Linear regression
 * Fit a distribution
+* Linear regression
 
 ## Packages we'll use
   
@@ -298,13 +298,16 @@ Note that optimization is a general, solved problem. Things like the simplex met
 N <- 100
 B0 <- 5
 B1 <- 1.5
+B2 <- 0.8
 
 set.seed(1234)
 
 e <- rnorm(N, mean = 0, sd = 1)
 X1 <- runif(N, 0, 10)
+X2 <- runif(N, 30, 60)
+X3 <- runif(N, 200, 300)
 
-Y <- B0 + B1 * X1 + e
+Y <- B0 + B1 * X1 + B2 * X2 + e
 ```
 
 ## First, visualize!
@@ -381,6 +384,16 @@ abline(0, 0, col="red")
     * Serial correlation => Use a time series
     * Apply a transform (polynomial, trig, etc.)
 * Extreme values => A normal distribution may not be appropriate
+
+## Try another fit
+
+```{r}
+fit2 <- lm(Y ~ X1 + X2)
+summary(fit2)
+
+fit3 <- lm(Y ~ X1 + X2 + X3)
+summary(fit3)
+```
 
 # Questions
 
