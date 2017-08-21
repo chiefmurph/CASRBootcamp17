@@ -1,3 +1,7 @@
+---
+output: word_document
+---
+
 # Loss Reserving Capstone
 
 ## Assignment
@@ -12,7 +16,7 @@
 
 ## Required elements
 
-Every product must use the following elements:
+Every project must use the following elements:
 
 * There must be a final report in Word or .PDF.
 * This report should include plots rendered in R which support the analysis.
