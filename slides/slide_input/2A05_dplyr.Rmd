@@ -13,7 +13,6 @@ output:
     theme: solarized
     transition: slide
   tufte::tufte_handout: default
-bibliography: bibliography.bib
 ---
 
 ```{r include=FALSE}
@@ -107,13 +106,13 @@ Create a new column or alter an existing one.
 new_tri <- mutate(
   new_tri
   , PaidToIncurred = CumulativePaid / CumulativeIncurred
-  , Upper = DevelopmentYear == 1997)
+  , Upper = DevelopmentYear <= 1997)
 ```
 
 ## Combining operations
 
 ```{r}
-new_tri <- mutate(MultiTri, Upper = DevelopmentYear == 1997)
+new_tri <- mutate(MultiTri, Upper = DevelopmentYear <= 1997)
 new_tri <- select(new_tri, -DevelopmentYear)
 ```
 
@@ -228,7 +227,74 @@ dfBigCase <- MultiTri %>%
 ```
 
 
-# Summary
+# A couple more things
+
+## What about joining?
+
+```{r}
+dfCo <- data.frame(Company = unique(MultiTri$Company), stringsAsFactors = FALSE)
+dfCo$PolicyHolderSurplus <- rnorm(nrow(dfCo), 1e8, 0.3*1e8)
+dfCo
+```
+
+## Joining
+
+```{r}
+dfJoined <- dplyr::inner_join(MultiTri, dfCo)
+dfJoined %>% select(Company, PolicyHolderSurplus, DevelopmentYear) %>% head(3)
+```
+
+## What's tidyr?
+
+Does a number of things, but I'm only going to talk about 2: spreading and gathering
+
+```{r}
+one_co <- new_tri %>% 
+  filter(Company == unique(MultiTri$Company)[1]
+         , Line == 'Workers Comp')
+library(tidyr)
+```
+
+## tidyr::spread
+
+```{r}
+wide_tri <- one_co %>%
+  select(AccidentYear, Lag, NetEP, CumulativePaid) %>% 
+  spread(Lag, CumulativePaid)
+wide_tri
+```
+
+## What about missing values?
+
+```{r}
+wide_tri <- one_co %>%
+  filter(Upper) %>% 
+  select(AccidentYear, Lag, NetEP, CumulativePaid) %>% 
+  spread(Lag, CumulativePaid)
+wide_tri
+```
+
+## tidyr::gather
+
+Note that we're _excluding_ AccidentYear and Net EP from the gathering.
+
+```{r}
+long_tri <- wide_tri %>% 
+  gather(Lag, CumulativePaid, -AccidentYear, -NetEP)
+long_tri
+```
+
+## What's a tibble?
+
+More or less a data frame.
+
+* The print command won't try to print every row in the tibble.
+* They don't automatically convert strings to factors
+* add_row and add_column methods are kinda cool, especially add_row
+* Some other stuff (no partial matching on column names)
 
 ## References
 
+* http://www.tidyverse.org/
+* http://dplyr.tidyverse.org/
+* 

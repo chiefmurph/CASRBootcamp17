@@ -32,10 +32,10 @@ new_tri <- rename(MultiTri, DevelopmentLag = Lag)
 new_tri <- mutate(
   new_tri
   , PaidToIncurred = CumulativePaid / CumulativeIncurred
-  , Upper = DevelopmentYear == 1997)
+  , Upper = DevelopmentYear <= 1997)
 
 ## ------------------------------------------------------------------------
-new_tri <- mutate(MultiTri, Upper = DevelopmentYear == 1997)
+new_tri <- mutate(MultiTri, Upper = DevelopmentYear <= 1997)
 new_tri <- select(new_tri, -DevelopmentYear)
 
 ## ------------------------------------------------------------------------
@@ -81,4 +81,37 @@ dfBigCase <- MultiTri %>%
   arrange(desc(PaidToIncurred)) %>% 
   slice(1) %>% 
   select(Company, AccidentYear)
+
+## ------------------------------------------------------------------------
+dfCo <- data.frame(Company = unique(MultiTri$Company), stringsAsFactors = FALSE)
+dfCo$PolicyHolderSurplus <- rnorm(nrow(dfCo), 1e8, 0.3*1e8)
+dfCo
+
+## ------------------------------------------------------------------------
+dfJoined <- dplyr::inner_join(MultiTri, dfCo)
+dfJoined %>% select(Company, PolicyHolderSurplus, DevelopmentYear) %>% head(3)
+
+## ------------------------------------------------------------------------
+one_co <- new_tri %>% 
+  filter(Company == unique(MultiTri$Company)[1]
+         , Line == 'Workers Comp')
+library(tidyr)
+
+## ------------------------------------------------------------------------
+wide_tri <- one_co %>%
+  select(AccidentYear, Lag, NetEP, CumulativePaid) %>% 
+  spread(Lag, CumulativePaid)
+wide_tri
+
+## ------------------------------------------------------------------------
+wide_tri <- one_co %>%
+  filter(Upper) %>% 
+  select(AccidentYear, Lag, NetEP, CumulativePaid) %>% 
+  spread(Lag, CumulativePaid)
+wide_tri
+
+## ------------------------------------------------------------------------
+long_tri <- wide_tri %>% 
+  gather(Lag, CumulativePaid, -AccidentYear, -NetEP)
+long_tri
 

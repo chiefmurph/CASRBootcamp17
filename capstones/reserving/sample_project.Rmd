@@ -77,7 +77,7 @@ dfUpper <- dfLosses %>%
 ```
 
 ```{r}
-GetVectors <- function(df, which_lag, measure){
+GetLossColumn <- function(df, which_lag, measure){
   
   df <- df %>% 
     filter(Lag == which_lag)
@@ -111,6 +111,18 @@ mojo <- dfLosses %>%
 ```
 
 ##    2. Determine ultimates using any of the techniques in the ChainLadder package
+
+```{r}
+suppressPackageStartupMessages(library(ChainLadder))
+
+matTriangle <- as.triangle(
+    dfUpper
+  , origin = "AccidentYear"
+  , dev = "Lag"
+  , value = "CumulativePaid"
+  )
+```
+
     
 ##    3. Determine ultimates using a GLM, such as (overdispersed) Poisson
     4. Any other technique which you feel is appropriate

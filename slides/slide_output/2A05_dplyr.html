@@ -576,10 +576,10 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">new_tri &lt;-<span class="st"> </span><span class="kw">mutate</span>(
   new_tri
   , <span class="dt">PaidToIncurred =</span> CumulativePaid /<span class="st"> </span>CumulativeIncurred
-  , <span class="dt">Upper =</span> DevelopmentYear ==<span class="st"> </span><span class="dv">1997</span>)</code></pre></div>
+  , <span class="dt">Upper =</span> DevelopmentYear &lt;=<span class="st"> </span><span class="dv">1997</span>)</code></pre></div>
 </section><section id="combining-operations" class="slide level2">
 <h1>Combining operations</h1>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">new_tri &lt;-<span class="st"> </span><span class="kw">mutate</span>(MultiTri, <span class="dt">Upper =</span> DevelopmentYear ==<span class="st"> </span><span class="dv">1997</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">new_tri &lt;-<span class="st"> </span><span class="kw">mutate</span>(MultiTri, <span class="dt">Upper =</span> DevelopmentYear &lt;=<span class="st"> </span><span class="dv">1997</span>)
 new_tri &lt;-<span class="st"> </span><span class="kw">select</span>(new_tri, -DevelopmentYear)</code></pre></div>
 <p>This syntax will get tedious real fast. We need some way to make this more efficient. Fortunately, we have one …</p>
 </section></section>
@@ -651,8 +651,116 @@ MultiTri %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="kw">slice</span>(<span class="dv">1</span>) %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="kw">select</span>(Company, AccidentYear)</code></pre></div>
 </section></section>
-<section><section id="summary" class="titleslide slide level1"><h1>Summary</h1></section><section id="references" class="slide level2">
+<section><section id="a-couple-more-things" class="titleslide slide level1"><h1>A couple more things</h1></section><section id="what-about-joining" class="slide level2">
+<h1>What about joining?</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dfCo &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Company =</span> <span class="kw">unique</span>(MultiTri$Company), <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
+dfCo$PolicyHolderSurplus &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">nrow</span>(dfCo), <span class="fl">1e8</span>, <span class="fl">0.3</span>*<span class="fl">1e8</span>)
+dfCo
+##                             Company PolicyHolderSurplus
+## 1             Farm Bureau Of MI Grp           104705307
+## 2             West Bend Mut Ins Grp           156342391
+## 3                Island Ins Cos Grp            94975537
+## 4  Kentucky Farm Bureau Mut Ins Grp            76710206
+## 5            Farmers Automobile Grp           123572234
+## 6                State Farm Mut Grp            88864569
+## 7            NC Farm Bureau Ins Grp            88986827
+## 8                  Grinnell Mut Grp           120721935
+## 9      New Jersey Manufacturers Grp            37844806
+## 10                  Dorinco Rein Co           140326733</code></pre></div>
+</section><section id="joining" class="slide level2">
+<h1>Joining</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dfJoined &lt;-<span class="st"> </span>dplyr::<span class="kw">inner_join</span>(MultiTri, dfCo)
+dfJoined %&gt;%<span class="st"> </span><span class="kw">select</span>(Company, PolicyHolderSurplus, DevelopmentYear) %&gt;%<span class="st"> </span><span class="kw">head</span>(<span class="dv">3</span>)
+## # A tibble: 3 x 3
+##                 Company PolicyHolderSurplus DevelopmentYear
+##                   &lt;chr&gt;               &lt;dbl&gt;           &lt;int&gt;
+## 1 Farm Bureau Of MI Grp           104705307            1988
+## 2 Farm Bureau Of MI Grp           104705307            1989
+## 3 Farm Bureau Of MI Grp           104705307            1990</code></pre></div>
+</section><section id="whats-tidyr" class="slide level2">
+<h1>What’s tidyr?</h1>
+<p>Does a number of things, but I’m only going to talk about 2: spreading and gathering</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">one_co &lt;-<span class="st"> </span>new_tri %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(Company ==<span class="st"> </span><span class="kw">unique</span>(MultiTri$Company)[<span class="dv">1</span>]
+         , Line ==<span class="st"> &#39;Workers Comp&#39;</span>)
+<span class="kw">library</span>(tidyr)</code></pre></div>
+</section><section id="tidyrspread" class="slide level2">
+<h1>tidyr::spread</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wide_tri &lt;-<span class="st"> </span>one_co %&gt;%
+<span class="st">  </span><span class="kw">select</span>(AccidentYear, Lag, NetEP, CumulativePaid) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">spread</span>(Lag, CumulativePaid)
+wide_tri
+## # A tibble: 10 x 12
+##    AccidentYear NetEP   `1`   `2`   `3`   `4`   `5`   `6`   `7`   `8`
+##  *        &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1         1988  7122  1346  3389  4666  5331  5719  6097  6126  6292
+##  2         1989  7588  1411  3641  4729  5352  5935  6032  6061  6222
+##  3         1990 10232  1424  4460  5791  6949  6966  7324  7596  7730
+##  4         1991 12731  2355  6208  8191  8368  8895  9162  9564  9654
+##  5         1992 16847  2544  7554  8008  9684 10637 10825 11131 11328
+##  6         1993 21327  3512  6745  9173 10286 10789 11233 11419 11558
+##  7         1994 21686  2708  7360 10084 11434 12277 12767 13076 13118
+##  8         1995 24955  2609  6240  8280  9507 10047 10393 10519 10653
+##  9         1996 22316  2652  5332  6822  7844  8179  8430  8706  9125
+## 10         1997 20975  2192  5320  7109  7779  8289  8550  8918  9027
+## # ... with 2 more variables: `9` &lt;dbl&gt;, `10` &lt;dbl&gt;</code></pre></div>
+</section><section id="what-about-missing-values" class="slide level2">
+<h1>What about missing values?</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wide_tri &lt;-<span class="st"> </span>one_co %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(Upper) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">select</span>(AccidentYear, Lag, NetEP, CumulativePaid) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">spread</span>(Lag, CumulativePaid)
+wide_tri
+## # A tibble: 10 x 12
+##    AccidentYear NetEP   `1`   `2`   `3`   `4`   `5`   `6`   `7`   `8`
+##  *        &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1         1988  7122  1346  3389  4666  5331  5719  6097  6126  6292
+##  2         1989  7588  1411  3641  4729  5352  5935  6032  6061  6222
+##  3         1990 10232  1424  4460  5791  6949  6966  7324  7596  7730
+##  4         1991 12731  2355  6208  8191  8368  8895  9162  9564    NA
+##  5         1992 16847  2544  7554  8008  9684 10637 10825    NA    NA
+##  6         1993 21327  3512  6745  9173 10286 10789    NA    NA    NA
+##  7         1994 21686  2708  7360 10084 11434    NA    NA    NA    NA
+##  8         1995 24955  2609  6240  8280    NA    NA    NA    NA    NA
+##  9         1996 22316  2652  5332    NA    NA    NA    NA    NA    NA
+## 10         1997 20975  2192    NA    NA    NA    NA    NA    NA    NA
+## # ... with 2 more variables: `9` &lt;dbl&gt;, `10` &lt;dbl&gt;</code></pre></div>
+</section><section id="tidyrgather" class="slide level2">
+<h1>tidyr::gather</h1>
+<p>Note that we’re <em>excluding</em> AccidentYear and Net EP from the gathering.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">long_tri &lt;-<span class="st"> </span>wide_tri %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">gather</span>(Lag, CumulativePaid, -AccidentYear, -NetEP)
+long_tri
+## # A tibble: 100 x 4
+##    AccidentYear NetEP   Lag CumulativePaid
+##           &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;
+##  1         1988  7122     1           1346
+##  2         1989  7588     1           1411
+##  3         1990 10232     1           1424
+##  4         1991 12731     1           2355
+##  5         1992 16847     1           2544
+##  6         1993 21327     1           3512
+##  7         1994 21686     1           2708
+##  8         1995 24955     1           2609
+##  9         1996 22316     1           2652
+## 10         1997 20975     1           2192
+## # ... with 90 more rows</code></pre></div>
+</section><section id="whats-a-tibble" class="slide level2">
+<h1>What’s a tibble?</h1>
+<p>More or less a data frame.</p>
+<ul>
+<li>The print command won’t try to print every row in the tibble.</li>
+<li>They don’t automatically convert strings to factors</li>
+<li>add_row and add_column methods are kinda cool, especially add_row</li>
+<li>Some other stuff (no partial matching on column names)</li>
+</ul>
+</section><section id="references" class="slide level2">
 <h1>References</h1>
+<ul>
+<li><a href="http://www.tidyverse.org/" class="uri">http://www.tidyverse.org/</a></li>
+<li><a href="http://dplyr.tidyverse.org/" class="uri">http://dplyr.tidyverse.org/</a></li>
+<li></li>
+</ul>
 </section></section>
     </div>
   </div>
