@@ -48,3 +48,5 @@ capstones/reserving/*.pdf
 # *.html
 
 *lock*
+
+zip*/

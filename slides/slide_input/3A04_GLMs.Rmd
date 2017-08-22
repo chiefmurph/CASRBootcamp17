@@ -3,7 +3,6 @@ title: "GLMs"
 author: "Brian A. Fannin"
 date: "August 23, 2017"
 output:
-  tufte::tufte_handout: default
   revealjs::revealjs_presentation:
     center: no
     css: ./css/revealOpts.css
@@ -13,6 +12,7 @@ output:
     self_contained: no
     theme: solarized
     transition: slide
+  tufte::tufte_handout: default
 nocite: |
   @GelmanAndHill
 bibliography: bibliography.bib

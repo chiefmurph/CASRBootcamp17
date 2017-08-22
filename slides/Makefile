@@ -23,7 +23,7 @@ KNIT_HANDOUT = Rscript -e "rmarkdown::render('$<', output_format = 'word_documen
 KNIT_BEAMER = Rscript -e "rmarkdown::render('$<', output_dir = '$(HTML_DIR)')"
 KNIT_TUFTE = Rscript -e "rmarkdown::render('$<', output_format = 'tufte::tufte_handout', output_dir = '$(HTML_DIR)')"
 
-all: slides handouts scripts tufte
+all: slides handouts scripts
 
 slides: $(HTML_OUT)
 
@@ -31,10 +31,10 @@ handouts: $(HANDOUT_OUT)
 
 scripts: $(SCRIPT_OUT)
 
-tufte: $(TUFTE_OUT)
+# tufte: $(TUFTE_OUT)
 
-$(TUFTE_OUT):$(TUFTE_IN)
-	$(KNIT_TUFTE)
+#$(TUFTE_OUT):$(TUFTE_IN)
+#	$(KNIT_TUFTE)
 
 $(HTML_DIR)/%.html:$(RMD_DIR)/%.Rmd
 	$(KNIT_SLIDE)
