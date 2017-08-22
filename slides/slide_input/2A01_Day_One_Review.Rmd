@@ -1,0 +1,156 @@
+---
+title: "Day One Review"
+output:
+  slidy_presentation:
+    duration: 45
+    fig_height: 3
+    fig_width: 6
+  beamer_presentation:
+    fonttheme: professionalfonts
+---
+
+
+
+## Assignment
+What is the assigment operator in R?
+
+
+
+## Equality
+What is the difference between "=" and "=="?
+What operator do you use to test inequality?
+
+
+
+## Let's have a little chat
+* There are always a dozen ways to do something in R.
+* Most of the time this is great, except for when you are brand new...
+* So, just ignore that there are exceptions to everything we tell you. :(
+
+
+
+## Our friend "="
+* The assigment operator in R is "<-"
+* When you are calling a function, sometimes you have to use "=", like
+```{r}
+1:5
+seq(1, 5)
+seq(from = 1, to = 5)
+seq(to = 5, from = 1)
+seq(1, 5, by = 2)
+```
+
+
+
+
+## Exercise
+* Create a vector of years from 2007 to 2016
+* Create a vector of random normal values of the same length
+* Create a data.frame object that combines the two vectors together
+* Compare your result to your neighbor
+* Are they the same?  Why or why not?
+
+
+
+## Let's go spelunking!
+* Functions you can use to explore your junk
+    + `str`
+    + `class`
+    + `ls`
+    + `search`
+    + `print` (or just type the junk's name)
+* Are there any others?  
+
+
+
+## Big C, Little c
+* So what is the difference between big C and little c?
+
+
+
+## R, you naughty thing
+* Yes, R is case-sensitive.
+* So, not naughty, just sensitive.
+* Oh, and dots are special.
+* "And don't forget me, the underscore!"
+
+
+
+## [] versus ()
+* Pick your favorite function (it's OK, this can be a short relationship)
+* What do you get when you run it with `[]` afterward?
+* With `()`
+* With nothing? (scandal!)
+
+
+
+## Plotting...to leave great reviews of this course
+* High level plot functions in R
+    + plot
+    + curve
+    + pairs
+    + boxplot
+    + barplot
+    + hist
+* Use the googler to try and find others
+
+
+
+## Which is better?
+* `ggplot2` or `base` plotting?
+
+
+
+## Trick Question
+For a review of `ggplot2` please see the cheatsheet on the community page
+
+
+
+## Data import and export
+* Write RData files using `save`
+* Read RData files using `load`
+* What functions do you need to read and write CSV files?
+* What are some of the naughty things you need to worry about with CSV?
+
+
+## Excel?
+* Use every tool in the box
+* But, just be careful with dates, factors, commas in numbers, etc.
+
+
+
+## Questions
+
+* Plot a lognormal distribution with a mean of $10,000 and a CV of 30%.
+* For that distribution, what is the probability of seeing a claim greater than $100,000?
+* Generate 100 and 1,000 observations from that distribution.
+* Draw a histogram for each sample.
+* What are the mean, standard deviation and CV of each sample?
+
+
+
+## Answers
+```{r }
+severity <- 10000
+CV <- .3
+sigma <- sqrt(log(1 + CV^2))
+mu <- log(severity) - sigma^2/2
+plot(function(x) dlnorm(x), mu, sigma, ylab="LN f(x)")
+```
+
+
+
+## Hello Teacher
+Psst, Adam.  You didn't cover X, Y or Z.  
+
+
+
+
+
+## Day Two
+What are we going to learn today?  A lot more valuable stuff than yesterday, that's for sure.
+
+* dplyr
+* RMarkdown
+* ChainLadder
+

@@ -1,0 +1,88 @@
+---
+title: "Get Down with RMarkdown"
+output:
+  slidy_presentation:
+    duration: 45
+    fig_height: 3
+    fig_width: 6
+  beamer_presentation:
+    fonttheme: professionalfonts
+---
+
+
+
+## Do we have to?
+* Hmmm, that is a good question
+* We want you to write reports as part of your capstone
+* But, truth be told, it is not the most important part
+* Besides, there is a really *easy* way for you to do it...
+
+
+
+## An Easy Way, Tell Me More
+![](images/compile-report.PNG)
+
+
+
+## Using Compile Report
+* Keep your code clean and organized
+* Write good comments, like you would in a report
+* Use this comment character #'
+* Cool things will happen
+* And, this is just the beginning
+
+
+
+## Another Way Using Rmd Files
+Create a new file
+![](images/rmarkdown-workflow.PNG)
+
+
+
+## Create a New File
+![](images/rmarkdown-new.PNG)
+
+
+
+## Render!
+![](images/rmarkdown-render.PNG)
+
+
+
+## What we can do...
+![](images/rmarkdown-basic.PNG)
+
+
+
+## Embed Code
+![](images/rmarkdown-code.PNG)
+
+
+
+## Images and Links
+![](images/rmarkdown-links.PNG)
+
+
+
+## Lists
+![](images/rmarkdown-lists.PNG)
+
+
+
+## Tables
+![](images/rmarkdown-tables.PNG)
+
+
+
+## Chunk Options
+This is more advanced stuff, but here it is
+![](images/rmarkdown-chunkoptions.PNG)
+
+
+
+## Where to get more help
+* Use the cheatsheet
+* [http://rmarkdown.rstudio.com/](http://rmarkdown.rstudio.com/)
+
+
+
