@@ -124,7 +124,94 @@ $(document).ready(function () {
 </div>
 
 
-<p>This will show up as RMarkdown. 2 + 2 = <strong>4</strong>.</p>
+<p>The data files available are</p>
+<table>
+<thead>
+<tr class="header">
+<th>File</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>pol1_train.RData</td>
+<td>Policy number, dates</td>
+</tr>
+<tr class="even">
+<td>po13_train.RData</td>
+<td>Other info</td>
+</tr>
+<tr class="odd">
+<td>clms_train.RData</td>
+<td>Individual claims</td>
+</tr>
+<tr class="even">
+<td>tri_train.RData</td>
+<td>Triangle of claims</td>
+</tr>
+<tr class="odd">
+<td>pol1_test.RData</td>
+<td>Same for test</td>
+</tr>
+<tr class="even">
+<td>pol3_test.RData</td>
+<td>Same for test</td>
+</tr>
+</tbody>
+</table>
+<div id="headers-for-each-object" class="section level2">
+<h2>Headers for each object</h2>
+<pre class="r"><code>names(pol1_train)</code></pre>
+<pre><code>## [1] &quot;policy_number&quot; &quot;inception&quot;     &quot;expiration&quot;</code></pre>
+<pre class="r"><code>names(pol1_test)</code></pre>
+<pre><code>## [1] &quot;policy_number&quot; &quot;inception&quot;     &quot;expiration&quot;</code></pre>
+<pre class="r"><code>names(pol3_train)</code></pre>
+<pre><code>## [1] &quot;policy_number&quot; &quot;variable&quot;      &quot;value&quot;</code></pre>
+<pre class="r"><code>names(pol3_test)</code></pre>
+<pre><code>## [1] &quot;policy_number&quot; &quot;variable&quot;      &quot;value&quot;</code></pre>
+<pre class="r"><code>names(clms_train)</code></pre>
+<pre><code>## [1] &quot;index&quot;         &quot;status&quot;        &quot;policy_number&quot; &quot;claim_made&quot;   
+## [5] &quot;claim_closed&quot;  &quot;status.1&quot;      &quot;claim_at_val&quot;</code></pre>
+<pre class="r"><code>names(tri_train)</code></pre>
+<pre><code>##  [1] &quot;policy_year&quot; &quot;d012&quot;        &quot;d024&quot;        &quot;d036&quot;        &quot;d048&quot;       
+##  [6] &quot;d060&quot;        &quot;d072&quot;        &quot;d084&quot;        &quot;d096&quot;        &quot;d108&quot;       
+## [11] &quot;d120&quot;</code></pre>
+<p>Are the training and testing sets mutually exclusive?</p>
+<pre class="r"><code>pols_train &lt;- unique(pol1_train$policy_number)
+pols_train %&gt;% length</code></pre>
+<pre><code>## [1] 50000</code></pre>
+<pre class="r"><code>pol1_train %&gt;% nrow</code></pre>
+<pre><code>## [1] 50000</code></pre>
+<pre class="r"><code>pols_test &lt;- unique(pol1_test$policy_number)
+pols_test %&gt;% length</code></pre>
+<pre><code>## [1] 50000</code></pre>
+<pre class="r"><code>pol1_test %&gt;% nrow</code></pre>
+<pre><code>## [1] 50000</code></pre>
+<pre class="r"><code>sum(pols_train %in% pols_test)</code></pre>
+<pre><code>## [1] 0</code></pre>
+<pre class="r"><code>sum(pols_test %in% pols_train)</code></pre>
+<pre><code>## [1] 0</code></pre>
+<pre class="r"><code>pols_train &lt;- unique(pol3_train$policy_number)
+pols_train %&gt;% length</code></pre>
+<pre><code>## [1] 50000</code></pre>
+<pre class="r"><code>pols_test &lt;- unique(pol3_test$policy_number)
+pols_test %&gt;% length</code></pre>
+<pre><code>## [1] 50000</code></pre>
+<pre class="r"><code>sum(pols_train %in% pols_test)</code></pre>
+<pre><code>## [1] 0</code></pre>
+<pre class="r"><code>sum(pols_test %in% pols_train)</code></pre>
+<pre><code>## [1] 0</code></pre>
+<p>Are status and status.1 the same? If so, remove status.1</p>
+<pre class="r"><code>sum(!clms_train$status == clms_train$status.1)</code></pre>
+<pre><code>## [1] 0</code></pre>
+<pre class="r"><code>clms_train$status.1 &lt;- NULL</code></pre>
+<p>Is the current incurred equal to the most recent diagonal?</p>
+<pre class="r"><code>sum(clms_train$claim_at_val)</code></pre>
+<pre><code>## [1] 347662006</code></pre>
+<pre class="r"><code>sum(diag(as.matrix(tri_train[, 11:2])))</code></pre>
+<pre><code>## [1] 347662006</code></pre>
+<p>The few first rows of each object looks like this: * pol1_train * pol1_test</p>
+</div>
 
 
 

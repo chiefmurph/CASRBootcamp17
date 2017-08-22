@@ -197,18 +197,25 @@ claims <- cbind(claims, lookup(claims, lpolicies))
 # Claim made date
 #   Select a month at random from the duration
 a <- floor(runif(m) * (claims$duration_months + 3))
-claims$claim_made <- add_mo(claims$inception, a)
+claims$claim_made <- add_yyyymm(claims$inception, a)
 
 # Claim closed date
 #   Expect duration to be 2 years from report
 #   Most between 1 and 3, so normal with s.d. = 0.5, mu = 2
 a <- round(rnorm(m, mean = 24, sd = 6), 0)
 a[a < 0] <- 0
-claims$claim_closed <- add_mo(claims$claim_made, a)
+claims$claim_closed <- add_yyyymm(claims$claim_made, a)
 
 # Claim status
 # Valuation date is 201706
 claims$status <- ifelse(claims$claim_closed <= 201706, 'C', 'O')
+
+
+# [August 21, 2017 ALR]
+# Fixed to use claim made date instead of policy date for trend
+claims$claim_made_year <- year_yyyymm(claims$claim_made)
+
+
 
 
 #############################################
@@ -218,10 +225,10 @@ claims$status <- ifelse(claims$claim_closed <= 201706, 'C', 'O')
 #   Model ultimate values using lognormal
 #############################################
 
-years              <- 2007:2016
+years              <- min(claims$claim_made_year):max(claims$claim_made_year)
 inflation          <- 0.03
 n_years            <- length(years)
-inflation_factors  <- (1 + inflation) ^ (-9:0)
+inflation_factors  <- (1 + inflation) ^ (years - 2016)
 avg_severity       <- inflation_factors * 95000
 
 
@@ -232,26 +239,47 @@ avg_severity       <- inflation_factors * 95000
 #   mu = log(E[x]) - sigma^2/2
 #
 
-sigma <- seq(from = 0.5, to = 5.0, by = 0.1)
-mu <- log(95000) - sigma^2/2
-sqrt((log(95000) - 9.0) * 2)
-
-# Pick sigma as 2.2 and keep constant for each year
-sigma <- rep(2.2, 10)
+# Pick sigma as 1.4 and keep constant for each year
+sigma <- rep(1.0, length(avg_severity))
 mu <- log(avg_severity) - sigma^2/2
 
 lparam <- data.frame(
-  policy_year = years,
+  claim_made_year = years,
   sev_mu = mu,
   sev_sigma = sigma
 )
 
 # Ultimate claim value
+claims$sev_mu <- NULL
+claims$sev_sigma <- NULL
 a <- lookup(claims, lparam)
 claims$sev_mu <- a$sev_mu
 claims$sev_sigma <- a$sev_sigma
 
 claims$claim_ultimate <- rlnorm(m, claims$sev_mu, claims$sev_sigma)
+claims$count <- 1
+
+
+
+# [August 21, 2017 ALR]
+# Make sure that the claim trend is calculatable
+
+avg_severity <- aggregate(
+  x = claims[, c('claim_ultimate', 'count')], 
+  by = claims[, 'claim_made_year', drop = FALSE], 
+  FUN = sum
+)
+
+avg_severity$avg_severity <- 
+  avg_severity$claim_ultimate / avg_severity$count
+
+plot(avg_severity$avg_severity)
+lm_as <- lm(formula = log(avg_severity) ~ claim_made_year, 
+   data = avg_severity)
+plot(lm_as)
+summary(lm_as)
+
+
 
 
 
@@ -271,19 +299,19 @@ claims <- within(claims, {
 })
 
 claims$age_at_close <- 
-  diff_mo(claims$policy_year * 100, claims$claim_closed)
+  diff_yyyymm(claims$policy_year * 100, claims$claim_closed)
 
 claims$age_at_open <- 
-  diff_mo(claims$policy_year * 100, claims$claim_made)
+  diff_yyyymm(claims$policy_year * 100, claims$claim_made)
 
 claims$age_at_val <- 
-  diff_mo(claims$policy_year * 100, 201612)
+  diff_yyyymm(claims$policy_year * 100, 201612)
 
 for(i in 1:10) {
   
   a <- runif(m)
-  val <- add_mo(200700, i * 12)
-  val_prior <- add_mo(val, -12)
+  val <- add_yyyymm(200700, i * 12)
+  val_prior <- add_yyyymm(val, -12)
   d <- paste0('d', right(paste0('000', i * 12), 3))
   d_prior <- paste0('d', right(paste0('000', (i - 1) * 12), 3))
   inc_prior <- claims[, d_prior]
@@ -441,7 +469,7 @@ d1 <- rep(0:9, each = 10)
 d2 <- rep(0:9, times = 10)
 a <- as.matrix(square_train[2:11])
 a[d1 + d2 > 9] <- NA
-a <- cbind(years, a)
+a <- cbind(2007:2016, a)
 tri_train <- as.data.frame(a)
 names(tri_train) <- names(square_train)
 
@@ -449,7 +477,7 @@ d1 <- rep(0:9, each = 10)
 d2 <- rep(0:9, times = 10)
 a <- as.matrix(square_test[2:11])
 a[d1 + d2 > 9] <- NA
-a <- cbind(years, a)
+a <- cbind(2007:2016, a)
 tri_test <- as.data.frame(a)
 names(tri_test) <- names(square_test)
 
