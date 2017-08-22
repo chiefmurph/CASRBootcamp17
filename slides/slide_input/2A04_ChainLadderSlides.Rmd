@@ -1,0 +1,189 @@
+---
+title: "ChainLadder Package"
+output: 
+  slidy_presentation:
+    duration: 45
+  beamer_presentation:
+    fonttheme: professionalfonts
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Agenda
+
+Investigate stochastic methods in 
+the ChainLadder package that are useful for reserving
+
+Learn how to work with the objects returned by the methods
+
+## Data triangles
+
+ABC : WC
+
+GenIns: Unknown line
+
+RAA:  reinsurance GL data
+
+auto: auto
+
+Mortgage: mortgage guarantee
+
+USAApaid, USAAincurred: CAS website
+
+## Useful stochastic methods for reserving
+
+- MackChainLadder
+
+- Dave Clark's methods ("LDF Curve-Fitting ...",
+CAS *eForum*)
+
+    - ClarkLDF
+    
+    - ClarkCapeCod
+    
+- Other stochastic methods include ...
+
+    - BootChainLadder: Bootstrapping
+    
+    - MunichChainLadder: paid & incurred simultaneously
+
+    - tweedieReserve: glm including one-year risk horizon (Solvency II)
+    
+## MackChainLadder
+
+- Develop the GenIns triangle to ultimate with an estimated tail factor
+
+- How to find useful values in the object returned
+
+    - Hint: learn what is returned by the **summary** function
+
+```{r}
+library(ChainLadder)
+GenIns
+M <- MackChainLadder(GenIns, tail = TRUE)
+```
+
+- Investigate items returned by 'summary'
+
+```{r}
+print(summary(M))
+class(summary(M))
+names(summary(M))
+class(summary(M)$ByOrigin)
+# Here is where the accident year ultimates are
+summary(M)$ByOrigin$Ultimate
+  # Aside: Using '$' sign same as pulling contents of "Ultimate" sublist
+  summary(M)$ByOrigin[["Ultimate"]]
+  # Contrast with the "Ultimate" sublist itself
+  summary(M)$ByOrigin["Ultimate"]
+
+# Back to business
+class(summary(M)$Totals)
+# Here is where total IBNR is
+summary(M)$Totals["IBNR:", "Totals"]
+summary(M)$Totals[4, 1]
+# Here is the standard error of total IBNR
+summary(M)$Totals["Mack S.E.:", "Totals"]
+```
+
+- You can fit a two parameter distribution
+(e.g., lognormal)
+to total IBNR using the estimated mean and standard error
+
+## Clark's methods
+
+- LDF Method: Develop the GenIns triangle to ultimate
+
+    - Fits a development curve, therefore a tail factor implicitly
+
+- Pull estimated IBNR and its standard error
+
+```{r}
+DC <- ClarkLDF(GenIns)
+print(summary(DC))
+class(summary(DC))
+# Here is where the accident year ultimates are
+summary(DC)[1:10, "UltimateValue"]
+# Here is where total IBNR is
+summary(DC)["Total", "FutureValue"]
+# Here is the standard error of total IBNR
+summary(DC)["Total", "StdError"]
+```
+
+- Fit a distribution to the mean and standard error
+
+## Clark's methods
+
+- CapeCod Method
+
+    - Like the BF method but ELR is estimated, not provided
+  
+    - Needs Premium argument
+
+- Pull estimated IBNR and its standard error
+
+```{r}
+# Premium sequence comes from Clark's paper
+CC <- ClarkCapeCod(GenIns, Premium = 
+                     seq(10e06, length = 10, by = 400000))
+print(summary(CC))
+class(summary(CC))
+# Here is where the accident year ultimates are
+summary(CC)[1:10, "UltimateValue"]
+# Here is where total IBNR is
+summary(CC)["Total", "FutureValue"]
+# Here is the standard error of total IBNR
+summary(CC)["Total", "StdError"]
+```
+
+- Fit a distribution to the mean and standard error
+
+## Fit a lognormal distribution to mean and sd
+
+```{r}
+lnormParms <- function(mean, sd) {
+  sigma2 <- log(1 + (sd / mean)^2)
+  meanlog <- log(mean) - .5 * sigma2
+  cbind(meanlog, sdlog = sqrt(sigma2))[,]
+}
+```
+
+- The lognormal parameters matching the MackChainLadder estimate
+of Total IBNR
+
+```{r}
+parms <- lnormParms(summary(M)$Totals["IBNR:", "Totals"],
+           summary(M)$Totals["Mack S.E.:", "Totals"])
+parms
+```
+
+- The 95th percentile of estimated IBNR is
+
+```{r}
+qlnorm(.95, parms[1], parms[2])
+```
+
+- What quantile corresponds to the mean
+
+```{r}
+plnorm(summary(M)$Totals["IBNR:", "Totals"], parms[1], parms[2])
+```
+
+- Not very skewed. What is the cv?
+
+```{r}
+summary(M)$Totals["Mack S.E.:", "Totals"] / 
+  summary(M)$Totals["IBNR:", "Totals"]
+```
+
+- How compares with the CV from the ClarkLDF method?
+
+```{r}
+summary(DC)["Total", "StdError"] / 
+  summary(DC)["Total", "FutureValue"]
+# Also found in the object
+summary(DC)["Total", "CV"]
+```
+
