@@ -146,7 +146,7 @@ summary(CC)["Total", "StdError"]
 lnormParms <- function(mean, sd) {
   sigma2 <- log(1 + (sd / mean)^2)
   meanlog <- log(mean) - .5 * sigma2
-  cbind(meanlog, sdlog = sqrt(sigma2))[,]
+  cbind(meanlog, sdlog = sqrt(sigma2))
 }
 ```
 
