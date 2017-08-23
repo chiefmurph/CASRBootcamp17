@@ -1,0 +1,89 @@
+---
+title: "More dplyr practice"
+author: "Brian A. Fannin"
+date: "August 23, 2017"
+output:
+  revealjs::revealjs_presentation:
+    center: no
+    css: ./css/revealOpts.css
+    reveal_plugins:
+    - notes
+    - zoom
+    self_contained: no
+    theme: solarized
+    transition: slide
+---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(
+    warning=FALSE
+  , error=FALSE
+  , echo=TRUE
+  , message=FALSE
+)
+knitr::opts_knit$set(root.dir = normalizePath('../../'))
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(tidyr))
+```
+
+# Yay, more dplyr!
+
+## The Lahman data
+
+Baseball stats
+
+```{r }
+library(Lahman)
+```
+
+```{r echo=TRUE, eval=FALSE}
+library(Lahman)
+data(package = 'Lahman')
+```
+
+## Your questions
+
+1. What is mean and median salary by year?
+1. Using the "Master" and "Salaries" tables, what is the min, max and mean salaries for all players who are (according to this data) alive. 
+2. What is the ratio of the mean salary by year of left-handed batters to right-handed batters? Note: there are three kinds of batters in the database: "L", "R" and "B". Ignore ambidextrous (i.e. "B") batters.
+
+## Answers - 1
+
+```{r}
+library(tidyr)
+library(dplyr)
+```
+
+```{r}
+dfSalaryByYear <- Salaries %>% 
+  group_by(yearID) %>% 
+  summarise(AvgSalary = mean(salary)
+            , MedianSalary = median(salary))
+```
+
+## Answers - 2
+
+```{r}
+dfPlayerSalary <- Master %>% 
+  filter(is.na(deathDate)) %>% 
+  select(playerID, bats) %>% 
+  inner_join(Salaries)
+
+dfSalarySummary <- dfPlayerSalary %>% 
+  summarise(MinSalary = min(salary)
+            , MaxSalary = max(salary)
+            , AvgSalary = mean(salary))
+```
+
+## Answers - 3
+
+```{r}
+dfYearAndHand <- dfPlayerSalary %>% 
+  filter(bats != 'B') %>% 
+  group_by(yearID, bats) %>% 
+  summarise(AvgSalary = mean(salary)) %>% 
+  spread(bats, AvgSalary) %>% 
+  mutate(LeftRelativity = L / R)
+```
+

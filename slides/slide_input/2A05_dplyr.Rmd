@@ -12,7 +12,6 @@ output:
     self_contained: no
     theme: solarized
     transition: slide
-  tufte::tufte_handout: default
 ---
 
 ```{r include=FALSE}

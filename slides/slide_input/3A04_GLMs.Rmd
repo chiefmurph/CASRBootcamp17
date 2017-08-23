@@ -33,7 +33,32 @@ suppressPackageStartupMessages(library(dplyr))
 # Fit a sample
 
 ```{r}
-load('./slides/data/glm.rda')
+set.seed(1234)
+
+num_policies <- 5e3
+
+payroll <- runif(num_policies, 500e3, 10e6)
+years_in_operation <- rpois(num_policies, 5)
+number_of_employees <- as.integer(runif(num_policies, 50, 2e3))
+claims_per_mil <- 1.5 - .1 * years_in_operation + 0.001 * number_of_employees
+lambda <- claims_per_mil * payroll / 1e6
+claim_count <- rpois(num_policies, lambda)
+
+dfGLM <- data.frame(
+    ClaimCount = claim_count
+  , Payroll = payroll
+  , YearsInOperation = years_in_operation
+  , NumberOfEmployees = number_of_employees)
+
+total_claims <- sum(claim_count)
+claim_severity <- rgamma(total_claims, 10, 1/10e3)
+open_prob <- pmin(claim_severity / 500e3, 1)
+
+dfBinomial <- data.frame(
+      ClaimSeverity = claim_severity
+    , OpenProb = open_prob
+    , Open = rbinom(total_claims, 1, open_prob)
+  )
 ```
 
 ## Data 
@@ -41,7 +66,7 @@ load('./slides/data/glm.rda')
 Claim counts for `r format(num_policies, big.mark = ",")` policies.
 
 ```{r fig.height=4}
-plt <- ggplot(dfGLM, aes(NumClaims)) + geom_histogram(binwidth = 1)
+plt <- ggplot(dfGLM, aes(ClaimCount)) + geom_histogram(binwidth = 1)
 plt
 ```
 
@@ -67,23 +92,40 @@ plt
 ## Number of claims ~ Payroll
 
 ```{r}
-plt <- ggplot(dfGLM, aes(Payroll, NumClaims)) + geom_hex()
+plt <- ggplot(dfGLM, aes(Payroll, ClaimCount)) + geom_hex()
 plt <- plt + scale_x_continuous(labels = scales::dollar) + ylab("# of Claims")
 plt
 ```
 
-## What's wrong with a linear fit?
-
-* Heteroskedastic
-* Does it really capture the mean?
-
-## Number of claims ~ Payroll
+## Number of claims ~ Years in operation
 
 ```{r}
-plt <- ggplot(dfGLM, aes(Payroll, NumClaims)) + geom_hex()
+plt <- ggplot(dfGLM, aes(as.factor(YearsInOperation), ClaimCount)) + geom_boxplot()
+plt <- plt + ylab("# of Claims") + xlab('Years in operation')
+plt
+```
+
+## Number of claims ~ # of EEs
+
+```{r}
+plt <- ggplot(dfGLM, aes(NumberOfEmployees, ClaimCount)) + geom_hex()
+plt <- plt + scale_x_continuous(labels = scales::comma)
+plt <- plt + ylab("# of Claims") + xlab('Number of Employees')
+plt
+```
+
+## How about a linear fit?
+
+```{r}
+plt <- ggplot(dfGLM, aes(Payroll, ClaimCount)) + geom_hex()
 plt <- plt + scale_x_continuous(labels = scales::dollar) + ylab("# of Claims")
 plt + geom_smooth(method = "lm", formula = y ~ 1 + x)
 ```
+
+## What's wrong with this?
+
+* Heteroskedastic
+* Does it really capture the mean?
 
 ## Another distribution makes more sense
 
@@ -93,11 +135,11 @@ But how do we do that? If only we had a linear model that was a bit more general
 
 ## Recall OLS Assumptions
 
-__Warning__: I play fast and loose with the difference between the response variable and the error term. 
+__Warning__: I play fast and loose with the difference between the response variable and the error term and probably lots of other statistical things. I'm not classically trained. I play by ear.
 
 ## OLS Assumptions
 
-* Linear relationship between response and predictors
+* Linear relationship between response and predictors: y ~ 1 + x1 + x2
 * Errors are normally distributed
 * Errors are uncorrelated
 * Errors are homoskedastic
@@ -105,21 +147,19 @@ __Warning__: I play fast and loose with the difference between the response vari
 ## More general assumptions
 
 * Relationship is between response and _transformed_ linear combination of predictors
-* Errors need not be normally distributed 
+* Errors need not be normally distributed
+* Distributions have some constraints
 
 ## Mathematically
 
-$E[y]=g^{-1}(\beta_0+\sum_{j=1}^p\beta_{ij})$
+$\eta_i=\beta_0+\sum_{j=1}^p\beta_{j}x_{ij}$
+$\mu_i= g^{-1}(\eta_i)$
 
-$g(x)$ is the "link" function.
+$g(x)$ is the "link" function. I've seen $\eta$ called the systematic component.
 
-The linear combination is often referred to by $\eta$. I don't know why it doesn't get a name.
+I don't know why the expectation is equal to the inverse of the link function. It makes my head hurt.
 
-I also don't know why the expectation is equal to the inverse of the link function. If talking about the transformed expectation doesn't make your head hurt, then you may like this formula better.
-
-$g(E[y])=\beta_0+\sum_{j=1}^p\beta_{ij}$
-
-## Specify two things
+## Models require us to specify two things
 
 1. The distribution
 2. The "link" function
@@ -130,7 +170,7 @@ Must be one of the exponential family of functions.
 
 $f(y; \theta,\phi) = exp[\frac{y\theta - b(\theta)  }{a(\phi)} + c(y,\phi)]$
 
-Note this _doesn't_ include the lognormal. That's OK; we can always perform a log transform of our data and fit a normal.
+Note this _doesn't_ include the lognormal. That's OK; we can always do a log transform of our data and fit a normal.
 
 Lots of folks get very excited about this formula. I don't. I can never remember it and I never feel as though I need to. If you like this formula, you'll see it often, but you won't see it any more today.
 
@@ -148,19 +188,54 @@ Lots of folks get very excited about this formula. I don't. I can never remember
 A linear model:
 
 ```{r echo=TRUE}
-fit_lm <- lm(NumClaims ~ Payroll, data = dfGLM)
+fit_lm <- lm(ClaimCount ~ Payroll, data = dfGLM)
 ```
 
 A GLM:
 
 ```{r echo=TRUE}
-fit_glm <- glm(NumClaims ~ Payroll, data = dfGLM, family = "poisson")
+fit_glm <- glm(ClaimCount ~ Payroll + YearsInOperation + NumberOfEmployees, data = dfGLM, family = "poisson")
 ```
 
 ## Programmatic differences:
 
 * Must indicate the family
 * Must provide the link, though only if we're using something non-canonical
+
+## Summary
+
+```{r}
+summary(fit_glm)
+```
+
+## Predictions
+
+```{r}
+dfGLM$Predict1 <- predict(fit_glm, type = 'response')
+```
+
+# Measuring fit quality
+
+## Measuring fit quality
+
+Comparing models typically involves comparison of the likelihood. Note that - comparable to r^2 - more parameters will _always_ give better fit metrics, unless we're penalizing for extra parameters. AIC and BIC do this. In the formulas below, $p$ is the number of parameters and $L$ is the (conditional) likelihood. Lower is better.
+
+$AIC = 2[-ln(L) + p]$
+$BIC = -2L+p*ln(n)$
+
+## Deviance
+
+* Null deviance is similar to sum of squares in OLS. 
+* Reduction in residual deviance suggests a better model. Again, adding parameters will _always_ reduce residual deviance. Simple > complex
+
+## Residuals
+
+```{r}
+dfGLM$Residual1 <- residuals(fit_glm, type = 'response')
+plt <- ggplot(dfGLM, aes(Predict1, Residual1)) + geom_hex()
+plt <- plt + geom_hline(yintercept = 0, color = 'red')
+plt
+```
 
 ## Offset
 
@@ -169,9 +244,9 @@ The offset is a kind of scaling factor that should not be included as a predicto
 ## Compare these two models
 
 ```{r echo=TRUE, collapse=TRUE}
-fit_1 <- glm(NumClaims ~ 1 + Payroll, data = dfGLM, family="poisson")
+fit_1 <- glm(ClaimCount ~ 1 + Payroll, data = dfGLM, family="poisson")
 
-fit_2 <- glm(NumClaims ~ 1, data = dfGLM, family="poisson", offset=log(Payroll))
+fit_2 <- glm(ClaimCount ~ 1, data = dfGLM, family="poisson", offset=log(Payroll))
 
 fit_1$aic
 fit_2$aic
@@ -179,23 +254,9 @@ coef(fit_1)
 coef(fit_2)
 ```
 
-Fit for the second model is much better, because payroll isn't really a _predictor_ of loss. It is a scaling element for exposure. Think the number of deaths by heart disease in Manhattan vs. number of deaths by heart disease in a rural town.
+Fit for the second model is better, because payroll isn't really a _predictor_ of loss. It is a scaling element for exposure. Think the number of deaths by heart disease in Manhattan vs. number of deaths by heart disease in a rural town.
 
-# Measuring fit quality
-
-# Measuring fit quality
-
-Comparing models typically involves comparison of the likelihood. Note that - comparable to r^2 - more parameters will _always_ give better fit metrics, unless we're penalizing for extra parameters.
-
-$AIC = 2[-l(\boldsymbol{y};\boldsymbol{\theta}^M)+r]$
-$BIC = 2[-l(\boldsymbol{y};\boldsymbol{\theta}^M)+rln(n)]$
-
-## Deviance
-
-* Null deviance is comparable to sum of squares in OLS
-* Reduction in residual deviance suggests a better model. However, trivial improvements may favor a more parsimonious model.
-
-# If time permits
+# Logistic regression (if time permits)
 
 ## Binomial
 
@@ -203,6 +264,35 @@ $BIC = 2[-l(\boldsymbol{y};\boldsymbol{\theta}^M)+rln(n)]$
 plt <- ggplot(dfBinomial, aes(ClaimSeverity, Open)) + geom_hex()
 plt <- plt + scale_x_continuous(labels=scales::dollar)
 plt
+```
+
+## Fitting a logistic
+
+```{r}
+fit_open <- glm(Open ~ ClaimSeverity, data=dfBinomial, family="binomial")
+summary(fit_open)
+```
+
+## The logistic function
+
+Transforms the real number range to a number between zero and one.
+
+$f(\alpha)=\frac{exp(\alpha)}{exp(\alpha)+1}$
+
+## Watch that link function!
+
+```{r}
+fit_open_1 <- glm(Open ~ 0 + ClaimSeverity, data=dfBinomial, family="binomial")
+fit_open_2 <- glm(Open ~ 1 + ClaimSeverity, data=dfBinomial, family="binomial")
+summary(fit_open_1)
+summary(fit_open_2)
+```
+
+```{r}
+fit_open_1 <- glm(Open ~ 0 + ClaimSeverity, data=dfBinomial, family=binomial(link="identity"))
+fit_open_2 <- glm(Open ~ 1 + ClaimSeverity, data=dfBinomial, family=binomial(link="identity"))
+summary(fit_open_1)
+summary(fit_open_2)
 ```
 
 ## Binomial w/fit
@@ -218,25 +308,3 @@ plt <- ggplot(dfBinomial, aes(OpenProb, Open)) + geom_hex()
 plt + geom_smooth(method = "glm", formula = y ~ 1 + x, method.args = list(family = "binomial"))
 ```
 
-##
-
-```{r}
-fit_open_1 <- glm(Open ~ 0 + ClaimSeverity, data=dfBinomial, family="binomial")
-fit_open_2 <- glm(Open ~ 1 + ClaimSeverity, data=dfBinomial, family="binomial")
-summary(fit_open_1)
-summary(fit_open_2)
-# dfBinomial$Predicted <- predict(fit_closure, type = "response")
-```
-
-```{r}
-fit_open_1 <- glm(Open ~ 0 + ClaimSeverity, data=dfBinomial, family=binomial(link="identity"))
-fit_open_2 <- glm(Open ~ 1 + ClaimSeverity, data=dfBinomial, family=binomial(link="identity"))
-summary(fit_open_1)
-summary(fit_open_2)
-```
-
-# Resources
-
-## Good books
-
-* Frees, Derrig, et al

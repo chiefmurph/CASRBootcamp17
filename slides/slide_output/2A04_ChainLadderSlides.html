@@ -312,7 +312,7 @@ CC &lt;-<span class="st"> </span><span class="kw">ClarkCapeCod</span>(GenIns, <s
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lnormParms &lt;-<span class="st"> </span>function(mean, sd) {
   sigma2 &lt;-<span class="st"> </span><span class="kw">log</span>(<span class="dv">1</span> +<span class="st"> </span>(sd /<span class="st"> </span>mean)^<span class="dv">2</span>)
   meanlog &lt;-<span class="st"> </span><span class="kw">log</span>(mean) -<span class="st"> </span>.<span class="dv">5</span> *<span class="st"> </span>sigma2
-  <span class="kw">cbind</span>(meanlog, <span class="dt">sdlog =</span> <span class="kw">sqrt</span>(sigma2))[,]
+  <span class="kw">cbind</span>(meanlog, <span class="dt">sdlog =</span> <span class="kw">sqrt</span>(sigma2))
 }</code></pre></div>
 <ul>
 <li>The lognormal parameters matching the MackChainLadder estimate of Total IBNR</li>
@@ -320,8 +320,8 @@ CC &lt;-<span class="st"> </span><span class="kw">ClarkCapeCod</span>(GenIns, <s
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">parms &lt;-<span class="st"> </span><span class="kw">lnormParms</span>(<span class="kw">summary</span>(M)$Totals[<span class="st">&quot;IBNR:&quot;</span>, <span class="st">&quot;Totals&quot;</span>],
            <span class="kw">summary</span>(M)$Totals[<span class="st">&quot;Mack S.E.:&quot;</span>, <span class="st">&quot;Totals&quot;</span>])
 parms</code></pre></div>
-<pre><code>##   meanlog     sdlog 
-## 16.815516  0.125895</code></pre>
+<pre><code>##       meanlog    sdlog
+## [1,] 16.81552 0.125895</code></pre>
 <ul>
 <li>The 95th percentile of estimated IBNR is</li>
 </ul>

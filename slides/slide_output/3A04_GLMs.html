@@ -519,26 +519,32 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section><section id="add-predictors" class="titleslide slide level1"><h1>Add predictors</h1></section><section id="number-of-claims-payroll" class="slide level2">
 <h1>Number of claims ~ Payroll</h1>
 <p><img src="3A04_GLMs_files/figure-revealjs/unnamed-chunk-4-1.png" width="768" /></p>
-</section><section id="whats-wrong-with-a-linear-fit" class="slide level2">
-<h1>What’s wrong with a linear fit?</h1>
+</section><section id="number-of-claims-years-in-operation" class="slide level2">
+<h1>Number of claims ~ Years in operation</h1>
+<p><img src="3A04_GLMs_files/figure-revealjs/unnamed-chunk-5-1.png" width="768" /></p>
+</section><section id="number-of-claims-of-ees" class="slide level2">
+<h1>Number of claims ~ # of EEs</h1>
+<p><img src="3A04_GLMs_files/figure-revealjs/unnamed-chunk-6-1.png" width="768" /></p>
+</section><section id="how-about-a-linear-fit" class="slide level2">
+<h1>How about a linear fit?</h1>
+<p><img src="3A04_GLMs_files/figure-revealjs/unnamed-chunk-7-1.png" width="768" /></p>
+</section><section id="whats-wrong-with-this" class="slide level2">
+<h1>What’s wrong with this?</h1>
 <ul>
 <li>Heteroskedastic</li>
 <li>Does it really capture the mean?</li>
 </ul>
-</section><section id="number-of-claims-payroll-1" class="slide level2">
-<h1>Number of claims ~ Payroll</h1>
-<p><img src="3A04_GLMs_files/figure-revealjs/unnamed-chunk-5-1.png" width="768" /></p>
 </section><section id="another-distribution-makes-more-sense" class="slide level2">
 <h1>Another distribution makes more sense</h1>
 <p>But how do we do that? If only we had a linear model that was a bit more general …</p>
 </section></section>
 <section><section id="glms" class="titleslide slide level1"><h1>GLMs</h1></section><section id="recall-ols-assumptions" class="slide level2">
 <h1>Recall OLS Assumptions</h1>
-<p><strong>Warning</strong>: I play fast and loose with the difference between the response variable and the error term.</p>
+<p><strong>Warning</strong>: I play fast and loose with the difference between the response variable and the error term and probably lots of other statistical things. I’m not classically trained. I play by ear.</p>
 </section><section id="ols-assumptions" class="slide level2">
 <h1>OLS Assumptions</h1>
 <ul>
-<li>Linear relationship between response and predictors</li>
+<li>Linear relationship between response and predictors: y ~ 1 + x1 + x2</li>
 <li>Errors are normally distributed</li>
 <li>Errors are uncorrelated</li>
 <li>Errors are homoskedastic</li>
@@ -548,16 +554,15 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <ul>
 <li>Relationship is between response and <em>transformed</em> linear combination of predictors</li>
 <li>Errors need not be normally distributed</li>
+<li>Distributions have some constraints</li>
 </ul>
 </section><section id="mathematically" class="slide level2">
 <h1>Mathematically</h1>
-<p><span class="math inline">\(E[y]=g^{-1}(\beta_0+\sum_{j=1}^p\beta_{ij})\)</span></p>
-<p><span class="math inline">\(g(x)\)</span> is the “link” function.</p>
-<p>The linear combination is often referred to by <span class="math inline">\(\eta\)</span>. I don’t know why it doesn’t get a name.</p>
-<p>I also don’t know why the expectation is equal to the inverse of the link function. If talking about the transformed expectation doesn’t make your head hurt, then you may like this formula better.</p>
-<p><span class="math inline">\(g(E[y])=\beta_0+\sum_{j=1}^p\beta_{ij}\)</span></p>
-</section><section id="specify-two-things" class="slide level2">
-<h1>Specify two things</h1>
+<p><span class="math inline">\(\eta_i=\beta_0+\sum_{j=1}^p\beta_{j}x_{ij}\)</span> <span class="math inline">\(\mu_i= g^{-1}(\eta_i)\)</span></p>
+<p><span class="math inline">\(g(x)\)</span> is the “link” function. I’ve seen <span class="math inline">\(\eta\)</span> called the systematic component.</p>
+<p>I don’t know why the expectation is equal to the inverse of the link function. It makes my head hurt.</p>
+</section><section id="models-require-us-to-specify-two-things" class="slide level2">
+<h1>Models require us to specify two things</h1>
 <ol type="1">
 <li>The distribution</li>
 <li>The “link” function</li>
@@ -566,7 +571,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <h1>Distribution restrictions</h1>
 <p>Must be one of the exponential family of functions.</p>
 <p><span class="math inline">\(f(y; \theta,\phi) = exp[\frac{y\theta - b(\theta) }{a(\phi)} + c(y,\phi)]\)</span></p>
-<p>Note this <em>doesn’t</em> include the lognormal. That’s OK; we can always perform a log transform of our data and fit a normal.</p>
+<p>Note this <em>doesn’t</em> include the lognormal. That’s OK; we can always do a log transform of our data and fit a normal.</p>
 <p>Lots of folks get very excited about this formula. I don’t. I can never remember it and I never feel as though I need to. If you like this formula, you’ll see it often, but you won’t see it any more today.</p>
 </section><section id="canonical-links" class="slide level2">
 <h1>Canonical links</h1>
@@ -604,53 +609,112 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </section><section id="very-easy-to-program" class="slide level2">
 <h1>Very easy to program</h1>
 <p>A linear model:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_lm &lt;-<span class="st"> </span><span class="kw">lm</span>(NumClaims ~<span class="st"> </span>Payroll, <span class="dt">data =</span> dfGLM)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_lm &lt;-<span class="st"> </span><span class="kw">lm</span>(ClaimCount ~<span class="st"> </span>Payroll, <span class="dt">data =</span> dfGLM)</code></pre></div>
 <p>A GLM:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_glm &lt;-<span class="st"> </span><span class="kw">glm</span>(NumClaims ~<span class="st"> </span>Payroll, <span class="dt">data =</span> dfGLM, <span class="dt">family =</span> <span class="st">&quot;poisson&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_glm &lt;-<span class="st"> </span><span class="kw">glm</span>(ClaimCount ~<span class="st"> </span>Payroll +<span class="st"> </span>YearsInOperation +<span class="st"> </span>NumberOfEmployees, <span class="dt">data =</span> dfGLM, <span class="dt">family =</span> <span class="st">&quot;poisson&quot;</span>)</code></pre></div>
 </section><section id="programmatic-differences" class="slide level2">
 <h1>Programmatic differences:</h1>
 <ul>
 <li>Must indicate the family</li>
 <li>Must provide the link, though only if we’re using something non-canonical</li>
 </ul>
+</section><section id="summary" class="slide level2">
+<h1>Summary</h1>
+<pre><code>## 
+## Call:
+## glm(formula = ClaimCount ~ Payroll + YearsInOperation + NumberOfEmployees, 
+##     family = &quot;poisson&quot;, data = dfGLM)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -3.6316  -0.8639  -0.0898   0.6735   3.8710  
+## 
+## Coefficients:
+##                     Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)        8.629e-01  1.833e-02   47.07   &lt;2e-16 ***
+## Payroll            1.993e-07  1.714e-09  116.23   &lt;2e-16 ***
+## YearsInOperation  -4.921e-02  2.042e-03  -24.09   &lt;2e-16 ***
+## NumberOfEmployees  4.961e-04  7.988e-06   62.11   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 25650.1  on 4999  degrees of freedom
+## Residual deviance:  6544.9  on 4996  degrees of freedom
+## AIC: 26065
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+</section><section id="predictions" class="slide level2">
+<h1>Predictions</h1>
+</section></section>
+<section><section id="measuring-fit-quality" class="titleslide slide level1"><h1>Measuring fit quality</h1></section><section id="measuring-fit-quality-1" class="slide level2">
+<h1>Measuring fit quality</h1>
+<p>Comparing models typically involves comparison of the likelihood. Note that - comparable to r^2 - more parameters will <em>always</em> give better fit metrics, unless we’re penalizing for extra parameters. AIC and BIC do this. In the formulas below, <span class="math inline">\(p\)</span> is the number of parameters and <span class="math inline">\(L\)</span> is the (conditional) likelihood. Lower is better.</p>
+<p><span class="math inline">\(AIC = 2[-ln(L) + p]\)</span> <span class="math inline">\(BIC = -2L+p*ln(n)\)</span></p>
+</section><section id="deviance" class="slide level2">
+<h1>Deviance</h1>
+<ul>
+<li>Null deviance is similar to sum of squares in OLS.</li>
+<li>Reduction in residual deviance suggests a better model. Again, adding parameters will <em>always</em> reduce residual deviance. Simple &gt; complex</li>
+</ul>
+</section><section id="residuals" class="slide level2">
+<h1>Residuals</h1>
+<p><img src="3A04_GLMs_files/figure-revealjs/unnamed-chunk-12-1.png" width="768" /></p>
 </section><section id="offset" class="slide level2">
 <h1>Offset</h1>
 <p>The offset is a kind of scaling factor that should not be included as a predictor. Comparable to the notion of exposure in insurance pricing.</p>
 </section><section id="compare-these-two-models" class="slide level2">
 <h1>Compare these two models</h1>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_1 &lt;-<span class="st"> </span><span class="kw">glm</span>(NumClaims ~<span class="st"> </span><span class="dv">1</span> +<span class="st"> </span>Payroll, <span class="dt">data =</span> dfGLM, <span class="dt">family=</span><span class="st">&quot;poisson&quot;</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_1 &lt;-<span class="st"> </span><span class="kw">glm</span>(ClaimCount ~<span class="st"> </span><span class="dv">1</span> +<span class="st"> </span>Payroll, <span class="dt">data =</span> dfGLM, <span class="dt">family=</span><span class="st">&quot;poisson&quot;</span>)
 
-fit_2 &lt;-<span class="st"> </span><span class="kw">glm</span>(NumClaims ~<span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> dfGLM, <span class="dt">family=</span><span class="st">&quot;poisson&quot;</span>, <span class="dt">offset=</span><span class="kw">log</span>(Payroll))
+fit_2 &lt;-<span class="st"> </span><span class="kw">glm</span>(ClaimCount ~<span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> dfGLM, <span class="dt">family=</span><span class="st">&quot;poisson&quot;</span>, <span class="dt">offset=</span><span class="kw">log</span>(Payroll))
 
 fit_1$aic
-## [1] 24074.27
+## [1] 30611.27
 fit_2$aic
-## [1] 23139.99
+## [1] 29325.83
 <span class="kw">coef</span>(fit_1)
 ##  (Intercept)      Payroll 
-## 8.662942e-01 1.998568e-07
+## 1.184594e+00 1.982046e-07
 <span class="kw">coef</span>(fit_2)
 ## (Intercept) 
-##    -13.4123</code></pre></div>
-<p>Fit for the second model is much better, because payroll isn’t really a <em>predictor</em> of loss. It is a scaling element for exposure. Think the number of deaths by heart disease in Manhattan vs. number of deaths by heart disease in a rural town.</p>
+##   -13.10503</code></pre></div>
+<p>Fit for the second model is better, because payroll isn’t really a <em>predictor</em> of loss. It is a scaling element for exposure. Think the number of deaths by heart disease in Manhattan vs. number of deaths by heart disease in a rural town.</p>
 </section></section>
-<section><section id="measuring-fit-quality" class="titleslide slide level1"><h1>Measuring fit quality</h1></section></section>
-<section><section id="measuring-fit-quality-1" class="titleslide slide level1"><h1>Measuring fit quality</h1></section><section id="deviance" class="slide level2">
-<h1>Deviance</h1>
-<ul>
-<li>Null deviance is comparable to sum of squares in OLS</li>
-<li>Reduction in residual deviance suggests a better model. However, trivial improvements may favor a more parsimonious model.</li>
-</ul>
-</section></section>
-<section><section id="if-time-permits" class="titleslide slide level1"><h1>If time permits</h1></section><section id="binomial" class="slide level2">
+<section><section id="logistic-regression-if-time-permits" class="titleslide slide level1"><h1>Logistic regression (if time permits)</h1></section><section id="binomial" class="slide level2">
 <h1>Binomial</h1>
-<p><img src="3A04_GLMs_files/figure-revealjs/unnamed-chunk-9-1.png" width="768" /></p>
-</section><section id="binomial-wfit" class="slide level2">
-<h1>Binomial w/fit</h1>
-<p><img src="3A04_GLMs_files/figure-revealjs/unnamed-chunk-10-1.png" width="768" /></p>
-<p><img src="3A04_GLMs_files/figure-revealjs/unnamed-chunk-11-1.png" width="768" /></p>
-</section><section id="section" class="slide level2">
-<h1></h1>
+<p><img src="3A04_GLMs_files/figure-revealjs/unnamed-chunk-14-1.png" width="768" /></p>
+</section><section id="fitting-a-logistic" class="slide level2">
+<h1>Fitting a logistic</h1>
+<pre><code>## 
+## Call:
+## glm(formula = Open ~ ClaimSeverity, family = &quot;binomial&quot;, data = dfBinomial)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.5636  -0.6921  -0.6061  -0.5146   2.1991  
+## 
+## Coefficients:
+##                 Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)   -2.612e+00  3.735e-02  -69.93   &lt;2e-16 ***
+## ClaimSeverity  1.189e-05  3.346e-07   35.53   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 53704  on 53555  degrees of freedom
+## Residual deviance: 52436  on 53554  degrees of freedom
+## AIC: 52440
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+</section><section id="the-logistic-function" class="slide level2">
+<h1>The logistic function</h1>
+<p>Transforms the real number range to a number between zero and one.</p>
+<p><span class="math inline">\(f(\alpha)=\frac{exp(\alpha)}{exp(\alpha)+1}\)</span></p>
+</section><section id="watch-that-link-function" class="slide level2">
+<h1>Watch that link function!</h1>
 <pre><code>## 
 ## Call:
 ## glm(formula = Open ~ 0 + ClaimSeverity, family = &quot;binomial&quot;, 
@@ -658,19 +722,19 @@ fit_2$aic
 ## 
 ## Deviance Residuals: 
 ##     Min       1Q   Median       3Q      Max  
-## -1.0906  -0.8029  -0.7089  -0.5601   2.6528  
+## -1.0920  -0.8070  -0.7139  -0.5616   2.6330  
 ## 
 ## Coefficients:
 ##                 Estimate Std. Error z value Pr(&gt;|z|)    
-## ClaimSeverity -1.205e-05  1.220e-07  -98.81   &lt;2e-16 ***
+## ClaimSeverity -1.186e-05  1.038e-07  -114.3   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## (Dispersion parameter for binomial family taken to be 1)
 ## 
-##     Null deviance: 54603  on 39388  degrees of freedom
-## Residual deviance: 42270  on 39387  degrees of freedom
-## AIC: 42272
+##     Null deviance: 74244  on 53556  degrees of freedom
+## Residual deviance: 57845  on 53555  degrees of freedom
+## AIC: 57847
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
 <pre><code>## 
@@ -680,20 +744,20 @@ fit_2$aic
 ## 
 ## Deviance Residuals: 
 ##     Min       1Q   Median       3Q      Max  
-## -1.4136  -0.6872  -0.5984  -0.5059   2.2119  
+## -1.5636  -0.6921  -0.6061  -0.5146   2.1991  
 ## 
 ## Coefficients:
 ##                 Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept)   -2.683e+00  4.400e-02  -60.98   &lt;2e-16 ***
-## ClaimSeverity  1.237e-05  3.937e-07   31.41   &lt;2e-16 ***
+## (Intercept)   -2.612e+00  3.735e-02  -69.93   &lt;2e-16 ***
+## ClaimSeverity  1.189e-05  3.346e-07   35.53   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## (Dispersion parameter for binomial family taken to be 1)
 ## 
-##     Null deviance: 39125  on 39387  degrees of freedom
-## Residual deviance: 38133  on 39386  degrees of freedom
-## AIC: 38137
+##     Null deviance: 53704  on 53555  degrees of freedom
+## Residual deviance: 52436  on 53554  degrees of freedom
+## AIC: 52440
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
 <pre><code>## 
@@ -703,19 +767,19 @@ fit_2$aic
 ## 
 ## Deviance Residuals: 
 ##     Min       1Q   Median       3Q      Max  
-## -1.2036  -0.7003  -0.6075  -0.4842   2.4287  
+## -1.3319  -0.7053  -0.6116  -0.4849   2.4600  
 ## 
 ## Coefficients:
 ##                Estimate Std. Error z value Pr(&gt;|z|)    
-## ClaimSeverity 1.978e-06  1.976e-08   100.1   &lt;2e-16 ***
+## ClaimSeverity 2.006e-06  1.702e-08   117.9   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## (Dispersion parameter for binomial family taken to be 1)
 ## 
-##     Null deviance:   Inf  on 39388  degrees of freedom
-## Residual deviance: 38121  on 39387  degrees of freedom
-## AIC: 38123
+##     Null deviance:   Inf  on 53556  degrees of freedom
+## Residual deviance: 52413  on 53555  degrees of freedom
+## AIC: 52415
 ## 
 ## Number of Fisher Scoring iterations: 3</code></pre>
 <pre><code>## 
@@ -725,28 +789,26 @@ fit_2$aic
 ## 
 ## Deviance Residuals: 
 ##     Min       1Q   Median       3Q      Max  
-## -1.2133  -0.7008  -0.6063  -0.4803   2.4504  
+## -1.3204  -0.7048  -0.6127  -0.4886   2.4387  
 ## 
 ## Coefficients:
-##                 Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept)   -3.641e-03  6.035e-03  -0.603    0.546    
-## ClaimSeverity  2.013e-06  6.220e-08  32.366   &lt;2e-16 ***
+##                Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)   3.400e-03  5.254e-03   0.647    0.518    
+## ClaimSeverity 1.973e-06  5.385e-08  36.633   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## (Dispersion parameter for binomial family taken to be 1)
 ## 
-##     Null deviance: 39125  on 39387  degrees of freedom
-## Residual deviance: 38121  on 39386  degrees of freedom
-## AIC: 38125
+##     Null deviance: 53704  on 53555  degrees of freedom
+## Residual deviance: 52412  on 53554  degrees of freedom
+## AIC: 52416
 ## 
 ## Number of Fisher Scoring iterations: 3</code></pre>
-</section></section>
-<section><section id="resources" class="titleslide slide level1"><h1>Resources</h1></section><section id="good-books" class="slide level2">
-<h1>Good books</h1>
-<ul>
-<li>Frees, Derrig, et al</li>
-</ul>
+</section><section id="binomial-wfit" class="slide level2">
+<h1>Binomial w/fit</h1>
+<p><img src="3A04_GLMs_files/figure-revealjs/unnamed-chunk-18-1.png" width="768" /></p>
+<p><img src="3A04_GLMs_files/figure-revealjs/unnamed-chunk-19-1.png" width="768" /></p>
 <div id="refs" class="references">
 <div id="ref-GelmanAndHill">
 <p>Gelman, Andrew, and Jennifer Hill. 2006. <em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em>. <a href="http://www.stat.columbia.edu/~gelman/arm/" class="uri">http://www.stat.columbia.edu/~gelman/arm/</a>.</p>

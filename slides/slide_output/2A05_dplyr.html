@@ -657,16 +657,16 @@ MultiTri %&gt;%<span class="st"> </span>
 dfCo$PolicyHolderSurplus &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">nrow</span>(dfCo), <span class="fl">1e8</span>, <span class="fl">0.3</span>*<span class="fl">1e8</span>)
 dfCo
 ##                             Company PolicyHolderSurplus
-## 1             Farm Bureau Of MI Grp           104705307
-## 2             West Bend Mut Ins Grp           156342391
-## 3                Island Ins Cos Grp            94975537
-## 4  Kentucky Farm Bureau Mut Ins Grp            76710206
-## 5            Farmers Automobile Grp           123572234
-## 6                State Farm Mut Grp            88864569
-## 7            NC Farm Bureau Ins Grp            88986827
-## 8                  Grinnell Mut Grp           120721935
-## 9      New Jersey Manufacturers Grp            37844806
-## 10                  Dorinco Rein Co           140326733</code></pre></div>
+## 1             Farm Bureau Of MI Grp           117312287
+## 2             West Bend Mut Ins Grp           110415609
+## 3                Island Ins Cos Grp            87564006
+## 4  Kentucky Farm Bureau Mut Ins Grp           113112690
+## 5            Farmers Automobile Grp           148155635
+## 6                State Farm Mut Grp           107822532
+## 7            NC Farm Bureau Ins Grp           103394072
+## 8                  Grinnell Mut Grp            52339108
+## 9      New Jersey Manufacturers Grp            79193935
+## 10                  Dorinco Rein Co            57876817</code></pre></div>
 </section><section id="joining" class="slide level2">
 <h1>Joining</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dfJoined &lt;-<span class="st"> </span>dplyr::<span class="kw">inner_join</span>(MultiTri, dfCo)
@@ -674,9 +674,9 @@ dfJoined %&gt;%<span class="st"> </span><span class="kw">select</span>(Company, 
 ## # A tibble: 3 x 3
 ##                 Company PolicyHolderSurplus DevelopmentYear
 ##                   &lt;chr&gt;               &lt;dbl&gt;           &lt;int&gt;
-## 1 Farm Bureau Of MI Grp           104705307            1988
-## 2 Farm Bureau Of MI Grp           104705307            1989
-## 3 Farm Bureau Of MI Grp           104705307            1990</code></pre></div>
+## 1 Farm Bureau Of MI Grp           117312287            1988
+## 2 Farm Bureau Of MI Grp           117312287            1989
+## 3 Farm Bureau Of MI Grp           117312287            1990</code></pre></div>
 </section><section id="whats-tidyr" class="slide level2">
 <h1>What’s tidyr?</h1>
 <p>Does a number of things, but I’m only going to talk about 2: spreading and gathering</p>
