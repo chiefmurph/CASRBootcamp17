@@ -17,6 +17,11 @@ source('resources.R')
 
 
 
+val_date <- 201612
+
+
+
+
 #############################################
 # POLICIES
 #   Line is A&E
@@ -207,13 +212,20 @@ a[a < 0] <- 0
 claims$claim_closed <- add_yyyymm(claims$claim_made, a)
 
 # Claim status
-# Valuation date is 201706
-claims$status <- ifelse(claims$claim_closed <= 201706, 'C', 'O')
+# Valuation date is val_date
+claims$status <- ifelse(claims$claim_closed <= val_date, 'C', 'O')
 
 
 # [August 21, 2017 ALR]
 # Fixed to use claim made date instead of policy date for trend
 claims$claim_made_year <- year_yyyymm(claims$claim_made)
+
+
+
+# Do some claims testing
+
+
+
 
 
 
@@ -230,6 +242,9 @@ inflation          <- 0.03
 n_years            <- length(years)
 inflation_factors  <- (1 + inflation) ^ (years - 2016)
 avg_severity       <- inflation_factors * 95000
+
+
+
 
 
 # lognormal mean
@@ -305,7 +320,7 @@ claims$age_at_open <-
   diff_yyyymm(claims$policy_year * 100, claims$claim_made)
 
 claims$age_at_val <- 
-  diff_yyyymm(claims$policy_year * 100, 201612)
+  diff_yyyymm(claims$policy_year * 100, val_date)
 
 for(i in 1:10) {
   
@@ -440,7 +455,7 @@ clms <- claims[ ,
 clms$claim_closed[clms$status == 'O'] <- NA
 
 clms_train <- clms[clms$policy_number %in% pol_train &
-                     clms$claim_made <= 201612, ]
+                     clms$claim_made <= val_date, ]
 
 
 

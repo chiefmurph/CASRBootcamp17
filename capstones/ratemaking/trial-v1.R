@@ -12,7 +12,7 @@
 require(alrtools)
 require(magrittr)
 require(dplyr)
-
+require(ChainLadder)
 
 
 #+ include=FALSE
@@ -52,6 +52,71 @@ load("./share/pol1_train.RData")
 load("./share/pol3_test.RData")
 load("./share/pol3_train.RData")
 load("./share/tri_train.RData")
+
+
+
+#+ include=FALSE
+# Are there closed claims with 0 payment?
+clms_train %>% 
+  filter(status == 'C', claim_at_val < 1)
+
+
+
+summary(clms_train)
+
+
+# Get average severity
+avg_severity <- clms_train %>% 
+  mutate(year = floor(claim_made / 100)) %>% 
+  filter(status == 'C') %>% 
+  group_by(year) %>% 
+  summarize(count = n(), severity = sum(claim_at_val)) %>% 
+  mutate(avg_severity = severity / count)
+
+lm_as <- lm(log(avg_severity) ~ year, data = avg_severity)
+
+own_trend <- lm_as$coefficients[2] %>% exp - 1
+industry_trend <- 0.03
+
+
+
+# Does the Mack method work
+tri_train
+tri <- tri_train[, 2:11] %>% as.matrix %>% unname %>% as.triangle
+
+mm <- MackChainLadder(tri)
+cm <- ClarkLDF(tri)
+
+cumprod(mm$f[10:1])
+ldfs_mm <- 1 / summary(mm)$ByOrigin$Dev.To.Date
+
+
+
+
+clms_train %>% head
+clms_train$cm_year <- floor(clms_train$claim_made / 100)
+clms_train %>% head
+ldfs_mm
+
+
+clms_train$ldf <- ldfs_mm[clms_train$cm_year - 2006]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #' ## Headers for each object
