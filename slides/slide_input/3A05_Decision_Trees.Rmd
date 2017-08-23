@@ -1,0 +1,274 @@
+---
+title: "Decision Trees"
+output:
+  slidy_presentation:
+    duration: 45
+    fig_height: 3
+    fig_width: 6
+  beamer_presentation:
+    fonttheme: professionalfonts
+---
+
+
+
+## Install Some New Packages
+```{r eval=FALSE}
+install.packages('tree')
+install.packages('randomForest')
+library(MASS)
+library(dplyr)
+library(ggplot2)
+library(raw)
+library(tree)
+library(randomForest)
+```
+```{r}
+library(MASS)
+library(dplyr)
+library(ggplot2)
+library(raw)
+library(tree)
+library(randomForest)
+library(bindrcpp)
+par(mfrow = c(1, 1))
+```
+
+
+
+## Get Some Data
+```{r}
+data(Boston)
+head(Boston)
+bos <- Boston %>% 
+  dplyr::select(dis, rm, medv) %>% 
+  mutate(medv_f = cut(medv, breaks = 0:5 * 10))
+```
+
+
+
+## Plot the Data
+```{r}
+plot(bos)
+```
+
+
+
+## Plot the Data
+```{r}
+plot(medv ~ rm, data = bos)
+plot(medv ~ log(dis), data = bos)
+```
+
+
+
+## Maybe use ggplot2
+```{r}
+p <- ggplot(data = bos) +
+  geom_point(mapping = aes(
+    x = rm, 
+    y = log(dis),
+    color = medv
+  )) +
+  scale_color_gradientn(colours = c('yellow', 'green', 'blue', 'red'))
+```
+
+
+
+## Plot
+```{r}
+p
+```
+
+
+
+## Create a Decision Tree
+```{r}
+tbos <- tree(
+  formula = medv ~ rm + log(dis),
+  data = bos
+)
+summary(tbos)
+```
+
+
+
+## Plot the decision tree
+```{r}
+plot(tbos)
+```
+
+
+
+## Try Again
+```{r}
+plot(tbos)
+text(tbos)
+```
+
+
+
+## Try Again #2
+```{r}
+plot(tbos, type = 'uniform')
+text(tbos, pretty = 5, col = 'blue', cex = 0.8)
+```
+
+
+
+## Open the Region Experience data
+```{r}
+data(RegionExperience)
+RegionExperience %>% head
+```
+
+
+
+## Take a Quick Look
+```{r}
+plot(RegionExperience)
+unique(RegionExperience$Region)
+unique(RegionExperience$PolicyYear)
+```
+
+
+
+## Let's Add a Frequency Field
+```{r}
+rex <- RegionExperience %>% 
+  mutate(Freq = NumClaims / NumPolicies) %>% 
+  dplyr::select(Region, PolicyYear, Freq)
+unique(rex$Region)
+```
+
+
+
+## Run a Quick Tree
+```{r}
+trex <- tree(
+  formula = Freq ~ .,
+  data = rex
+)
+```
+
+
+
+## Plot the tree
+```{r}
+plot(trex, type = 'uniform')
+text(trex, pretty = 10, col = 'blue', cex = 0.8)
+```
+
+
+
+## Now, you try!
+* Go back to the `Boston` dataset in the `MASS` package
+* Pick some variables to model house value against
+* Plot something
+* Create a tree and plot it
+
+
+
+## A sample
+* crim = per capita crime by town
+* ptratio = parent teacher ratio
+* age = proportion of owner-occupied units built prior to 1940
+```{r}
+bos <- Boston %>% 
+  mutate(medv_pr = medv / rm) %>% 
+  dplyr::select(age, dis, medv_pr) %>% 
+  mutate(medv_prf = cut(medv_pr, breaks = 0:5 * 2))
+```
+
+
+
+## Maybe use ggplot2
+```{r}
+p <- ggplot(data = bos) +
+  geom_point(mapping = aes(
+    x = age, 
+    y = dis,
+    color = medv_pr
+  )) +
+  scale_color_gradientn(colours = c('yellow', 'green', 'blue', 'red'))
+```
+
+
+## Plot
+```{r}
+p
+```
+
+
+
+## What does the tree look like?
+```{r}
+tbos <- tree(
+  formula = medv_pr ~ age + log(dis),
+  data = bos
+)
+```
+
+
+
+## Plot It
+```{r}
+plot(tbos, type = 'uniform')
+text(tbos, pretty = 5, col = 'blue', cex = 0.8)
+```
+
+
+
+## Random Forests
+* What if you picked a random sample of rows BEFORE creating a tree?
+* Then what if you took n random samples?
+* Average the predictions of each tree
+* Or, count up how often different characteristics are used as the FIRST break
+
+
+
+## This Stuff is Advanced
+* use the `randomForest` package
+* How you parameterize the call is important, you can easily run out of memory
+
+
+
+## Let's Try One
+```{r}
+rf <- randomForest(
+  medv ~ ., data = Boston, 
+  ntree = 100,
+  nodesize = 100,
+  importance = TRUE,
+  mtry = 3)
+rf
+```
+
+
+
+## Now what?
+* `plot`
+* `importance`
+* `varImpPlot`
+* `predict`
+
+
+
+## `plot`
+```{r}
+plot(rf)
+```
+
+
+## `importance`
+```{r}
+importance(rf)
+```
+
+
+## `varImpPlot`
+```{r}
+par(mfrow = c(1, 2))
+varImpPlot(rf)
+```
+
+
