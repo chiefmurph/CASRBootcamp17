@@ -12,233 +12,191 @@
 require(alrtools)
 require(magrittr)
 require(dplyr)
+require(tidyr)
 require(ChainLadder)
-
-
-#+ include=FALSE
-# Description:
-#   Test of whether the capstone works!
-#   This is an R file with comments using RMarkdown syntax
-#
-
-
-
-#+ include=FALSE
+require(tree)
+require(randomForest)
+source('resources.R')
 getwd()
 dir('./share', pattern = 'RData')
 
 
 
-#' The data files available are
-#'   
-#'   File              | Notes
-#'   ----------------- |------------------------
-#'   pol1_train.RData  | Policy number, dates
-#'   po13_train.RData  | Other info
-#'   clms_train.RData  | Individual claims
-#'   tri_train.RData   | Triangle of claims
-#'   pol1_test.RData   | Same for test
-#'   pol3_test.RData   | Same for test
-#'   
-#'   
-
-
-
-#+ include=FALSE
-# Load all the data
+#' Load training data
 load("./share/clms_train.RData")
-load("./share/pol1_test.RData")
 load("./share/pol1_train.RData")
-load("./share/pol3_test.RData")
 load("./share/pol3_train.RData")
 load("./share/tri_train.RData")
 
 
 
-#+ include=FALSE
-# Are there closed claims with 0 payment?
-clms_train %>% 
-  filter(status == 'C', claim_at_val < 1)
+#' ## Look at `str` for all tables.
+ls()
+str(clms_train)
+str(pol1_train)
+str(pol3_train)
+str(tri_train)
 
 
 
-summary(clms_train)
-
-
-# Get average severity
-avg_severity <- clms_train %>% 
-  mutate(year = floor(claim_made / 100)) %>% 
-  filter(status == 'C') %>% 
-  group_by(year) %>% 
-  summarize(count = n(), severity = sum(claim_at_val)) %>% 
-  mutate(avg_severity = severity / count)
-
-lm_as <- lm(log(avg_severity) ~ year, data = avg_severity)
-
-own_trend <- lm_as$coefficients[2] %>% exp - 1
-industry_trend <- 0.03
+#' Steps to follow:
+#'   1. Check that claims data balances
+#'   1. Develop triangle to utimate
+#'   1. Attempt to find claims trend
+#'        a. In aggregate, by CM year, using all claims developed
+#'        a. In aggregate, by CM year, using closed claims only
+#'   1. Trend closed claims
+#'   1. Attempt to fit severity curve to trended closed claims
+#'   1. Merge two data tables, spread
+#'   1. Summarize claim counts by policy
+#'   1. Add claim counts to policy table
+#'   1. TODO
 
 
 
-# Does the Mack method work
-tri_train
-tri <- tri_train[, 2:11] %>% as.matrix %>% unname %>% as.triangle
+#' ## Create one policy table
+pol3_wide <- pol3_train %>% 
+  spread(variable, value) %>% 
+  mutate(
+    revenue = as.numeric(revenue),
+    year_started = as.numeric(year_started),
+    employee_count = as.numeric(employee_count),
+    five_year_claims = as.numeric(five_year_claims)
+  )
 
-mm <- MackChainLadder(tri)
-cm <- ClarkLDF(tri)
+pol1_train <- pol1_train %>% 
+  mutate(inception = as.numeric(inception)) %>% 
+  mutate(expiration = as.numeric(expiration))
 
-cumprod(mm$f[10:1])
-ldfs_mm <- 1 / summary(mm)$ByOrigin$Dev.To.Date
-
-
-
-
-clms_train %>% head
-clms_train$cm_year <- floor(clms_train$claim_made / 100)
-clms_train %>% head
-ldfs_mm
-
-
-clms_train$ldf <- ldfs_mm[clms_train$cm_year - 2006]
+pols <- pol1_train %>% 
+  inner_join(pol3_wide, by = 'policy_number')
 
 
 
 
+#' ## What is the exposure by year?
+#' Sum up revenue, policy months, both ear
+pols$duration <- diff_yyyymm(
+  pols$inception,
+  pols$expiration
+)
+ 
+pols$exposed_months <- diff_yyyymm(
+  pmin(pols$inception, 201701),
+  pmin(pols$expiration, 201701)
+) 
+
+pols$exposed_revenue <- 
+  pols$revenue / 12 * pols$exposed_months
+
+pols$exposed_emp_count <-
+  pols$employee_count / 12 * pols$exposed_months
+
+pols$py <- year_yyyymm(pols$inception)
+
+pols_py <- pols %>% 
+  group_by(py) %>% 
+  summarize(
+    policy_count = n(),
+    duration = sum(duration),
+    revenue = sum(revenue),
+    employee_count = sum(employee_count),
+    exposed_months = sum(exposed_months),
+    exposed_revenue = sum(exposed_revenue),
+    exposed_emp_count = sum(exposed_emp_count)
+  ) %>% 
+  mutate(exposed_factor = exposed_months / duration) %>% 
+  mutate(exposed_count =exposed_factor * policy_count)
+
+  
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-#' ## Headers for each object
-names(pol1_train)
-names(pol1_test)
-names(pol3_train)
-names(pol3_test)
-names(clms_train)
-names(tri_train)
-
-
-
-#' Are the training and testing sets mutually exclusive?
-pols_train <- unique(pol1_train$policy_number)
-pols_train %>% length
-pol1_train %>% nrow
-pols_test <- unique(pol1_test$policy_number)
-pols_test %>% length
-pol1_test %>% nrow
-
-
-sum(pols_train %in% pols_test)
-sum(pols_test %in% pols_train)
-
-
-pols_train <- unique(pol3_train$policy_number)
-pols_train %>% length
-
-
-pols_test <- unique(pol3_test$policy_number)
-pols_test %>% length
-
-
-sum(pols_train %in% pols_test)
-sum(pols_test %in% pols_train)
-
-
-
-#' Are status and status.1 the same?  If so, remove status.1
-sum(!clms_train$status == clms_train$status.1)
-clms_train$status.1 <- NULL
-
-
-
+#' ## Claims Balancing
 #' Is the current incurred equal to the most recent diagonal?
 sum(clms_train$claim_at_val)
 sum(diag(as.matrix(tri_train[, 11:2])))
 
 
 
-#' pols3 objects have multiple rows per policy.
-#' What is the key on this table?
-#' Check that it is policy_number and variable
-nrow(pol3_train[, c('policy_number', 'variable')])
-nrow(unique(pol3_train[, c('policy_number', 'variable')]))
-#' Since these have the same number of rows 
-#' then policy_number, variable is a key.
+
+#' ## Develop triangle to ultimate
+#' First create an object `tri` that is a triangle.
+#' This requires converting to a matrix and then unnaming,
+#' while removing the first column.
+tri <- tri_train[, 2:11] %>% as.matrix %>% unname %>% as.triangle
+tri
+dim(tri)
 
 
 
-#' We need to un-melt the pol3 object and join it with the pol1 object.
-polw <- tidyr::spread(pol3_train, variable, value)
-pol_train <- merge(pol1_train, polw)
-#' Did the merge work?
-nrow(pol_train)
-sum(pol_train$policy_number %in% pols_train)
+#' ## Mack Method
+#' Use the default as there is no development after `dev = 6`.
+mm <- MackChainLadder(tri)
+summary(mm)
+
+#' The total ultimate is 
+mm$FullTriangle[, 10] %>% sum
+
+#' Get the LDFs for developing claims by year for severity calc
+cumprod(mm$f[10:1])
+ldfs_mm <- 1 / summary(mm)$ByOrigin$Dev.To.Date
+ldfs_mm
+
+pols$ldf <- ldfs_mm[pols$py - 2006]
 
 
 
-#' Some of the data need to be converted.
-pol_train$inception <- as.numeric(pol_train$inception)
-pol_train$expiration <- as.numeric(pol_train$expiration)
-pol_train$revenue <- as.numeric(pol_train$revenue)
-pol_train$five_year_claims <- as.numeric(pol_train$five_year_claims)
-pol_train$employee_count <- as.numeric(pol_train$employee_count)
+#' ## Join claims and policy table
+#' Also add report year
+clms <- clms_train %>% 
+  inner_join(pols, by = 'policy_number')
 
-
-
-
-
-#' We now need to calculate trend in our loss data, if it has any.
-#' It might be best to create a one-way table generator first.
-#' Let's first add current incurred to the policy table.
-inc <- clms_train %>% group_by(policy_number) %>% 
-  summarize(
-    total_incurred = sum(claim_at_val),
-    claim_counts = n()
+clms <- clms %>% 
+  mutate(
+    ry = year_yyyymm(clms$claim_made),
+    count = 1,
+    closed_count = ifelse(status == 'C', 1, 0),
+    open_count = ifelse(status == 'O', 1, 0)
   )
 
-pol_inc <- merge(pol_train, inc, all.x = TRUE)
-
-pol_inc$total_incurred[is.na(pol_inc$total_incurred)] <- 0
-pol_inc$claim_counts[is.na(pol_inc$claim_counts)] <- 0
-
-
-sum(pol_inc$total_incurred)
-sum(clms_train$claim_at_val)
-
-sum(pol_inc$claim_counts)
-nrow(clms_train)
-
-
-pol_inc$py <- left(pol_inc$inception, 4) %>% as.numeric
-
-
-pol_inc %>% group_by(py) %>% 
-    summarize(
-      pol_counts = n(),
-      claim_counts = sum(claim_counts),
-      total_incurred = sum(total_incurred),
-      revenue = sum(revenue),
-      employee_count = sum(employee_count),
-      five_year_claims = sum(five_year_claims)
-    ) %>% as.data.frame
 
 
 
-# Get policy data in claims table
-clms <- merge(clms_train, pol_train)
-clms$policy_year <- floor(clms$inception / 100)
+#' ## Aggregate Claims by CM Year and Develop
+clms_ry <- clms %>% 
+  mutate(ultimate = claim_at_val * ldf) %>% 
+  group_by(ry) %>% 
+  summarize(
+    count = n(), 
+    incurred = sum(claim_at_val),
+    closed_count = sum(closed_count),
+    open_count = sum(open_count),
+    ultimate = sum(ultimate)
+  ) %>% 
+  mutate(
+    avg_sev_closed = incurred / closed_count,
+    avg_sev_ult = ultimate / count
+  )
 
-clms_py <- clms %>% group_by(policy_year, status) %>% 
-  summarize(count = n(), inc = sum(claim_at_val))
+
+
+#' ## Calculate trend 
+a <- lm(
+  log(avg_sev_ult) ~ ry,
+  data = clms_ry,
+  weights = clms_ry$closed_count
+)
+t1 <- exp(a$coefficients[2]) - 1
+
+a <- lm(
+  log(avg_sev_ult) ~ ry,
+  data = clms_ry,
+  weights = clms_ry$incurred / clms_ry$ultimate
+)
+t2 <- exp(a$coefficients[2]) - 1
+
+trend <- (t1 + t2) / 2
+
+
 
 
