@@ -17,11 +17,12 @@ output:
 
 ```{r include=FALSE}
 knitr::opts_chunk$set(
-    warning=TRUE
+    warning=FALSE
   , error=TRUE
   , echo=TRUE
   , message=TRUE
   , collapse=TRUE
+  , fig.height = 4
 )
 knitr::opts_knit$set(root.dir = normalizePath('../../'))
 suppressPackageStartupMessages(library(ggplot2))
@@ -55,13 +56,7 @@ thirdRow <- MultiTri[1:2]
 thirdRow <- MultiTri[1:2, ]
 ```
 
-## Q: Why wasn't R expecting this?
-
-```{r}
-devYear1997 <- MultiTri[DevelopmentYear = 1997, ]
-```
-
-## A:
+## Q: What unused argument?
 
 ```{r}
 devYear1997 <- MultiTri[DevelopmentYear = 1997, ]
@@ -81,10 +76,7 @@ devYear1997 <- MultiTri[MultiTri$DevelopmentYear == 1997, ]
 
 ## Q: 
 
-```{r}
-dfStuff <- MultiTri %>% 
-  select(MultiTri$Company)
-```
+See script window
 
 ## A: 
 
@@ -92,3 +84,105 @@ dfStuff <- MultiTri %>%
 dfStuff <- MultiTri %>% 
   select(Company)
 ```
+
+## Q: But I thought "<-" assigned stuff?
+
+```{r}
+dfStuff <- MultiTri %>% 
+  summarise(TotalPremium <- sum(NetEP))
+```
+
+## A:
+
+```{r}
+dfStuff <- MultiTri %>% 
+  summarise(TotalPremium = sum(NetEP))
+```
+
+## dplyr sorbet
+
+```{r}
+dfLosses <- MultiTri %>% 
+  filter(Company == "New Jersey Manufacturers Grp"
+         , AccidentYear + Lag - 1 <= 1997
+         , Line == "Workers Comp") %>% 
+  select(-Line, -Company, -GroupCode, -Reserve1997, -Single, -DirectEP, -CededEP) %>% 
+  arrange(AccidentYear, DevelopmentYear) %>% 
+  group_by(AccidentYear) %>% 
+  mutate(PriorIncurred = dplyr::lag(CumulativeIncurred)
+         , PriorPaid = dplyr::lag(CumulativePaid)
+         , IncrementalPaid = CumulativePaid - PriorPaid
+         , IncrementalIncurred = CumulativeIncurred - PriorIncurred)
+```
+
+## Q: Why doesn't anything plot?
+
+```{r}
+library(ggplot2)
+plt <- ggplot(dfLosses, aes(Lag, CumulativePaid))
+plt
+```
+
+## A/Q: That's better, but it doesn't make any sense 
+
+```{r}
+plt <- ggplot(dfLosses, aes(Lag, CumulativePaid)) + geom_point()
+plt
+```
+
+## A/Q: Maybe lines?
+
+```{r}
+plt <- ggplot(dfLosses, aes(Lag, CumulativePaid)) + geom_line()
+plt
+```
+
+## A/Q: Maybe color?
+
+```{r}
+plt <- ggplot(dfLosses, aes(Lag, CumulativePaid, color = AccidentYear)) + geom_line()
+plt
+```
+
+## A:
+
+```{r}
+plt <- ggplot(dfLosses, aes(Lag, CumulativePaid, color = as.factor(AccidentYear))) + geom_line() + geom_point()
+plt
+```
+
+## Q: But you told me to use "=" in dplyr!
+
+```{r}
+dfLag2 <- dfLosses %>% 
+  filter(Lag = 2)
+```
+
+## A:
+
+```{r}
+dfLag2 <- dfLosses %>% 
+  filter(Lag == 2)
+```
+
+# Actionable takeaways
+
+##
+
+* Who knows how to cook?
+* What's the difference between bread and beer?
+* The unified theory of baking and Michael Ruhlman
+
+## The R equivalent of Ratio
+
+* The data frame is the basic unit of data organization
+* A plot is the basic unit of visualization
+* Linear fits are the most populare basic units of statistical models
+* Markdown is the basic unit of sharing your research with other humans
+
+## Stuff you can now do in R
+
+* Fit a loss distribution
+* Join policy and claim data
+* Do basic reserve analysis
+* Store your analysis __AND__ documentation in a Word file
