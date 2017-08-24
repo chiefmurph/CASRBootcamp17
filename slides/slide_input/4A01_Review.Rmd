@@ -1,0 +1,94 @@
+---
+title: "Final Review"
+author: "Brian A. Fannin"
+date: "August 24, 2017"
+output:
+  revealjs::revealjs_presentation:
+    center: no
+    css: ./css/revealOpts.css
+    reveal_plugins:
+    - notes
+    - zoom
+    self_contained: no
+    theme: solarized
+    transition: slide
+  tufte::tufte_handout: default
+---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(
+    warning=TRUE
+  , error=TRUE
+  , echo=TRUE
+  , message=TRUE
+  , collapse=TRUE
+)
+knitr::opts_knit$set(root.dir = normalizePath('../../'))
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(dplyr))
+```
+
+# Fix this code
+
+## Q: Where's my data?
+
+```{r}
+data(MultiTri)
+```
+
+## A: 
+
+```{r}
+library(raw)
+data(MultiTri)
+```
+
+## Q: But I just wanted the first two rows!
+
+```{r}
+thirdRow <- MultiTri[1:2]
+```
+
+## A: 
+
+```{r}
+thirdRow <- MultiTri[1:2, ]
+```
+
+## Q: Why wasn't R expecting this?
+
+```{r}
+devYear1997 <- MultiTri[DevelopmentYear = 1997, ]
+```
+
+## A:
+
+```{r}
+devYear1997 <- MultiTri[DevelopmentYear = 1997, ]
+```
+
+## Q: But I used '==', not '=' !!
+
+```{r}
+devYear1997 <- MultiTri[DevelopmentYear == 1997, ]
+```
+
+## A: 
+
+```{r}
+devYear1997 <- MultiTri[MultiTri$DevelopmentYear == 1997, ]
+```
+
+## Q: 
+
+```{r}
+dfStuff <- MultiTri %>% 
+  select(MultiTri$Company)
+```
+
+## A: 
+
+```{r}
+dfStuff <- MultiTri %>% 
+  select(Company)
+```
