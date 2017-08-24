@@ -49,8 +49,8 @@ dfSome <- dfSome %>%
 ```
 
 ```{r}
-dfLosses <- dfSome %>% 
-  filter(Company == "NC Farm Bureau Ins Grp") 
+dfLosses <- dfAll %>% 
+  filter(Company == "New Jersey Manufacturers Grp") 
 ```
 
 ```{r}
@@ -73,8 +73,32 @@ dfLosses <- dfLosses %>%
          , PaidLDF = CumulativePaid / PriorPaid)
 
 dfUpper <- dfLosses %>% 
-  filter(AccidentYear + Lag - 1 <= 1997)
+  filter(AccidentYear + Lag - 1 <= 1997
+         , Line == "Workers Compensation")
 ```
+
+## Strange Poisson error
+
+```{r}
+dfLag2 <- dfUpper %>% 
+  ungroup() %>% 
+  filter(Lag == 2
+         , Line == 'Workers Compensation') %>% 
+  select(AccidentYear, Lag, CumulativeIncurred, PriorIncurred)
+
+link1_2 <- sum(dfLag2$CumulativeIncurred) / sum(dfLag2$PriorIncurred)
+link1_2
+
+fit <- glm(CumulativeIncurred ~ 1, offset=log(PriorIncurred), data = dfLag2, family=poisson)
+link1_2
+exp(coef(fit))
+
+dfLag2$Modelled_Resp <- predict(fit, type='response')
+dfLag2$Modelled_Link <- predict(fit, type = 'link')
+dfLag2$Mult <- dfLag2$PriorPaid * link1_2
+```
+
+
 
 ```{r}
 GetLossColumn <- function(df, which_lag, measure){

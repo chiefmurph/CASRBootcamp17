@@ -1,0 +1,23 @@
+---
+title: This is very important
+output: html_document
+---
+
+```{r PleaseDontPrintThis}
+myPassword <- "YoullNeverGuessThis"
+```
+
+
+```{r include=FALSE}
+myPassword <- "VerySecret"
+```
+
+```{r, echo=FALSE}
+library(dplyr)
+library(raw)
+data(MultiTri)
+dfSummary <- MultiTri %>% 
+  group_by(AccidentYear) %>% 
+  summarise(TotalEP = )
+```
+

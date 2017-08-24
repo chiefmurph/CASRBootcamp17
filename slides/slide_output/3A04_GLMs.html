@@ -558,7 +558,8 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </ul>
 </section><section id="mathematically" class="slide level2">
 <h1>Mathematically</h1>
-<p><span class="math inline">\(\eta_i=\beta_0+\sum_{j=1}^p\beta_{j}x_{ij}\)</span> <span class="math inline">\(\mu_i= g^{-1}(\eta_i)\)</span></p>
+<p><span class="math inline">\(\eta_i=\beta_0+\sum_{j=1}^p\beta_{j}x_{ij}\)</span></p>
+<p><span class="math inline">\(\mu_i= g^{-1}(\eta_i)\)</span></p>
 <p><span class="math inline">\(g(x)\)</span> is the “link” function. I’ve seen <span class="math inline">\(\eta\)</span> called the systematic component.</p>
 <p>I don’t know why the expectation is equal to the inverse of the link function. It makes my head hurt.</p>
 </section><section id="models-require-us-to-specify-two-things" class="slide level2">
@@ -647,11 +648,13 @@ document.getElementsByTagName('head')[0].appendChild(style);
 ## Number of Fisher Scoring iterations: 4</code></pre>
 </section><section id="predictions" class="slide level2">
 <h1>Predictions</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dfGLM$Predict1 &lt;-<span class="st"> </span><span class="kw">predict</span>(fit_glm, <span class="dt">type =</span> <span class="st">&#39;response&#39;</span>)</code></pre></div>
 </section></section>
 <section><section id="measuring-fit-quality" class="titleslide slide level1"><h1>Measuring fit quality</h1></section><section id="measuring-fit-quality-1" class="slide level2">
 <h1>Measuring fit quality</h1>
 <p>Comparing models typically involves comparison of the likelihood. Note that - comparable to r^2 - more parameters will <em>always</em> give better fit metrics, unless we’re penalizing for extra parameters. AIC and BIC do this. In the formulas below, <span class="math inline">\(p\)</span> is the number of parameters and <span class="math inline">\(L\)</span> is the (conditional) likelihood. Lower is better.</p>
-<p><span class="math inline">\(AIC = 2[-ln(L) + p]\)</span> <span class="math inline">\(BIC = -2L+p*ln(n)\)</span></p>
+<p><span class="math inline">\(AIC = 2[-ln(L) + p]\)</span></p>
+<p><span class="math inline">\(BIC = -2L+p*ln(n)\)</span></p>
 </section><section id="deviance" class="slide level2">
 <h1>Deviance</h1>
 <ul>
@@ -663,9 +666,47 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <p><img src="3A04_GLMs_files/figure-revealjs/unnamed-chunk-12-1.png" width="768" /></p>
 </section><section id="offset" class="slide level2">
 <h1>Offset</h1>
-<p>The offset is a kind of scaling factor that should not be included as a predictor. Comparable to the notion of exposure in insurance pricing.</p>
+<p>The offset is a kind of scaling factor that should <em>not</em> be included as a predictor. This is comparable to the notion of exposure in insurance pricing. It’s difficult to explain and impossible to give fixed guidance about whether you should use as offset. I’ll do my best here.</p>
+<p>Imagine that you’re looking at the number of deaths by heart disease in Manhattan vs. Casper, Wyoming. The number will be higher in Manhattan. Does Manhattan cause death by heart disease? No. (Imagine the CDC telling everyone to move to Wyoming to avoid heart disease.)</p>
+</section><section id="some-numbers" class="slide level2">
+<h1>Some numbers</h1>
+<p>Note that these numbers (apart from population) aren’t meant to be realistic. But note that although the <em>number</em> of deaths depends on population, the <em>rate</em> of death does not (in <em>this</em> case).</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">City</th>
+<th style="text-align: right;">Population</th>
+<th style="text-align: right;">AvgAge</th>
+<th style="text-align: right;">AvgDistanceToHospital</th>
+<th style="text-align: right;">MedianBMI</th>
+<th style="text-align: right;">NumberOfDeaths</th>
+<th style="text-align: right;">DeathRate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Manhattan</td>
+<td style="text-align: right;">1645000</td>
+<td style="text-align: right;">48</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: right;">18.7</td>
+<td style="text-align: right;">5400</td>
+<td style="text-align: right;">3282.675</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Casper</td>
+<td style="text-align: right;">59324</td>
+<td style="text-align: right;">58</td>
+<td style="text-align: right;">8.0</td>
+<td style="text-align: right;">28.7</td>
+<td style="text-align: right;">400</td>
+<td style="text-align: right;">6742.634</td>
+</tr>
+</tbody>
+</table>
 </section><section id="compare-these-two-models" class="slide level2">
 <h1>Compare these two models</h1>
+<p>Here we’ll fit two models. The first will treat payroll as a predictor, the second will treat it as an offset. Fit for the second model is better, because payroll isn’t really a <em>predictor</em> of loss. It is a scaling element for exposure.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_1 &lt;-<span class="st"> </span><span class="kw">glm</span>(ClaimCount ~<span class="st"> </span><span class="dv">1</span> +<span class="st"> </span>Payroll, <span class="dt">data =</span> dfGLM, <span class="dt">family=</span><span class="st">&quot;poisson&quot;</span>)
 
 fit_2 &lt;-<span class="st"> </span><span class="kw">glm</span>(ClaimCount ~<span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> dfGLM, <span class="dt">family=</span><span class="st">&quot;poisson&quot;</span>, <span class="dt">offset=</span><span class="kw">log</span>(Payroll))
@@ -680,11 +721,17 @@ fit_2$aic
 <span class="kw">coef</span>(fit_2)
 ## (Intercept) 
 ##   -13.10503</code></pre></div>
-<p>Fit for the second model is better, because payroll isn’t really a <em>predictor</em> of loss. It is a scaling element for exposure. Think the number of deaths by heart disease in Manhattan vs. number of deaths by heart disease in a rural town.</p>
 </section></section>
 <section><section id="logistic-regression-if-time-permits" class="titleslide slide level1"><h1>Logistic regression (if time permits)</h1></section><section id="binomial" class="slide level2">
 <h1>Binomial</h1>
-<p><img src="3A04_GLMs_files/figure-revealjs/unnamed-chunk-14-1.png" width="768" /></p>
+<p><img src="3A04_GLMs_files/figure-revealjs/unnamed-chunk-16-1.png" width="768" /></p>
+</section><section id="map-predictors-to-probability" class="slide level2">
+<h1>Map predictors to probability</h1>
+<p>A logistic regression will map a set of predictors to the probability of something. In the prior plot, we can see that the probability of a claim remaining open will increase as the severity goes up.</p>
+</section><section id="the-logistic-function" class="slide level2">
+<h1>The logistic function</h1>
+<p>Transforms the real number range to a number between zero and one.</p>
+<p><span class="math inline">\(f(\alpha)=\frac{exp(\alpha)}{exp(\alpha)+1}\)</span></p>
 </section><section id="fitting-a-logistic" class="slide level2">
 <h1>Fitting a logistic</h1>
 <pre><code>## 
@@ -709,10 +756,6 @@ fit_2$aic
 ## AIC: 52440
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
-</section><section id="the-logistic-function" class="slide level2">
-<h1>The logistic function</h1>
-<p>Transforms the real number range to a number between zero and one.</p>
-<p><span class="math inline">\(f(\alpha)=\frac{exp(\alpha)}{exp(\alpha)+1}\)</span></p>
 </section><section id="watch-that-link-function" class="slide level2">
 <h1>Watch that link function!</h1>
 <pre><code>## 
@@ -736,8 +779,8 @@ fit_2$aic
 ## Residual deviance: 57845  on 53555  degrees of freedom
 ## AIC: 57847
 ## 
-## Number of Fisher Scoring iterations: 4</code></pre>
-<pre><code>## 
+## Number of Fisher Scoring iterations: 4
+## 
 ## Call:
 ## glm(formula = Open ~ 1 + ClaimSeverity, family = &quot;binomial&quot;, 
 ##     data = dfBinomial)
@@ -760,6 +803,8 @@ fit_2$aic
 ## AIC: 52440
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
+</section><section id="section" class="slide level2">
+<h1></h1>
 <pre><code>## 
 ## Call:
 ## glm(formula = Open ~ 0 + ClaimSeverity, family = binomial(link = &quot;identity&quot;), 
@@ -781,8 +826,8 @@ fit_2$aic
 ## Residual deviance: 52413  on 53555  degrees of freedom
 ## AIC: 52415
 ## 
-## Number of Fisher Scoring iterations: 3</code></pre>
-<pre><code>## 
+## Number of Fisher Scoring iterations: 3
+## 
 ## Call:
 ## glm(formula = Open ~ 1 + ClaimSeverity, family = binomial(link = &quot;identity&quot;), 
 ##     data = dfBinomial)
@@ -807,8 +852,8 @@ fit_2$aic
 ## Number of Fisher Scoring iterations: 3</code></pre>
 </section><section id="binomial-wfit" class="slide level2">
 <h1>Binomial w/fit</h1>
-<p><img src="3A04_GLMs_files/figure-revealjs/unnamed-chunk-18-1.png" width="768" /></p>
-<p><img src="3A04_GLMs_files/figure-revealjs/unnamed-chunk-19-1.png" width="768" /></p>
+<p><img src="3A04_GLMs_files/figure-revealjs/unnamed-chunk-20-1.png" width="768" /></p>
+<p><img src="3A04_GLMs_files/figure-revealjs/unnamed-chunk-21-1.png" width="768" /></p>
 <div id="refs" class="references">
 <div id="ref-GelmanAndHill">
 <p>Gelman, Andrew, and Jennifer Hill. 2006. <em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em>. <a href="http://www.stat.columbia.edu/~gelman/arm/" class="uri">http://www.stat.columbia.edu/~gelman/arm/</a>.</p>

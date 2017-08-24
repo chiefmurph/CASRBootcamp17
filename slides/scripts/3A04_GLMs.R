@@ -4,6 +4,7 @@ knitr::opts_chunk$set(
   , error=FALSE
   , echo=FALSE
   , message=FALSE
+  , collapse=TRUE
 )
 knitr::opts_knit$set(root.dir = normalizePath('../../'))
 suppressPackageStartupMessages(library(ggplot2))
@@ -71,7 +72,7 @@ fit_glm <- glm(ClaimCount ~ Payroll + YearsInOperation + NumberOfEmployees, data
 ## ------------------------------------------------------------------------
 summary(fit_glm)
 
-## ------------------------------------------------------------------------
+## ----echo=TRUE-----------------------------------------------------------
 dfGLM$Predict1 <- predict(fit_glm, type = 'response')
 
 ## ------------------------------------------------------------------------
@@ -79,6 +80,19 @@ dfGLM$Residual1 <- residuals(fit_glm, type = 'response')
 plt <- ggplot(dfGLM, aes(Predict1, Residual1)) + geom_hex()
 plt <- plt + geom_hline(yintercept = 0, color = 'red')
 plt
+
+## ------------------------------------------------------------------------
+dfHeart <- data.frame(
+    City = c("Manhattan", "Casper")
+  , Population = c(1.645e6, 59324)
+  , AvgAge = c(48, 58)
+  , AvgDistanceToHospital = c(0.2, 8)
+  , MedianBMI = c(18.7, 28.7))
+dfHeart$NumberOfDeaths <- c(5400, 400)
+dfHeart$DeathRate <- dfHeart$NumberOfDeaths / (dfHeart$Population/1e6)
+
+## ----results='asis'------------------------------------------------------
+knitr::kable(dfHeart)
 
 ## ----echo=TRUE, collapse=TRUE--------------------------------------------
 fit_1 <- glm(ClaimCount ~ 1 + Payroll, data = dfGLM, family="poisson")

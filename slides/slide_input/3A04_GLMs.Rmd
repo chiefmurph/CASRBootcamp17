@@ -24,6 +24,7 @@ knitr::opts_chunk$set(
   , error=FALSE
   , echo=FALSE
   , message=FALSE
+  , collapse=TRUE
 )
 knitr::opts_knit$set(root.dir = normalizePath('../../'))
 suppressPackageStartupMessages(library(ggplot2))
@@ -153,6 +154,7 @@ __Warning__: I play fast and loose with the difference between the response vari
 ## Mathematically
 
 $\eta_i=\beta_0+\sum_{j=1}^p\beta_{j}x_{ij}$
+
 $\mu_i= g^{-1}(\eta_i)$
 
 $g(x)$ is the "link" function. I've seen $\eta$ called the systematic component.
@@ -210,7 +212,7 @@ summary(fit_glm)
 
 ## Predictions
 
-```{r}
+```{r echo=TRUE}
 dfGLM$Predict1 <- predict(fit_glm, type = 'response')
 ```
 
@@ -221,6 +223,7 @@ dfGLM$Predict1 <- predict(fit_glm, type = 'response')
 Comparing models typically involves comparison of the likelihood. Note that - comparable to r^2 - more parameters will _always_ give better fit metrics, unless we're penalizing for extra parameters. AIC and BIC do this. In the formulas below, $p$ is the number of parameters and $L$ is the (conditional) likelihood. Lower is better.
 
 $AIC = 2[-ln(L) + p]$
+
 $BIC = -2L+p*ln(n)$
 
 ## Deviance
@@ -239,9 +242,32 @@ plt
 
 ## Offset
 
-The offset is a kind of scaling factor that should not be included as a predictor. Comparable to the notion of exposure in insurance pricing.
+The offset is a kind of scaling factor that should _not_ be included as a predictor. This is comparable to the notion of exposure in insurance pricing. It's difficult to explain and impossible to give fixed guidance about whether you should use as offset. I'll do my best here.
+
+Imagine that you're looking at the number of deaths by heart disease in Manhattan vs. Casper, Wyoming. The number will be higher in Manhattan. Does Manhattan cause death by heart disease? No. (Imagine the CDC telling everyone to move to Wyoming to avoid heart disease.)
+
+## Some numbers
+
+Note that these numbers (apart from population) aren't meant to be realistic. But note that although the _number_ of deaths depends on population, the _rate_ of death does not (in _this_ case).
+
+```{r}
+dfHeart <- data.frame(
+    City = c("Manhattan", "Casper")
+  , Population = c(1.645e6, 59324)
+  , AvgAge = c(48, 58)
+  , AvgDistanceToHospital = c(0.2, 8)
+  , MedianBMI = c(18.7, 28.7))
+dfHeart$NumberOfDeaths <- c(5400, 400)
+dfHeart$DeathRate <- dfHeart$NumberOfDeaths / (dfHeart$Population/1e6)
+```
+
+```{r results='asis'}
+knitr::kable(dfHeart)
+```
 
 ## Compare these two models
+
+Here we'll fit two models. The first will treat payroll as a predictor, the second will treat it as an offset. Fit for the second model is better, because payroll isn't really a _predictor_ of loss. It is a scaling element for exposure.
 
 ```{r echo=TRUE, collapse=TRUE}
 fit_1 <- glm(ClaimCount ~ 1 + Payroll, data = dfGLM, family="poisson")
@@ -254,8 +280,6 @@ coef(fit_1)
 coef(fit_2)
 ```
 
-Fit for the second model is better, because payroll isn't really a _predictor_ of loss. It is a scaling element for exposure. Think the number of deaths by heart disease in Manhattan vs. number of deaths by heart disease in a rural town.
-
 # Logistic regression (if time permits)
 
 ## Binomial
@@ -266,12 +290,9 @@ plt <- plt + scale_x_continuous(labels=scales::dollar)
 plt
 ```
 
-## Fitting a logistic
+## Map predictors to probability
 
-```{r}
-fit_open <- glm(Open ~ ClaimSeverity, data=dfBinomial, family="binomial")
-summary(fit_open)
-```
+A logistic regression will map a set of predictors to the probability of something. In the prior plot, we can see that the probability of a claim remaining open will increase as the severity goes up.
 
 ## The logistic function
 
@@ -279,7 +300,17 @@ Transforms the real number range to a number between zero and one.
 
 $f(\alpha)=\frac{exp(\alpha)}{exp(\alpha)+1}$
 
+## Fitting a logistic
+
+```{r}
+fit_open <- glm(Open ~ ClaimSeverity, data=dfBinomial, family="binomial")
+summary(fit_open)
+```
+
+
 ## Watch that link function!
+
+
 
 ```{r}
 fit_open_1 <- glm(Open ~ 0 + ClaimSeverity, data=dfBinomial, family="binomial")
@@ -287,6 +318,8 @@ fit_open_2 <- glm(Open ~ 1 + ClaimSeverity, data=dfBinomial, family="binomial")
 summary(fit_open_1)
 summary(fit_open_2)
 ```
+
+##
 
 ```{r}
 fit_open_1 <- glm(Open ~ 0 + ClaimSeverity, data=dfBinomial, family=binomial(link="identity"))
