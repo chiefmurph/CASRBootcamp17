@@ -16,6 +16,7 @@ require(tidyr)
 require(ChainLadder)
 require(tree)
 require(randomForest)
+require(actuar)
 source('resources.R')
 getwd()
 dir('./share', pattern = 'RData')
@@ -180,7 +181,7 @@ clms_ry <- clms %>%
 
 
 
-#' ## Calculate trend 
+#' ## Calculate trend by report year
 a <- lm(
   log(avg_sev_ult) ~ ry,
   data = clms_ry,
@@ -199,4 +200,232 @@ trend <- (t1 + t2) / 2
 
 
 
+#' ## Trend losses in claims table
+clms$trend <- (1 + trend) ^ (2016 - clms$ry)
+clms$trended_inc <- clms$claim_at_val * clms$trend
 
+
+
+
+#' ## Can a severity distribution be calculated from the closed claims?
+sev <- (clms %>% 
+  filter(status == 'C') %>% 
+  filter(claim_closed < 201701) %>% 
+  filter(trended_inc > 0) %>%
+  select(trended_inc) %>% as.data.frame)[, 1]
+
+hist(sev)
+hist(log(sev))
+
+params <- MASS::fitdistr(sev, 'lognormal')$estimate
+params
+
+actuar::mlnorm(1, params[1], params[2])
+
+
+
+#' ## Get claim counts by policy number
+cc_pols <- clms %>% 
+  group_by(policy_number) %>% 
+  summarize(claim_count = n()) %>% 
+  select(policy_number, claim_count)
+
+pols <- pols %>% 
+  left_join(cc_pols, by = 'policy_number') 
+
+pols$claim_count[is.na(pols$claim_count)] <- 0
+sum(pols$claim_count)
+
+
+
+#' ## Decision tree time
+#' Revenue is a measure of size
+t1 <- tree(
+  formula = claim_count ~ revenue, 
+  data = pols
+)
+
+plot(t1)
+text(t1)
+
+
+
+#' ## Create data sets for above $4m and below
+pols_lo <- pols[pols$revenue < 4e6, ]
+pols_hi <- pols[pols$revenue >= 4e6, ]
+
+
+
+#' ## What family to use in glm?
+pols_lo$claim_count %>% mean
+pols_lo$claim_count %>% var
+
+pols_hi$claim_count %>% mean
+pols_hi$claim_count %>% var
+
+
+
+
+#' ## glm for revenue less than $4m
+m1 <- glm(
+  claim_count ~
+    revenue + discipline + state, 
+  family = quasipoisson, 
+  data = pols_lo
+)
+summary(m1)
+
+
+
+
+#' ## Is there a way to find how to group states?
+#' Try one-way tables
+pols_lo %>% 
+  group_by(discipline) %>% 
+  summarize(
+    exposed_months = sum(exposed_months), 
+    claim_count = sum(claim_count),
+    exposed_revenue = sum(exposed_revenue)
+  ) %>% 
+  mutate(
+    freq_months = claim_count / exposed_months,
+    freq_revenue = claim_count / exposed_revenue * 1e6
+  ) %>% 
+  arrange(desc(freq_revenue)) %>% 
+  select(discipline, freq_months, freq_revenue) %>% 
+  as.data.frame
+
+
+#' ## Disc. Groupings
+#' * High Class
+#'     + Structural Engineer
+#'     + Geotechnical
+#' * Lowest Class
+#'     + Interior Designer
+#'     + Landscape Architect
+#'     + Forensic Engineer
+
+pols_lo$discipline_group <- pols_lo$discipline
+
+pols_lo$discipline_group[
+  pols_lo$discipline == 'Interior Designer'] <- 'Lowest 06'
+
+pols_lo$discipline_group[
+  pols_lo$discipline == 'Landscape Architecture'] <- 'Lowest 06'
+
+pols_lo$discipline_group[
+  pols_lo$discipline == 'Forensic Engineer'] <- 'Lowest 06'
+
+pols_lo$discipline_group[
+  pols_lo$discipline == 'Environmental Labs'] <- 'Lowest 06'
+
+pols_lo$discipline_group[
+  pols_lo$discipline == 'Electrical Engineering'] <- 'Mid 12'
+
+pols_lo$discipline_group[
+  pols_lo$discipline == 'Surveyor'] <- 'Mid 12'
+
+pols_lo$discipline_group[
+  pols_lo$discipline == 'Civil Engineer'] <- 'Mid High 18'
+
+pols_lo$discipline_group[
+  pols_lo$discipline == 'Construction Manager'] <- 'Mid High 18'
+
+pols_lo$discipline_group[
+  pols_lo$discipline == 'Architect'] <- 'High 24'
+
+pols_lo$discipline_group[
+  pols_lo$discipline == 'Structural Engineer'] <- 'Highest 40'
+
+pols_lo$discipline_group[
+  pols_lo$discipline == 'Geotechnical'] <- 'Highest 40'
+
+pols_lo$discipline_group[
+  pols_lo$discipline == 'Process Engineer'] <- 'Highest 40'
+
+pols_lo$discipline_group[
+  pols_lo$discipline == 'Mechanical Engineering'] <- 'Mid 12'
+
+pols_lo$discipline_group[
+  pols_lo$discipline == 'Surveyor'] <- 'Mid 12'
+
+pols_lo$discipline_group[
+  pols_lo$discipline == 'Environmental Consultant'] <- 'Mid High 18'
+
+
+
+pols_lo %>% 
+  group_by(discipline_group) %>% 
+  summarize(
+    claim_count = sum(claim_count),
+    exposed_revenue = sum(exposed_revenue)
+  ) %>% 
+  mutate(
+    freq_revenue = claim_count / exposed_revenue * 1e6
+  ) %>% 
+  arrange(desc(exposed_revenue)) %>% 
+  select(discipline_group, freq_revenue) %>% 
+  as.data.frame
+
+
+
+#' Can a decision tree help with knowing how to collapse?
+pols_lo$discipline <- as.factor(pols_lo$discipline)
+pols_lo$state <- as.factor(pols_lo$state)
+
+t1 <- tree(claim_count ~ revenue + discipline, data = pols_lo)
+plot(t1)
+text(t1)
+
+#' Supports that the following are separate
+#'   1. Architect
+#'   2. Geotechnical
+#'   3. Process Engineer
+#'   4. Structural Engineer
+
+#' Fails because there are too many levels in state
+t1 <- tree(
+  claim_count ~ revenue + discipline + state, 
+  data = pols_lo)
+plot(t1)
+text(t1)
+
+#' Group all the small states
+a <- pols_lo %>% 
+  group_by(state) %>% 
+  summarize(
+    claim_count = sum(claim_count),
+    exposed_revenue = sum(exposed_revenue)
+  ) %>% 
+  mutate(freq_revenue = claim_count / exposed_revenue * 1e6) %>% 
+  arrange(desc(exposed_revenue)) %>% 
+  select(state, freq_revenue) %>% 
+  as.data.frame
+
+
+l1 <- a[, 1] %>% as.character
+l2 <- c(l1[1:31], rep('Small', 20))
+l3 <- factor(as.character(pols_lo$state), levels = l1)
+pols_lo$state_group <- l2[as.integer(l3)]
+
+
+pols_lo[, c('state', 'state_group')] %>% unique
+sum(is.na(pols_lo$discipline))
+sum(is.na(pols_lo$discipline_group))
+sum(is.na(pols_lo$state))
+sum(is.na(pols_lo$state_group))
+
+pols_lo$discipline_group <- as.factor(pols_lo$discipline_group)
+pols_lo$state_group <- as.factor(pols_lo$state_group)
+
+
+#' Try Again
+t1 <- tree(
+  claim_count ~ revenue + state_group, 
+  data = pols_lo)
+plot(t1)
+text(t1)
+
+
+#' Use glm without grouping state...
+#' To be continued...
